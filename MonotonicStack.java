@@ -1,7 +1,4 @@
 /**
- * Monotnoic Stack contains element which are either increasing only 
- * or decreasing only manner 
- *
  * MonotonicStack.java
  * Solution for leetcode problem no 84
  * Find largest rectangle area in some histogram 
