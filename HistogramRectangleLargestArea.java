@@ -1,9 +1,9 @@
 /**
- * MonotonicStack.java
  * Solution for leetcode problem no 84
  * Find largest rectangle area in some histogram 
  *
- * In this solution, we use increasing MS
+ * In this solution, we use increasing MonotonicStack 
+ *
  * as we want to find the least prev/next least element 
  * for each element in the heights list 
  *
@@ -54,7 +54,7 @@ private class Solution {
 }
 
 
-public class MonotonicStack { 
+public class HistogramRectangleLargestArea { 
 	public static void main(String[] args) { 
 		/** */ 
 	}
