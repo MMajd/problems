@@ -8,7 +8,24 @@ public class MinimumRoundstoCompleteAllTasks {
     public static void main(String[] args) { }
 
     private class Solution {
-	public int minimumRounds(int[] tasks) {
+	    public int minimumRounds2(int[] tasks) {
+		int ans = 0; 
+		Map<Integer,Integer> map = new HashMap<>(); 
+		
+		for (int t:tasks) map.put(t, map.getOrDefault(t, 0)+1);
+		
+		for (Map.Entry<Integer,Integer> e: map.entrySet()) {
+		    int v = e.getValue();
+		    
+		    if (v == 1) return -1;
+		    if (v % 3 == 0) ans += v/3;
+		    if (v %3 != 0) ans += v/3 + 1;
+		}
+		
+		return ans; 
+	    }
+
+	public int minimumRounds3 (int[] tasks) {
 		Arrays.sort(tasks); 
 		int c = 1;
 		int ans = 0;
