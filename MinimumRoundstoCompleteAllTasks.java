@@ -8,6 +8,29 @@ public class MinimumRoundstoCompleteAllTasks {
     public static void main(String[] args) { }
 
     private class Solution {
+	public int minimumRounds(int[] tasks) {
+		Arrays.sort(tasks); 
+		int c = 1;
+		int ans = 0;
+		
+		for (int i=0; i<tasks.length-1; i++) { 
+		    if (tasks[i] == tasks[i+1]) c++; 
+		    else { 
+			if (c == 1) return -1; 
+			if (c % 3 == 0) ans += c/3; 
+			if (c % 3 >= 1) ans += c/3 + 1; 
+			c = 1; 
+		    }
+		}
+		
+		if (c == 1) return -1;
+		if (c % 3 == 0) ans += c/3; 
+		if (c % 3 >= 1) ans += c/3 + 1; 
+		
+		return ans; 
+	    }
+
+
 	    public int minRoundsToFinishTaskType(int n) { 
 		int[] dp = new int[n + 1]; 
 		int[] validTakes = {2, 3};
