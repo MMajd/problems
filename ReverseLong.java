@@ -36,9 +36,9 @@ public class ReverseLong {
 
     public long solve (long x) { 
         return precomputed[(x >> (3*WORD_SIZE)) & BIT_MASK] 
-                ^ precomputed[(x >> (2*WORD_SIZE)) & BIT_MASK] 
-                ^ precomputed[(x >> (1*WORD_SIZE)) & BIT_MASK] 
-                ^ precomputed[x & BIT_MASK];
+               | precomputed[(x >> (2*WORD_SIZE)) & BIT_MASK] << WORD_SIZE
+               | precomputed[(x >> WORD_SIZE) & BIT_MASK] << (2*WORD_SIZE)
+               | precomputed[(x & BIT_MASK] << (3*WORD_SIZE); 
     }
 
 }
