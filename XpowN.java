@@ -13,7 +13,7 @@ public class XpowN {
     public double myPow(double x, int n) {
         double ans = 1; 
         int power = n; 
-        int sign = x > 0? 1:-1; 
+        int sign = ((x > 0) || (n%2==0))  ? 1:-1; 
         x = Math.abs(x); 
         
         if (n < 0) { 
