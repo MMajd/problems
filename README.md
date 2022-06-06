@@ -1,10 +1,12 @@
-| Problem              | DataStructure / Algo |
-| -------------------- | -------------------- |
-| Range Min Query      | Segment Tree         |
-| Range Sum Query      | Segment Tree         |
-| Range GCD Query      | Segment Tree         |
-| Ways to do something | DP / Backtracking    |
-| Coin Change          | DP                   |
+| Problem                           | DataStructure / Algo                                  |
+| --------------------------------- | ----------------------------------------------------- |
+| Range Min Query                   | Segment Tree                                          |
+| Range Sum Query                   | Segment Tree                                          |
+| Range GCD Query                   | Segment Tree                                          |
+| Ways to do something              | DP / Backtracking                                     |
+| Coin Change                       | DP                                                    |
+| LinkedList cycle begin / has loop | Floyd loop detection                                  |
+| LinkedList intersection           | Introduce a loop and find element that loop begins at |
 
 ---
 
