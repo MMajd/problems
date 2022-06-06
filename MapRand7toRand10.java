@@ -10,6 +10,20 @@ public class MapRand7toRand10 {
     public static void main(String []args) { 
     }
 
+    // Rejecting sampling algorithm, Same idea behind the EPI
+    class Solution1 extends SolBase {
+        public int rand10() {
+            int row, col, idx;
+            do {
+                row = rand7();
+                col = rand7();
+                idx = col + (row - 1) * 7; // last valid raw is 6
+            } while (idx > 40);
+            return 1 + (idx - 1) % 10;
+        }
+    }
+
+
     class Solution extends SolBase { 
         int vals[][] = {
             { 1, 2, 3, 4, 5, 6, 7 },
