@@ -11,14 +11,22 @@
  **/
 
 public class RemoveDuplicatesFromSortedArrayII { 
+    /**
+     * Sliding window like approach 
+     */
     public int removeDuplicates(int[] A) {
         int lastWrite = 2;
-        for (int i = 2; i < A.length; i++)
-            if (A[i] != A[lastWrite-2])
+        for (int i = 2; i < A.length; i++) { 
+            if (A[i] != A[lastWrite-2]) { 
                 A[lastWrite++] = A[i];
+            }
+        }
         return lastWrite;
     }
 
+    /** 
+     * Generalization method 
+     */
     int removeDuplicates(int A[], int n, int k) {
         if (n <= k) return n;
 
