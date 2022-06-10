@@ -19,30 +19,24 @@ public class RemoveDuplicatesFromSortedArrayII {
         return lastWrite;
     }
 
-    class Solution {
-    public int removeDuplicates(int[] A) {
-       return removeDuplicates(A, A.length, 2);
-    }
-    
     int removeDuplicates(int A[], int n, int k) {
+        if (n <= k) return n;
 
-            if (n <= k) return n;
-
-            int i = 1, j = 1;
-            int cnt = 1;
-            while (j < n) {
-                if (A[j] != A[j-1]) {
-                    cnt = 1;
-                    A[i++] = A[j];
-                }
-                else {
-                    if (cnt < k) {
-                        A[i++] = A[j];
-                        cnt++;
-                    }
-                }
-                ++j;
+        int i = 1, j = 1;
+        int cnt = 1;
+        while (j < n) {
+            if (A[j] != A[j-1]) {
+                cnt = 1;
+                A[i++] = A[j];
             }
-            return i;
+            else {
+                if (cnt < k) {
+                    A[i++] = A[j];
+                    cnt++;
+                }
+            }
+            ++j;
+        }
+        return i;
     }
 }
