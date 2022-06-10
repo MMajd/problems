@@ -10,10 +10,10 @@
 
 public class RemoveDuplicatesFromSortedArrayII { 
     public int removeDuplicates(int[] A) {
-        int i = 2;
-        for (int j = 2; j < A.length; j++)
-            if (A[j] != A[i-2])
-                A[i++] = A[j];
-        return i;
+        int lastWrite = 2;
+        for (int i = 2; i < A.length; i++)
+            if (A[i] != A[lastWrite-2])
+                A[lastWrite++] = A[i];
+        return lastWrite;
     }
 }
