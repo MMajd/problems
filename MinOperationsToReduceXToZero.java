@@ -9,7 +9,8 @@
 class Solution {
     /** 
         we convert the question form finding the minimum number of left and/or right most elements that constitute x 
-        to finding the subarray with maximum length that equal to target (sum - x) if its exist then its length is our answer
+        to finding the subarray with maximum length that equal to target (sum - x) 
+        if its then arr.length - subarray.length give us our answer
 
         NOTE: all numbers in arr are positive 
     */
