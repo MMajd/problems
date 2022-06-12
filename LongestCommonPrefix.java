@@ -2,8 +2,35 @@
  *
  * @link https://leetcode.com/problems/longest-common-prefix/
  *
+ *
+ * @Solution 2 is prefered 
  */
 
+/** takes on average 1ms */
+class Solution2 { 
+    public String longestCommonPrefix(String strs[]) { 
+        int size= strs.length;
+
+        if(size==1) return strs[0];
+
+        // Sorting will give us the strings in lexicographical order
+        Arrays.sort(strs);
+
+        // Will well compare the most two different strings 
+        // the string at the beging of the array and the string at the end of the array 
+        // that will give us indication on how many char considered to be prefix 
+        // EX: flower, flow, flight after sort will be flight, flow, flower
+
+        int min= Math.min(strs[0].length(), strs[size-1].length());
+
+        for (int i=0; i<min & strs[0].charAt(i) == strs[size-1].charAt(i); i++); 
+
+        return strs[0].substring(0,i);
+    }
+
+}
+
+/** takes on average 4ms */
 class Node { 
     private Node[] children;     
     private final int MAP_SIZE = 26; // alphabet chars     
