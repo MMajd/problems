@@ -1,19 +1,26 @@
-| Problem                           | DataStructure / Algo                                  |
-| --------------------------------- | ----------------------------------------------------- |
-| Range Min Query                   | Segment Tree                                          |
-| Range Sum Query                   | Segment Tree                                          |
-| Range GCD Query                   | Segment Tree                                          |
-| Ways to do something              | DP / Backtracking                                     |
-| Coin Change                       | DP                                                    |
-| LinkedList cycle begin / has loop | Floyd loop detection                                  |
-| LinkedList intersection           | Introduce a loop and find element that loop begins at |
+| Problem                                                            | DataStructure / Algo                                  |
+| ------------------------------------------------------------------ | ----------------------------------------------------- |
+| Range Min Query                                                    | Segment Tree                                          |
+| Range Sum Query                                                    | Segment Tree                                          |
+| Range GCD Query                                                    | Segment Tree                                          |
+| Ways to do something                                               | DP / Backtracking                                     |
+| Coin Change                                                        | DP                                                    |
+| LinkedList cycle begin / has loop                                  | Floyd loop detection                                  |
+| LinkedList intersection                                            | Introduce a loop and find element that loop begins at |
+| Longest Substring Without Repeating Char / Maximum Erasure Value   | Sliding window                                        |
+| Minimum Operations to Reduce X to Zero / Minimum Size Subarray Sum | Sliding window                                        |
 
 ---
 
-Rolling hash method (check all binary codes of size k problem)
-[link](https://leetcode.com/problems/check-if-a-string-contains-all-binary-codes-of-size-k/discuss/2092553/Explaining-the-Rolling-Hash-Method-or-Guide)
+**Problems notes**
 
-#### bit manipulation notes:
+- Rolling hash method (check all binary codes of size k problem)
+  [link](https://leetcode.com/problems/check-if-a-string-contains-all-binary-codes-of-size-k/discuss/2092553/Explaining-the-Rolling-Hash-Method-or-Guide)
+
+- Minimum operations to reduce X to zero / Minimum size subarray sum
+  - Covert the problem to finding the subarray with max length and sum equal to original sum - x | sum(nums) - x or sum(nums) - targetSum
+
+**bit manipulation notes**
 
 - X is power of 2 when (x & (x-1)) == 0
 - X mod power of 2 (x mod 2^n) = (x & (2^n - 1)) <br>
