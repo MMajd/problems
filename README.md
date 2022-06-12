@@ -9,6 +9,7 @@
 | LinkedList intersection                                            | Introduce a loop and find element that loop begins at |
 | Longest Substring Without Repeating Char / Maximum Erasure Value   | Sliding window                                        |
 | Minimum Operations to Reduce X to Zero / Minimum Size Subarray Sum | Sliding window                                        |
+| Design Dictionary / Word search ..etc                              | Trie DS                                               |
 
 ---
 
