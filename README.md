@@ -1,15 +1,16 @@
-| Problem                                                            | DataStructure / Algo                                  |
-| ------------------------------------------------------------------ | ----------------------------------------------------- |
-| Range Min Query                                                    | Segment Tree                                          |
-| Range Sum Query                                                    | Segment Tree                                          |
-| Range GCD Query                                                    | Segment Tree                                          |
-| Ways to do something                                               | DP / Backtracking                                     |
-| Coin Change                                                        | DP                                                    |
-| LinkedList cycle begin / has loop                                  | Floyd loop detection                                  |
-| LinkedList intersection                                            | Introduce a loop and find element that loop begins at |
-| Longest Substring Without Repeating Char / Maximum Erasure Value   | Sliding window                                        |
-| Minimum Operations to Reduce X to Zero / Minimum Size Subarray Sum | Sliding window                                        |
-| Design Dictionary / Word search ..etc                              | Trie DS                                               |
+| Problem                                                              | DataStructure / Algo                                  |
+| -------------------------------------------------------------------- | ----------------------------------------------------- |
+| Range Min Query                                                      | Segment Tree                                          |
+| Range Sum Query                                                      | Segment Tree                                          |
+| Range GCD Query                                                      | Segment Tree                                          |
+| Ways to do something                                                 | DP / Backtracking                                     |
+| Coin Change                                                          | DP                                                    |
+| LongestCommonSubsequence (Min delete ops to make 2 strings the same) | DP                                                    |
+| LinkedList cycle begin / has loop                                    | Floyd loop detection                                  |
+| LinkedList intersection                                              | Introduce a loop and find element that loop begins at |
+| Longest Substring Without Repeating Char / Maximum Erasure Value     | Sliding window                                        |
+| Minimum Operations to Reduce X to Zero / Minimum Size Subarray Sum   | Sliding window                                        |
+| Design Dictionary / Word search ..etc                                | Trie DS                                               |
 
 ---
 
