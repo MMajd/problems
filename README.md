@@ -22,7 +22,7 @@
 - Minimum operations to reduce X to zero / Minimum size subarray sum
   - Covert the problem to finding the subarray with max length and sum equal to original sum - x | sum(nums) - x or sum(nums) - targetSum
 
-**bit manipulation notes**
+**Bit manipulation notes**
 
 - X is power of 2 when (x & (x-1)) == 0
 - X mod power of 2 (x mod 2^n) = (x & (2^n - 1)) <br>
