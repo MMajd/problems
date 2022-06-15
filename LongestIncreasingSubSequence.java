@@ -4,6 +4,32 @@
  */
 
 class LongestIncreasingSubSequence {
+    /** 
+     * Patience sort with TreeSet 
+     * https://www.youtube.com/watch?v=K9M6g7BiBX4
+     *
+     * TreeSet keeps the natural order of elements
+     */ 
+
+    public int lengthOfLISPatience(int nums) { 
+        int len = nums.length; 
+        if (len <= 1) return 1; 
+
+        TreeSet<Integer> set = new TreeSet<>();
+
+        for (int i=0; i<len; i++) { 
+            Integer x = set.ceiling(nums[i]); 
+
+            if (x != null) { 
+                set.remove(x)
+            }
+
+            set.add(nums[i]); 
+        }
+
+        return set.size();
+    }
+
     public int lengthOfLIS(int[] nums) {
         int len = nums.length; 
         if (len <= 1) return 1;
