@@ -12,7 +12,7 @@ class MinWindowSubString {
         if (t.length() == 0) return ""; 
         
         int start = -1, end = -1; 
-        int j = 0, maxLen = Integer.MAX_VALUE; 
+        int j = 0, minLen = Integer.MAX_VALUE; 
         Map<Character, Integer> smap = new HashMap<>(); 
         Map<Character, Integer> tmap = new HashMap<>(); 
         
@@ -21,8 +21,8 @@ class MinWindowSubString {
             tmap.put(c, 1+tmap.getOrDefault(c, 0));
         }
         
-        int have = 0;  
-        int need = tmap.size();
+        int available = 0;  
+        int required = tmap.size();
         
         for (int i=0; i<s.length(); i++)  { 
             char c = s.charAt(i);
@@ -30,15 +30,15 @@ class MinWindowSubString {
             smap.put(c, 1+smap.getOrDefault(c, 0));
             
             if (tmap.containsKey(c) 
-                && smap.get(c).intValue() == tmap.get(c).intValue()) have += 1; 
+                && smap.get(c).intValue() == tmap.get(c).intValue()) available += 1; 
             
-            while (have == need) { 
+            while (available == required) { 
                 int size = i-j+1; 
                 
-                if (size < maxLen) { 
+                if (size < minLen) { 
                     start = j; 
                     end = i; 
-                    maxLen = size; 
+                    minLen = size; 
                 }
                 
                 char mostLeft = s.charAt(j++);
@@ -46,11 +46,11 @@ class MinWindowSubString {
                 
                 if (tmap.containsKey(mostLeft) 
                     && smap.get(mostLeft).intValue() < tmap.get(mostLeft).intValue()) { 
-                    have -= 1; 
+                    available -= 1; 
                 }
             }
         }
         
-        return maxLen == Integer.MAX_VALUE? "" : s.substring(start, end+1);
+        return minLen == Integer.MAX_VALUE? "" : s.substring(start, end+1);
     }
 }
