@@ -11,10 +11,27 @@
  **/
 
 public class RemoveDuplicatesFromSortedArrayII { 
+
+    public int removeDuplicates(int[] A, int k) {
+        int lastWrite = k
+
+        for (int i=k; i<A.length; i++) {
+            if (A[lastwrite - k] != A[i]) {
+                A[lastWrite++] = A[i];
+            }
+        }
+
+        return lastWrite;
+    }
+
+
     /**
      * Sliding window like approach 
      */
     public int removeDuplicates(int[] A) {
+
+        // /*use*/ return removeDuplicates(A, 2);
+
         int lastWrite = 2;
         for (int i = 2; i < A.length; i++) { 
             if (A[i] != A[lastWrite-2]) { 
