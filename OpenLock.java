@@ -9,6 +9,8 @@ class OpenLock {
         Set<String> visited = new HashSet<>();
         Set<String> deset = new HashSet<>(Arrays.asList(deadends));  
         
+        if (deset.contains("0000")) return -1;
+        
         String start = "0000";
         int steps = 0; 
         
@@ -26,6 +28,9 @@ class OpenLock {
                 for (int i=0; i<4; i++) { 
                     char c = curr.charAt(i);
                     
+                    // a trick to deal w/ integers 
+                    // (x + i)      % 10  -> used when adding to keep numbers in range of 0 to 9
+                    // (x + 10 - i) % 10  -> used when substracting to keep numbers in range of 0 to 9
                     String increaseslot = curr.substring(0, i) + (c == '9' ? 0 : c - '0' + 1) + curr.substring(i + 1);
                     String decreaseslot = curr.substring(0, i) + (c == '0' ? 9 : c - '0' - 1) + curr.substring(i + 1);
 
