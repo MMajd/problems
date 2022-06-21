@@ -1,6 +1,13 @@
 /** 
  *
  * @link https://leetcode.com/problems/open-the-lock/
+ * 
+ * Why use BFS? 
+ * - PROBLEM HAS A STARTING POINT 
+ * - STOP POINT AND CONDITION ON PROCESS EACH POINT 
+ * - AND THE PROBLEM STATEMENT ASKS FOR THE MIN STEPS OR PATH 
+ *
+ *   YOU BETTER TO WRITE THE BFS TEMPLATE FIRST THEN WRITE THE SPECIFIC LOGIC 
  *
  */ 
 class OpenLock {
