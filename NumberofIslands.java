@@ -5,7 +5,7 @@
  */
 
 class NumberOfIslands {
-    /** (x, y) = (row, row+1)
+    /** (x, y) = (i, i+1)
       * down    =  (0, 1)
       * right   =  (1, 0)
       * up      =  (0, -1)
