@@ -34,6 +34,26 @@ class NumberOfIslands {
         
         return ans; 
     }
+
+    private int dfs(char[][] grid, int row, int col) { 
+        if (
+            row < 0
+            || row >= m
+            || col < 0
+            || col >= n 
+            || grid[row][col] == '0'
+           ) return 0;
+
+        grid[row][col] = '0'; // mark as visited
+        
+        dfs(grid, row+1, col); 
+        dfs(grid, row, col+1); 
+        dfs(grid, row-1, col); 
+        dfs(grid, row, col-1); 
+
+        return 1; 
+    }
+
     
     private int bfs(char[][] grid, int row, int col) { 
         Queue<int[]> q = new LinkedList<>();
