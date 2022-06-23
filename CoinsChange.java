@@ -34,7 +34,7 @@ public class CoinsChange {
 			for (coin: coins) { 
 				for (int currAmount=1; currAmount<= amount; currAmount++) { 
 					if (currAmount >= coin) { 
-						dp[i] = Math.min(dp[currAmount-coin] + 1, dp[currAmount]); 
+						dp[currAmount] = Math.min(dp[currAmount-coin] + 1, dp[currAmount]); 
 					}
 				}
 			}
