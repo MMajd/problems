@@ -18,18 +18,17 @@ class Solution {
             q.offer(x);
         }
         
-        int N = target.length; 
         while (q.peek() != 1) { 
             int sumtobe = q.poll();
+
+            int diff = sum - sumtobe;
+
+            if (diff == 1) return true;
+
+            int delta = sumtobe % diff; 
+            sum = delta + diff; 
             
-            if (sum - sumtobe == 1) 
-                return true;
-            
-            int delta = sumtobe % (sum - sumtobe);
-            sum = delta + sum - sumtobe;
-            
-            if (delta == 0 || delta == sumtobe) 
-                return false; 
+            if (delta == 0 || delta == sumtobe) return false; 
             
             q.add(delta);
         }
