@@ -33,4 +33,22 @@ class Solution {
         
         return left != null ? left : right; 
     }
+
+    /** MORE GENERAL SOLUTION */ 
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(p == q) return p;
+        if(root == null ) return null;
+        if(p == root || q == root) return root;
+        
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        
+        if(left != null && right != null) {
+            if(left == right) return left;
+            return root;
+        }
+        
+        return (left == null)? right : left;
+    } 
 }
+
