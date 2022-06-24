@@ -58,46 +58,41 @@ public class Codec {
 
 
 /** BFS **/ 
-public class Codec {
-    public String serialize(TreeNode root) {
-        if (root == null) return "";
-        Queue<TreeNode> q = new LinkedList<>();
-        StringBuilder res = new StringBuilder();
-        q.add(root);
-        while (!q.isEmpty()) {
-            TreeNode node = q.poll();
-            if (node == null) {
-                res.append("n ");
-                continue;
-            }
-            res.append(node.val + " ");
-            q.add(node.left);
-            q.add(node.right);
+public String serialize(TreeNode root) {
+    StringBuilder result = new StringBuilder();
+    Deque<TreeNode> queue = new LinkedList<>();
+    queue.addLast(root);
+    while (queue.size() > 0) {
+        TreeNode curr = queue.removeFirst();
+        if (curr != null) {
+            result.append(curr.val + ",");
+            queue.addLast(curr.left);
+            queue.addLast(curr.right);
+        } else {
+            result.append("null,");
         }
-        return res.toString();
     }
+    result.setLength(result.length() - 1);    // Remove the superfluous "," at the end.
+    return result.toString();
+}
 
-    public TreeNode deserialize(String data) {
-        if (data == "") return null;
-        Queue<TreeNode> q = new LinkedList<>();
-        String[] values = data.split(" ");
-        TreeNode root = new TreeNode(Integer.parseInt(values[0]));
-        q.add(root);
-        for (int i = 1; i < values.length; i++) {
-            TreeNode parent = q.poll();
-            if (!values[i].equals("n")) {
-                TreeNode left = new TreeNode(Integer.parseInt(values[i]));
-                parent.left = left;
-                q.add(left);
-            }
-            if (!values[++i].equals("n")) {
-                TreeNode right = new TreeNode(Integer.parseInt(values[i]));
-                parent.right = right;
-                q.add(right);
-            }
-        }
-        return root;
+
+public TreeNode deserialize(String data) {
+    if (data.equals("null")) return null;
+    String[] nodes = data.split(",");
+    Deque<TreeNode> queue = new ArrayDeque<>();
+    TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
+    queue.addLast(root);
+    int i = 1;
+    while (queue.size() > 0) {
+        TreeNode curr = queue.removeFirst();
+        curr.left = nodes[i].equals("null") ? null : new TreeNode(Integer.parseInt(nodes[i]));
+        curr.right = nodes[i + 1].equals("null") ? null : new TreeNode(Integer.parseInt(nodes[i + 1]));
+        if (curr.left != null) queue.addLast(curr.left);
+        if (curr.right != null) queue.addLast(curr.right);
+        i += 2;
     }
+    return root;
 }
 
 
