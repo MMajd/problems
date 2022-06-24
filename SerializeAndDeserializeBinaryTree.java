@@ -44,7 +44,7 @@ public class Codec {
     
     private TreeNode deserializeHelper(Deque<String> strList){
         if (strList.size() == 0) return null;
-        String str = strList.pop();
+        String str = strList.poll();
         
         if (str.equals("null")) return null;
         
