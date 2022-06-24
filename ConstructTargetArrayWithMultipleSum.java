@@ -29,6 +29,9 @@ class Solution {
             sum = delta + diff; 
             
             if (delta == 0 || delta == sumtobe) return false; 
+            // DELTA == 0, its contradicts our assumption that we can get the array from all ones, 
+            // when delta is 0 means we started needed to start w/ some where 
+            // DELTA == SUMTOBE, means that we did not change the sum and we will keep looping 
             
             q.add(delta);
         }
