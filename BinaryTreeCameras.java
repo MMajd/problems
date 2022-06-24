@@ -1,5 +1,10 @@
 /** 
  * @link https://leetcode.com/problems/binary-tree-cameras/
+ *
+ *** Another Prespective 
+ * https://leetcode.com/problems/binary-tree-cameras/discuss/211180/JavaC++Python-Greedy-DFS
+ *
+ *
  */
 
 /** The intitive approach */
