@@ -1,9 +1,8 @@
 /** 
  *
- */ 
-
-/*
-// Definition for a Node.
+ * @link https://leetcode.com/problems/clone-graph
+ *
+ *
 class Node {
     public int val;
     public List<Node> neighbors;
@@ -28,10 +27,44 @@ class Solution {
         if (node.neighbors.size() == 0) 
             return new Node(node.val);
         
-        Map<Integer, Node> visited = new HashMap<>();
+        // Map<Integer, Node> visited = new HashMap<>();
+        // return dfs(node, visited);
         
-        return dfs(node, visited);
+        return bfs(node);
     }
+    
+    public Node bfs(Node node) { 
+        Map<Integer, Node> visited = new HashMap<>();
+        Queue<Node> q = new LinkedList<>(); 
+        
+        q.add(node);
+        
+        while(!q.isEmpty()) { 
+            int size = q.size(); 
+            for (int i=0; i<size; i++) { 
+                Node head = q.poll();
+                Node clone = visited
+                    .computeIfAbsent(head.val, x -> new Node(head.val));
+                
+                for (Node n : head.neighbors) {
+                    
+                    if (!visited.containsKey(n.val))  { 
+                        q.add(n);
+                    }
+                    
+                    
+                    clone.neighbors.add(
+                        visited
+                        .computeIfAbsent(n.val, x -> new Node(n.val))
+                    );
+                    
+                }
+            }
+        }
+        
+        return visited.get(node.val); 
+    }
+
     
     public Node dfs(Node curr, Map<Integer, Node> visited) { 
         if (visited.containsKey(curr.val)) { 
@@ -49,6 +82,7 @@ class Solution {
     }
     
 }
+
 
 
 
