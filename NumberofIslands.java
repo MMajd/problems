@@ -3,9 +3,8 @@
  * @link https://leetcode.com/problems/number-of-islands/
  *
  */
-
-class NumberOfIslands {
-    /** (x, y) = (i, i+1)
+class Solution {
+    /** (x, y) = (row, row+1)
       * down    =  (0, 1)
       * right   =  (1, 0)
       * up      =  (0, -1)
@@ -34,27 +33,26 @@ class NumberOfIslands {
         
         return ans; 
     }
-
+    
     private int dfs(char[][] grid, int row, int col) { 
         if (
             row < 0
-            || row >= m
-            || col < 0
-            || col >= n 
-            || grid[row][col] == '0'
-           ) return 0;
-
-        grid[row][col] = '0'; // mark as visited
+            || row >= m 
+            || col < 0 
+            || col >= n
+            || grid[row][col] == '0') return 0; 
         
-        dfs(grid, row+1, col); 
-        dfs(grid, row, col+1); 
-        dfs(grid, row-1, col); 
-        dfs(grid, row, col-1); 
-
+        grid[row][col] = '0';
+        
+        dfs(grid, row+1, col);
+        dfs(grid, row-1, col);
+        dfs(grid, row, col+1);
+        dfs(grid, row, col-1);
+        
         return 1; 
     }
 
-    
+
     private int bfs(char[][] grid, int row, int col) { 
         Queue<int[]> q = new LinkedList<>();
         
@@ -62,25 +60,28 @@ class NumberOfIslands {
         grid[row][col] = '0'; 
         
         while(!q.isEmpty()) {
-            int[] top = q.poll(); 
-            
-            for (int i=0; i<NUM_DIRS; i++) { 
-                int nextrow = top[0] + DIRS[i]; 
-                int nextcol = top[1] + DIRS[i+1]; 
+            int size = q.size(); 
+            for (int j=0; j<size; j++) { 
+                int[] top = q.poll();
                 
-                if (
-                    nextrow < 0 
-                    || nextcol < 0 
-                    || nextrow >= m
-                    || nextcol >= n
-                    || grid[nextrow][nextcol] == '0'
-                   ) { 
-                    continue; 
+                for (int i=0; i<NUM_DIRS; i++) { 
+                    int nextrow = top[0] + DIRS[i]; 
+                    int nextcol = top[1] + DIRS[i+1]; 
+
+                    if (
+                        nextrow < 0 
+                        || nextcol < 0 
+                        || nextrow >= m
+                        || nextcol >= n
+                        || grid[nextrow][nextcol] == '0'
+                       ) { 
+                        continue; 
+                    }
+
+                    grid[nextrow][nextcol] = '0'; 
+
+                    q.add(new int[]{nextrow, nextcol});
                 }
-                
-                grid[nextrow][nextcol] = '0'; 
-                
-                q.add(new int[]{nextrow, nextcol});
             }
         }
         
