@@ -4,7 +4,7 @@
  * @link https://leetcode.com/problems/target-sum
  *
  * There's no need to use memoization as our input range is small in all inputs,
- * thus using DFS is acceptal
+ * thus using DFS is acceptable
  */
 
 class Solution {
