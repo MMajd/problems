@@ -4,8 +4,8 @@
  *
  */ 
 
-/** This is beacase if we perform n push operation time complexity is around n!, not amortized 
- *
+/** 
+ * Not good solution beacase if we perform n push operation time complexity is around n!, not amortized 
  * Amortized solution is below this one 
  *
  * */
@@ -24,6 +24,7 @@ class MyQueue {
             return;
         }
         
+        // in amortized solution we build on this solution
         while(!s2.isEmpty())  { 
             s1.push(s2.pop());
         }
