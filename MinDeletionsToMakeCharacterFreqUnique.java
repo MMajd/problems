@@ -26,4 +26,29 @@ class Solution {
         
         return ans; 
     }
+
+    public int minDeletions(String s) {
+        int ans = 0; 
+        int[] freq = new int[26]; 
+        
+        for (char c : s.toCharArray()) freq[c-'a'] += 1; 
+        
+        freq = Arrays.stream(freq)
+                .boxed()
+                .sorted((a, b) -> b-a)
+                .mapToInt(i -> i)
+                .toArray();
+        
+        int maxAllowed = freq[0]; 
+        
+        for (int i=0; i<26; i++) { 
+            if (freq[i] > maxAllowed) { 
+                ans += freq[i] - maxAllowed; 
+                freq[i] = maxAllowed; 
+            }
+            maxAllowed = Math.max(0, freq[i]-1);
+        }
+        
+        return ans; 
+    }
 }
