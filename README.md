@@ -18,6 +18,8 @@
 
 **Problems notes**
 
+- Given an array or a graph filled with set of numbers (ex: 0, 1 or -1, 0, INF) and asked to find min distance to nearest 0 for each 1 or something similiar use BFS and start by adding all zeros to the queue and implement the DFS template
+
 - Rolling hash method (check all binary codes of size k problem)
   [link](https://leetcode.com/problems/check-if-a-string-contains-all-binary-codes-of-size-k/discuss/2092553/Explaining-the-Rolling-Hash-Method-or-Guide)
 
