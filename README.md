@@ -18,7 +18,11 @@
 
 **Problems notes**
 
-- Given an array or a graph filled with set of numbers (ex: 0, 1 or -1, 0, INF) and asked to find min distance to nearest 0 for each 1 or something similiar use BFS and start by adding all zeros to the queue and implement the DFS template
+- Given an array or a graph filled with specific set of numbers (ex: 0, 1 or -1, 0, INF) and asked to find nearest 0 for each 1 or something similiar use BFS and start by adding all zeros to the queue and implement the DFS template
+
+  > - the best approach is to take the reverse route and to add all zeros to our queue and mark them as visited cells
+  > - afte that use BFS on them and unvisited cells stage by stage
+  > - if we to solve this problem same way as water and land meaning solving for each cell every time we will get TLE
 
 - Rolling hash method (check all binary codes of size k problem)
   [link](https://leetcode.com/problems/check-if-a-string-contains-all-binary-codes-of-size-k/discuss/2092553/Explaining-the-Rolling-Hash-Method-or-Guide)
