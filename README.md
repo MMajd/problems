@@ -41,3 +41,20 @@
 
 - X rightmost set bit, if x is not 0, y = x & ~ (x-1)
 - Right propogate rightmost set bit in x, eg. x=0b0100 => x=0b0111, y = x || ((x & ~(x-1)) -1)
+
+
+**Effective Techniques: 
+- Two pointers techinque is effective in certain situations such as give sorted array, want to remove duplicates, n-sum problems ...etc
+- Example code 
+```java
+public int removeElement(int[] nums, int val) {
+    int k = 0;
+    for (int i = 0; i < nums.length; ++i) {
+        if (nums[i] != val) {
+            nums[k] = nums[i];
+            k++;
+        }
+    }
+    return k;
+}
+```
