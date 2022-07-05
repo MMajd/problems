@@ -43,7 +43,8 @@
 - Right propogate rightmost set bit in x, eg. x=0b0100 => x=0b0111, y = x || ((x & ~(x-1)) -1)
 
 
-**Effective Techniques: 
+**Effective Techniques**
+
 - Two pointers techinque is effective in certain situations such as give sorted array, want to remove duplicates, n-sum problems ...etc
 - Example code 
 ```java
