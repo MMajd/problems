@@ -12,6 +12,8 @@
 
 public class RemoveDuplicatesFromSortedArrayII { 
 
+    /** Generalization method 1, sliding window */ 
+
     public int removeDuplicates(int[] A, int k) {
         int lastWrite = k
 
@@ -24,25 +26,8 @@ public class RemoveDuplicatesFromSortedArrayII {
         return lastWrite;
     }
 
-
-    /**
-     * Sliding window like approach 
-     */
-    public int removeDuplicates(int[] A) {
-
-        // /*use*/ return removeDuplicates(A, 2);
-
-        int lastWrite = 2;
-        for (int i = 2; i < A.length; i++) { 
-            if (A[i] != A[lastWrite-2]) { 
-                A[lastWrite++] = A[i];
-            }
-        }
-        return lastWrite;
-    }
-
     /** 
-     * Generalization method 
+     * Generalization method 2, counting */ 
      */
     int removeDuplicates(int A[], int n, int k) {
         if (n <= k) return n;
