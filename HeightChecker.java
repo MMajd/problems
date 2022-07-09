@@ -26,7 +26,34 @@ Constraints:
     1 <= heights[i] <= 100       # REASON TO USE COUNTING SORT 
 */
 
-
+/** Closed range counting sort */
+class Solution {
+    public int heightChecker(int[] h) {
+        int min = Arrays.stream(h).min().getAsInt(); 
+        int max = Arrays.stream(h).max().getAsInt();
+        
+        int[] count = new int[max-min+1]; 
+        int[] output = new int[h.length];
+        
+        int diff = 0; 
+        
+        for (int i=0; i<h.length; i++)
+            count[h[i]-min] += 1; 
+        
+        for (int i=1; i<count.length; i++) 
+            count[i] += count[i-1]; 
+        
+        for (int i=0; i<h.length; i++) { 
+            output[count[h[i]-min] - 1] = h[i];
+            count[h[i]-min]--;
+        }
+        
+        for (int i=0; i<h.length; i++) 
+            diff += h[i] != output[i] ? 1 : 0;
+        
+        return diff; 
+    }
+}
 
 
 class Solution {
