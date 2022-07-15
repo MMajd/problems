@@ -15,6 +15,16 @@
  * }
  */
 class Solution {
+    public ListNode reverseListRecursive(ListNode head) {
+        if (head == null || head.next == null) return head; 
+
+        ListNode rest = reverseListRecursive(head.next); 
+        head.next.next = head; 
+        head.next = null; 
+
+        return rest; 
+    }
+
     public ListNode reverseList(ListNode head) {
         ListNode curr = head, next = null, prev = null; 
         
