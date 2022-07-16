@@ -75,9 +75,9 @@ class Solution {
         return xPowN(x, n, 1*sign); 
     }
     
-    // tail recusion solution 
+    /// tail recursion 
     private double xPowN(double x, int n, double ans) { 
-        if (n==0) return ans; 
-        return xPowN(x, n-1, ans*x); 
+        if (n == 0) return ans; 
+        return xPowN(x*x, n>>1, (n&0x01)!=0 ? x * ans : ans); 
     }
 }
