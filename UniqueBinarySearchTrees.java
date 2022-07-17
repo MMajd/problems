@@ -22,6 +22,26 @@ Constraints:
 
 */ 
 
+/** TLE */ 
+class Solution {
+    public int numTrees(int n) {
+        return G(1, n);  
+    }
+    
+    private int G(int start, int end) { 
+        if (start > end) return 1; 
+        
+        int ans = 0; 
+        
+        for (int i=start; i<=end; i++) { 
+            ans +=  G(start, i-1) * G(i+1, end); 
+        }
+        
+        return ans; 
+    }
+}
+
+/** working solution */ 
 class Solution {
     public int numTrees(int n) {
         if(n==1) return 1;
