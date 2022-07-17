@@ -13,6 +13,7 @@
 | Design Dictionary / Word search ..etc                                       | Trie DS                                               |
 | Find Shortest Path / Some goal & start given / expolore tree or graph       | DP - BFS                                              |
 | Find path to some target / Some goal & start given / expolore tree or graph | DFP - Memoization - DFS                               |
+| Unique Valid Binary Trees / Valid Parenthses / Any other of Catalan Numbers | DP - Memoization - Catalan Numbers formula            |
 
 ---
 
@@ -58,4 +59,12 @@ public int removeElement(int[] nums, int val) {
     }
     return k;
 }
+```
+
+
+- Calatan Numbers formula 
+ - (Wiki)[https://en.wikipedia.org/wiki/Catalan_number]
+```math 
+C(N)   = {1 / (N+1)} * {2N \choose N} 
+C(N)   =  {2N \choose N} - {2N \choose (N-1)} 
 ```
