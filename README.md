@@ -63,8 +63,12 @@ public int removeElement(int[] nums, int val) {
 
 
 - Calatan Numbers formula 
- - (Wiki)[https://en.wikipedia.org/wiki/Catalan_number]
+ - [Wiki](https://en.wikipedia.org/wiki/Catalan_number)
 ```math 
+\begin{equation*}
 C(N)   = {1 / (N+1)} * {2N \choose N} 
+\end{equation*}
+\begin{equation*}
 C(N)   =  {2N \choose N} - {2N \choose (N-1)} 
+\end{equation*}
 ```
