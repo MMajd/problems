@@ -72,3 +72,30 @@ C(N)   = {1 / (N+1)} * {2N \choose N}
 C(N)   =  {2N \choose N} - {2N \choose (N-1)} 
 \end{equation*}
 ```
+
+- Backtracking Template 
+```python 
+
+"""
+Backtracking is used to expolore all available options / solutions to some problem 
+with pruning we can reduce time complexity to some degree 
+
+pruning means leaving unfit candidates early 
+"""
+
+def backtrack(candidate):
+    if find_solution(candidate):
+        output(candidate)
+        return
+    
+    # iterate all possible candidates.
+    for next_candidate in list_of_candidates:
+        if is_valid(next_candidate):
+            # try this partial candidate solution
+            place(next_candidate)
+            # given the candidate, explore further.
+            backtrack(next_candidate)
+            # backtrack
+            remove(next_candidate)
+
+```
