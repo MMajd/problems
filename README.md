@@ -3,8 +3,9 @@
 | Range Min Query                                                             | Segment Tree                                          |
 | Range Sum Query                                                             | Segment Tree                                          |
 | Range GCD Query                                                             | Segment Tree                                          |
+| Asked to enumerate/permuatate/generate combinations                         | DP / Backtracking                                     |
 | Ways to do something                                                        | DP / Backtracking                                     |
-| Coin Change                                                                 | DP                                                    |
+| Given starting state and end state and a goal to either max/min the cost    | DP                                                    |
 | LongestCommonSubsequence (Min delete ops to make 2 strings the same)        | DP                                                    |
 | LinkedList cycle begin / has loop                                           | Floyd loop detection                                  |
 | LinkedList intersection                                                     | Introduce a loop and find element that loop begins at |
