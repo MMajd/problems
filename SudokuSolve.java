@@ -54,8 +54,6 @@ class Solution {
             return solve(row, col, grid);
         }
         
-        boolean sol = false; 
-
         for (int k=1; k<=9; k++) { 
             if (isValid(r, c, k, grid)) { 
                 grid[r][c] = (char)(k+'0'); 
