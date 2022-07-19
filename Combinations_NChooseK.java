@@ -2,6 +2,11 @@
 
 @link https://leetcode.com/problems/combinations/
 
+This solution is based on the following relation 
+
+nCk = (n-1)C (k-1) + (n-2)C(k-1) + (n-3)C(k-1) + ... + (k-1)C(k-1)
+
+
 Given two integers n and k, return all possible combinations of k numbers out of the range [1, n].
 
 You may return the answer in any order.
