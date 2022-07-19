@@ -33,27 +33,31 @@ Constraints:
 
 */
 
-/** backtracking solution 1 */ 
-class Solution {
-   public static List<List<Integer>> combine(int n, int k) {
-		List<List<Integer>> res = new ArrayList<List<Integer>>();
-		combine(res, new ArrayList<Integer>(), 1, n, k);
-		return res;
-	}
-	public static void combine(List<List<Integer>> res, List<Integer> comb, int start, int n, int k) {
-		// when we have k elements on the current path
-		if(k==0) {
-			res.add(new ArrayList<Integer>(comb));
-			return;
-		}
-		for(int i=start;i<=n-k+1;i++) {
-			comb.add(i);
-			combine(res, comb, i+1, n, k-1);
-			comb.remove(comb.size()-1);
-		}
-	}
-}
 
+/** Backtracking using decision tree */ 
+class Solution {
+    List<List<Integer>> ans = new ArrayList<>(); 
+    
+    public List<List<Integer>> combine(int n, int k) {
+        Integer[] c = new Integer[k]; 
+        solve(0, 1, n, c);
+        return ans; 
+    }
+    
+    
+    private void solve(int index, int start, int n, Integer[] c) { 
+        if (index == c.length) { 
+            Integer[] data = c.clone();
+            ans.add(Arrays.asList(data));
+            return; 
+        }
+        
+        for (int i=start; i<=n; i++) { 
+            c[index] = i; 
+            solve(index+1, i+1, n, c);
+        }
+    }
+}
 
 
 class Solution {
@@ -66,7 +70,8 @@ class Solution {
     }
     
     
-    private void solve(int start, int end, Integer[] data, int index) { 
+    private void solve(int start, int end, Integer[] data, 
+            int index) { 
         if (index == data.length) { 
             ans.add(new ArrayList<>(Arrays.asList(data)));
             return ;
