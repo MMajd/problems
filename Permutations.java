@@ -30,6 +30,36 @@ Constraints:
 class Solution {
     List<List<Integer>> ans = new ArrayList<>(); 
     public List<List<Integer>> permute(int[] nums) {
+        solve(0, nums);
+        return ans; 
+    }
+    
+    private void solve(int index, int[] nums) { 
+        if (index == nums.length) { 
+            List<Integer> data = new ArrayList<>(); 
+            for (int i : nums) data.add(i);
+            ans.add(data);
+            return; 
+        }
+        
+        for (int i=index; i<nums.length; i++) { 
+            swap(i, index, nums);
+            solve(index+1, nums);
+            swap(i, index, nums);
+        }
+    }
+    
+    private void swap(int i, int j, int[] arr) { 
+        int temp = arr[i]; 
+        arr[i] = arr[j]; 
+        arr[j] = temp; 
+    }
+}
+
+
+class Solution {
+    List<List<Integer>> ans = new ArrayList<>(); 
+    public List<List<Integer>> permute(int[] nums) {
         /* used array is used to mark indices of used values
          * marking indices as visited, is the same as marking values; 
          * values are unique, thus indices and values have a 
@@ -59,32 +89,4 @@ class Solution {
     }
 }
 
-class Solution { 
-    List<List<Integer ans = new ArrayList<>(); 
 
-    public List<List<Integer>> permute(int[] nums) { 
-        solve(0, nums, new ArrayList<>());
-        return ans; 
-    }
-
-    private void solve(int index, int[] nums, List<Integer> data) { 
-        if (index == nums.length) { 
-            ans.add(new ArrayList<>(data));
-            return; 
-        }
-
-        for (int i=index; i<nums.length; i++) { 
-            swap(i, index, nums);
-            data.add(nusm[i]);
-            solve(index+1, nums, data); 
-            data.remove(data.size()-1);
-            swap(i, index, nums);
-        }
-    }
-
-    private void swap(int i, int j, int[] arr) { 
-        int temp = arr[i]; 
-        arr[i] = arr[j]; 
-        arr[j] = temp; 
-    }
-}
