@@ -26,7 +26,9 @@ Constraints:
 
 
 class Solution {
-    List<List<Integer>> ans = new ArrayList<>(); 
+    //linkedlist leeds to better performance, by avoiding 
+    //arraylist memory reallocation
+    List<List<Integer>> ans = new LinkedList<>(); 
     
     public List<List<Integer>> permuteUnique(int[] nums) {
         solve(0, nums);
