@@ -37,13 +37,15 @@ Constraints:
 */
 
 
-
 class Solution {
-    List<List<Integer>> ans = new HashSet<>(); 
+    List<List<Integer>> ans = new LinkedList<>(); 
     public List<List<Integer>> 
-        combinationSum2(int[] cand, int target) {
-        Arrays.sort(cand);
-        solve(0, target, new ArrayList<>(), cand);
+        combinationSum2(int[] candidates, int target) {
+
+        Arrays.sort(candidates);
+        solve(0, target, 
+                new ArrayList<>(candidates.length), 
+                candidates);
         return ans; 
     }
     
