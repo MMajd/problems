@@ -26,7 +26,6 @@ Constraints:
 
 */
 
-
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -44,8 +43,46 @@ Constraints:
  */
 class Solution {
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        return same(p, q);
+        // return same(p, q);
+        return sameIterative(p, q);
     }
+    
+    private boolean checkNodes(TreeNode p, TreeNode q) { 
+        if (p==null && q==null) return true; 
+        if (p==null || q==null) return false; 
+        if (p.val != q.val) return false; 
+        
+        return true; 
+    }
+    
+    private boolean sameIterative(TreeNode p, TreeNode q) { 
+        Stack<TreeNode> ps = new Stack<>(); 
+        Stack<TreeNode> qs = new Stack<>(); 
+        
+        ps.add(p); 
+        qs.add(q); 
+        
+        while(!ps.isEmpty()) {
+            TreeNode r1 = ps.pop();
+            TreeNode r2 = qs.pop();
+            
+            if (!checkNodes(r1, r2)) 
+                return false; 
+            
+            if (r1 != null) { 
+                ps.push(r1.right);
+                ps.push(r1.left);
+            }
+            
+            if (r2 != null) { 
+                qs.push(r2.right);
+                qs.push(r2.left);
+            }
+        }
+        
+        return true; 
+    }
+
     
     private boolean same(TreeNode p, TreeNode q) { 
         if (p== null && q==null) return true; 
