@@ -24,7 +24,6 @@ Constraints:
     0 <= nums[i] <= 10^9
 */
 
-
 class Solution {
     int ans = 0;
     public int numSquarefulPerms(int[] nums) {
@@ -45,11 +44,11 @@ class Solution {
             
             swap(i, idx, nums);
             
-            if (idx==0 || perfectSq(nums[idx],nums[idx-1])) 
+            if (idx==0 || perfectSq(nums[idx],nums[idx-1])) { 
                 solve(idx+1, nums);
+            }
             
             swap(i, idx, nums);
-        
             set.add(nums[i]);
         }
     }
@@ -62,9 +61,8 @@ class Solution {
     
     
     private boolean perfectSq(int a, int b) {
-        int x = a+b;
-        double sqrt = Math.sqrt(x);
-        return (sqrt - (int)sqrt) == 0 ?true:false;
+        double sqrt = Math.sqrt(a+b);
+        return (sqrt - (int)sqrt) == 0;  
     }
 
 }
