@@ -66,6 +66,37 @@ class Solution {
     }
 }
 
+/** Backtracking based on permutations */
+class Solution {
+    public List<Integer> grayCode(int n) {
+      List<Integer> result = new ArrayList<>(Arrays.asList(0));
+      Set<Integer> history = new HashSet<>();
+      generateGrayCode(n, history, result);
+      return result;
+    }
+
+    private boolean generateGrayCode(int n, Set<Integer> history, List<Integer> result) {
+      // base case
+      if (result.size() == (1 << n)) {
+        // check the first element and the last element
+        return isValid(result.get(0), result.get(result.size() - 1));
+      }
+      for (int i = 0; i < n; ++i) {
+        int prevCode = result.get(result.size() - 1);
+        int candCode = prevCode ^ (1 << i);
+        if (!history.contains(candCode)) {
+          history.add(candCode);
+          result.add(candCode);
+          boolean found = generateGrayCode(n, history, result);
+          if (found) return true;
+          history.remove(candCode);
+          result.remove(result.size() - 1);
+        }
+      }
+      return false;
+    }
+}
+
 /** 
  * backtracking approach 
  *
