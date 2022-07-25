@@ -65,3 +65,44 @@ class Solution {
         return ans; 
     }
 }
+
+/** 
+ * backtracking approach 
+ *
+ * Here we manipulate every and each bit in the range 
+ * of [0,n-1] bits, that our graycode consist of, 
+ *
+ * We either use the bit as it's or backtrack and 
+ * invert it and use it, need to prove the correctness of this algo
+ *
+ * */
+class Solution {
+    int num = 0; 
+    public List<Integer> grayCode(int n) {
+        return grayCodes(n);
+    }
+
+    private void grayCodeUtil(List<Integer> res, int n) {
+        if (n == 0) {
+            System.out.println("Adding: " + num);
+            res.add(num);
+            return;
+        }
+
+        System.out.println("Going IN: " + (n-1) + ", Num: " + num);
+        grayCodeUtil(res, n - 1);
+
+        num = num ^ (1 << (n - 1));
+        
+        System.out.println("Backtracking : " + (n-1) + ", Num: " + num);
+        
+        grayCodeUtil(res, n - 1);
+    }
+
+    private List<Integer> grayCodes(int n) {
+        List<Integer> res = new LinkedList<Integer>();
+        grayCodeUtil(res, n);
+        return res;
+    }
+
+}
