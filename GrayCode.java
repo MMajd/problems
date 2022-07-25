@@ -66,13 +66,14 @@ class Solution {
     }
 }
 
-/** Backtracking based on permutations */
-class Solution {
+/** backtracking based on permutations */
+class Solution { 
     public List<Integer> grayCode(int n) {
-      List<Integer> result = new ArrayList<>(Arrays.asList(0));
-      Set<Integer> history = new HashSet<>();
-      generateGrayCode(n, history, result);
-      return result;
+        List<Integer> result = new ArrayList<>(Arrays.asList(0));
+        Set<Integer> history = new HashSet<>();
+        history.add(0);
+        generateGrayCode(n, history, result);
+        return result;
     }
 
     private boolean generateGrayCode(int n, Set<Integer> history, List<Integer> result) {
@@ -81,21 +82,27 @@ class Solution {
         // check the first element and the last element
         return isValid(result.get(0), result.get(result.size() - 1));
       }
+        
       for (int i = 0; i < n; ++i) {
         int prevCode = result.get(result.size() - 1);
         int candCode = prevCode ^ (1 << i);
         if (!history.contains(candCode)) {
-          history.add(candCode);
-          result.add(candCode);
-          boolean found = generateGrayCode(n, history, result);
-          if (found) return true;
-          history.remove(candCode);
-          result.remove(result.size() - 1);
+                history.add(candCode);
+                result.add(candCode);
+                if (generateGrayCode(n, history, result)) return true;
+                history.remove(candCode);
+                result.remove(result.size() - 1);
+            }
         }
-      }
-      return false;
+        return false;
+    }
+    
+    private boolean isValid(int n1, int n2) {
+        int xor = n1 ^ n2;
+        return xor != 0 && (xor & (xor - 1)) == 0;
     }
 }
+
 
 /** 
  * backtracking approach 
