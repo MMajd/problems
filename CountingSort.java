@@ -11,7 +11,7 @@ class Solution {
         
         for (int i : arr) { 
             if (min > i) min = i; 
-            else if (i > max) max = i; 
+            if (i > max) max = i; 
         }
         
         int[] output = new int[arr.length];
