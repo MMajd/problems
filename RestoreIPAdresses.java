@@ -27,30 +27,29 @@ Constraints:
 */
 
 
-/** Backtracking solution */
-
+/** Backtracking solution 3^N*/
 class Solution {
     List<String> ans = new ArrayList<>();
-    
+
     public List<String> restoreIpAddresses(String s) {
         solve(0, s, new ArrayList<>(4)); 
         return ans; 
     }
     
     private void solve(int idx, String s, List<Integer> data) { 
-        if (idx == s.length()) { 
-            if (data.size() == 4) { 
+        if (data.size() == 4) { 
+            if (idx == s.length()) { 
                 StringBuilder sb = new StringBuilder();
                 for (int i=0; i<4; i++) {
                     sb.append(data.get(i)); 
-                    if (i < 3) { 
-                        sb.append('.'); 
-                    }
+                    if (i < 3) sb.append('.'); 
                 }
                 ans.add(sb.toString());
             }
             return; 
         }
+
+        if (idx == s.length()) return;
         
         Integer sint = null; 
         
@@ -68,5 +67,40 @@ class Solution {
                 data.remove(data.size()-1);
             }
         }
+    }
+}
+
+/** N^4 soluton **/
+class Solution {
+    public List<String> restoreIpAddresses(String s) {
+		List<String> ret = new ArrayList<>();
+		
+		StringBuffer ip = new StringBuffer();
+		for(int a = 1 ; a < 4 ; ++ a)
+		for(int b = 1 ; b < 4 ; ++ b)
+	    for(int c = 1 ; c < 4 ; ++ c)
+		for(int d = 1 ; d < 4 ; ++ d) {
+			if(a + b + c + d == s.length() ) {
+				int n1 = Integer.parseInt(s.substring(0, a));
+				int n2 = Integer.parseInt(s.substring(a, a+b));
+				int n3 = Integer.parseInt(s.substring(a+b, a+b+c));
+				int n4 = Integer.parseInt(s.substring(a+b+c));
+				if(n1 <= 255 && n2 <= 255 && n3 <= 255 && n4 <= 255) {
+					ip.append(n1)
+                        .append('.')
+                        .append(n2)
+						.append('.')
+                        .append(n3)
+                        .append('.')
+                        .append(n4);
+
+					if(ip.length() == s.length() + 3) 
+                        ret.add(ip.toString());
+
+					ip.delete(0, ip.length());
+				}
+			}
+		}
+		return ret;
     }
 }
