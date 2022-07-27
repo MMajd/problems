@@ -44,6 +44,8 @@ Constraints:
  *     }
  * }
  */
+
+/** D&C, Maintain BST boundary, low<x<high where x is the node under test  */
 class Solution {
     public boolean isValidBST(TreeNode root) {
         if (root == null) return true; 
@@ -57,5 +59,61 @@ class Solution {
         boolean right = isValidBST(root.right, root.val, high); 
         
         return left && right && root.val > low && root.val < high; 
+    }
+}
+
+
+
+/** When we traverse BST inorder traversal we get monotonically 
+ * increasing sequence, so we always check that the previous is 
+ * less than current element
+ * */
+
+public Solution { 
+    private Integer prevVal = null; 
+
+    public boolean isValidBST(TreeNode root) { 
+        return inorderRecursive(root); 
+    }
+
+    public boolean inorderRecursive(TreeNode root) { 
+        if (root == null) return true; 
+
+        if (!inorder(root.left)) return false; 
+
+        if (prevVal!=null && prevVal>=root.val)
+            return false; 
+
+        prevVal = root.val; 
+
+        return inorderRecursive(root.right); 
+    }
+
+    public boolean inorderIterative(TreeNode root) { 
+        if (root == null) return; 
+
+        Stack<TreeNode> stack = new Stack<>(); 
+        TreeNode curr = root, prev = null; 
+
+        while(!s.isEmpty()) { 
+
+            // go till there's no nodes in the left subtree 
+            while(curr != null) { 
+                s.add(curr);
+                curr = curr.left; 
+            }
+
+            // get last left node in the left subtree
+            curr = s.poll(); 
+
+            if (prev != null && prev.val >= curr.val) { 
+                return false; 
+            }
+
+            prev = curr; 
+            curr = curr.right;
+        }
+
+        return true; 
     }
 }
