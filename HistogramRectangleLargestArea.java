@@ -54,9 +54,30 @@ private class Solution {
 }
 
 
-public class HistogramRectangleLargestArea { 
-	public static void main(String[] args) { 
-		/** */ 
-	}
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int i = 0; 
+        int area = 0; 
+        Stack<Integer> stack = new Stack<>();
+        
+        while(i < heights.length) { 
+            if (stack.isEmpty() || 
+                    heights[i] >= heights[stack.peek()]) { 
+                stack.push(i++);
+            } else { 
+                int h = heights[stack.pop()]; 
+                int w = stack.isEmpty() ? i : i-stack.peek()-1; 
+                area = Math.max(h*w, area);
+            }
+        }
+        
+        while(!stack.isEmpty()) { 
+            int h = heights[stack.pop()]; 
+            int w = stack.isEmpty() ? i : i-stack.peek()-1; 
+            area = Math.max(h*w, area);
+        }
+        
+        return area;
+    }
 }
 
