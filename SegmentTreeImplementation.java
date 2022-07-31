@@ -1,4 +1,17 @@
 
+/** Just to explain what I mean buy lazy operation functional interface*/
+
+@FunctionalInterface
+interface TernaryOperator<A> {
+    A apply(A a, A b, A c);
+
+    default <A> TernaryOperator<A> andThen(Function<? super A, ? extends A> after) {
+        Objects.requireNonNull(after);
+        return (A a, A b, A c) -> after.apply(apply(a, b, c));
+    }
+}
+
+
 /** 
 This is an implementation to Segment Tree class 
  */
@@ -7,13 +20,14 @@ class SegmentTree {
     private int[] seg, lazy, data; 
     private int length; 
 
-    BinaryOperator<Integer> operation, lazyOperation; 
+    BinaryOperator<Integer> operation; 
+    TriFucntion<Integer> lazyOperation; 
 
 
     // opreation, lazy operation area functional interfaces, to get a callback function 
     // the do the required operation what ever it could be (ex: sum, min, max...etc)
     // lazy operation is to do the lazy propogation 
-    public SegmentTree(T[] data, BinaryOperator<Integer> operation, BinaryOperator<Integer> lazyOperation) { 
+    public SegmentTree(T[] data, BinaryOperator<Integer> operation, TernaryOperator<Integer> lazyOperation) { 
         length = data.length * 4;  // we can suffices with n log n as its already a binary tree
         seg = new int[length]; 
         lazy = new int[lenght];
@@ -74,10 +88,13 @@ class SegmentTree {
             a: updateRangeStart, b: updateRangeEnd, s: start, e: end
         */
         if (start>=updateRangeStart && end<=updateRangeEnd) { 
-            seg[pos] = lazyOperation(seg[pos], val); // could be adding some number or something like that
+            // could be adding some number or something like that
+            // here lazyOperation need to handle range also
+            int rangeLength = end-start+1; 
+            seg[pos] = lazyOperation(seg[pos], val, rangeLength); 
             if (start != end) { 
-                lazy[2*pos] = lazyOperation(seg[pos], val); 
-                lazy[2*pos+1] = lazyOperation(seg[pos], val); 
+                lazy[2*pos] = lazyOperation(seg[pos], val, 1); 
+                lazy[2*pos+1] = lazyOperation(seg[pos], val, 1); 
             }
 
             return;
@@ -97,11 +114,12 @@ class SegmentTree {
 
     private void propogateIfNeeded(int pos, int start, int end) { 
         if (lazy[pos] != 0) { 
-            seg[pos] = lazyOperation(seg[pos], lazy[pos]); 
+            int rangeLength = end-start+1;
+            seg[pos] = lazyOperation(seg[pos], lazy[pos], rangeLength); 
 
             if (start != end) { 
-                lazy[2*pos] = lazyOperation(seg[pos], val); 
-                lazy[2*pos+1] = lazyOperation(seg[pos], val); 
+                lazy[2*pos] = lazyOperation(seg[pos], val, 1); 
+                lazy[2*pos+1] = lazyOperation(seg[pos], val, 1); 
             }
 
             lazy[pos] = 0; 
@@ -116,7 +134,7 @@ class SegmentTree {
         }
 
         if (start<=queryRangeEnd || end>=queryRangeStart) {
-            return 0; 
+            return 0;  // TODO: change this is value according to problem need
         }
 
         int mid = start+(end-start)/2; 
