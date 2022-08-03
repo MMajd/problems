@@ -106,5 +106,5 @@ def backtrack(candidate):
 
 | Problem         | Priorty | link                                                                           |
 | --------------- | ------- | ------------------------------------------------------------------------------ |
-| Skyline Problem | medium  | (like)[https://leetcode.com/problems/the-skyline-problem/]                                                                       |
-| Skyline Problem | low     | [link](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) |
+| Skyline Problem | medium  | (like)[https://leetcode.com/problems/the-skyline-problem/]                     | 
+| Kth Smallest Element in a Sorted Matrix | low     | [link](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) |
