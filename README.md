@@ -44,11 +44,11 @@
 - X rightmost set bit, if x is not 0, y = x & ~ (x-1)
 - Right propogate rightmost set bit in x, eg. x=0b0100 => x=0b0111, y = x || ((x & ~(x-1)) -1)
 
-
 **Effective Techniques**
 
 - Two pointers techinque is effective in certain situations such as give sorted array, want to remove duplicates, n-sum problems ...etc
-- Example code 
+- Example code
+
 ```java
 public int removeElement(int[] nums, int val) {
     int k = 0;
@@ -62,24 +62,25 @@ public int removeElement(int[] nums, int val) {
 }
 ```
 
+- Calatan Numbers formula
+- [Wiki](https://en.wikipedia.org/wiki/Catalan_number)
 
-- Calatan Numbers formula 
- - [Wiki](https://en.wikipedia.org/wiki/Catalan_number)
-```math 
+```math
 \begin{equation*}
-C(N)   = {1 / (N+1)} * {2N \choose N} 
+C(N)   = {1 / (N+1)} * {2N \choose N}
 \end{equation*}
 \begin{equation*}
-C(N)   =  {2N \choose N} - {2N \choose (N-1)} 
+C(N)   =  {2N \choose N} - {2N \choose (N-1)}
 \end{equation*}
 ```
 
-- Backtracking Template 
-```python 
+- Backtracking Template
+
+```python
 
 """
-Backtracking is a general algorithm for finding solutions to some computational problems, 
-notably constraint satisfaction problems, that incrementally builds candidates to the solutions, 
+Backtracking is a general algorithm for finding solutions to some computational problems,
+notably constraint satisfaction problems, that incrementally builds candidates to the solutions,
 and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot possibly be completed to a valid solution [this is called pruning]
 
 """
@@ -88,7 +89,7 @@ def backtrack(candidate):
     if find_solution(candidate):
         output(candidate)
         return
-    
+
     # iterate all possible candidates.
     for next_candidate in list_of_candidates:
         if is_valid(next_candidate):
@@ -100,3 +101,10 @@ def backtrack(candidate):
             remove(next_candidate)
 
 ```
+
+### TODO
+
+| Problem         | Priorty | link                                                                           |
+| --------------- | ------- | ------------------------------------------------------------------------------ |
+| Skyline Problem | medium  | (like)[https://leetcode.com/problems/the-skyline-problem/]                                                                       |
+| Skyline Problem | low     | [link](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) |
