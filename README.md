@@ -102,6 +102,21 @@ def backtrack(candidate):
 
 ```
 
+- Java goto like syntax 
+```java
+
+LABEL: // our code will break and jump up here
+
+for (int i=0; i<XX; i++) { 
+    for (int j=0; j<YY; j++) { 
+        // ... after doing some stuff
+        // ... we can check some variable to be true if so we can do
+        break LABEL;
+    }
+}
+
+```
+
 ### TODO
 
 | Problem         | Priorty | link                                                                           |
