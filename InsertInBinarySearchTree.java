@@ -52,11 +52,7 @@ It's guaranteed that val does not exist in the original BST.
  * }
  */
 class Solution {
-    public TreeNode insertIntoBST(TreeNode root, int val) {
-        return insertInBST(root, val);  
-    }
-    
-    private TreeNode insertInBST(TreeNode curr, int val) { 
+    public TreeNode insertIntoBST(TreeNode curr, int val) {
         if (curr == null) return new TreeNode(val); 
         
         if (curr.val > val) { 
