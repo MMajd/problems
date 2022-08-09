@@ -33,7 +33,20 @@ Constraints:
 */
 
 
-/** Using Min Heap*/
+/** Binary Search Tree */
+class KthLargest {
+    int k; 
+    
+    public KthLargest(int k, int[] nums) {
+    }
+    
+    public int add(int val) {
+    }
+}
+
+
+
+/** Min Heap */
 class KthLargest {
     int k; 
     PriorityQueue<Integer> q = null;
