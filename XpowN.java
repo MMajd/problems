@@ -31,6 +31,9 @@ public class XpowN {
     public double myPow(double x, int n) {
         double ans = 1; 
         int power = n; 
+
+        /** if x < 0 and n is even then the sign is positive, 
+         * else sign is negative */
         int sign = ((x > 0) || (n%2==0))  ? 1:-1; 
         x = Math.abs(x); 
         
@@ -79,5 +82,37 @@ class Solution {
     private double xPowN(double x, int n, double ans) { 
         if (n == 0) return ans; 
         return xPowN(x*x, n>>1, (n&0x01)!=0 ? x * ans : ans); 
+    }
+}
+
+/** Binary search solution, Not working */
+class Solution {
+    public double myPow(double x, int n) {
+        double ans = 1; 
+        int sign = ((x > 0) || (n%2==0))  ? 1:-1; 
+        x = Math.abs(x); 
+        
+        if (n < 0) { 
+            x = 1/x; 
+            
+            if (n == Integer.MIN_VALUE) 
+                n = Integer.MAX_VALUE; 
+            else n *= -1; 
+        }
+        
+        long i = 1;
+        
+        while (i <= n) { 
+            ans *= x;   
+            
+            if (i < n/2) { 
+                ans *= ans; 
+                i = 2*i+1; 
+            }
+            
+            else i += 1;
+        }
+        
+        return ans * sign; 
     }
 }
