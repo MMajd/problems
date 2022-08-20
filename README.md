@@ -49,78 +49,88 @@
 - Two pointers techinque is effective in certain situations such as give sorted array, want to remove duplicates, n-sum problems ...etc
 - Example code
 
-```java
-public int removeElement(int[] nums, int val) {
-    int k = 0;
-    for (int i = 0; i < nums.length; ++i) {
-        if (nums[i] != val) {
-            nums[k] = nums[i];
-            k++;
+    ```java
+    public int removeElement(int[] nums, int val) {
+        int k = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] != val) {
+                nums[k] = nums[i];
+                k++;
+            }
         }
+        return k;
     }
-    return k;
-}
-```
+    ```
 
 - Calatan Numbers formula
 - [Wiki](https://en.wikipedia.org/wiki/Catalan_number)
 
-```math
-\begin{equation*}
-C(N)   = {1 / (N+1)} * {2N \choose N}
-\end{equation*}
-\begin{equation*}
-C(N)   =  {2N \choose N} - {2N \choose (N-1)}
-\end{equation*}
-```
+    ```math
+    \begin{equation*}
+    C(N)   = {1 / (N+1)} * {2N \choose N}
+    \end{equation*}
+    \begin{equation*}
+    C(N)   =  {2N \choose N} - {2N \choose (N-1)}
+    \end{equation*}
+    ```
 
 - Backtracking Template
 
-```python
+    ```python
+    """
+    Backtracking is a general algorithm for finding solutions to some computational problems,
+    notably constraint satisfaction problems, that incrementally builds candidates to the solutions,
+    and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot possibly be completed to a valid solution [this is called pruning]
 
-"""
-Backtracking is a general algorithm for finding solutions to some computational problems,
-notably constraint satisfaction problems, that incrementally builds candidates to the solutions,
-and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot possibly be completed to a valid solution [this is called pruning]
+    """
+    def backtrack(candidate):
+        if find_solution(candidate):
+            output(candidate)
+            return
 
-"""
+        # iterate all possible candidates.
+        for next_candidate in list_of_candidates:
+            if is_valid(next_candidate):
+                # try this partial candidate solution
+                place(next_candidate)
+                # given the candidate, explore further.
+                backtrack(next_candidate)
+                # backtrack
+                remove(next_candidate)
 
-def backtrack(candidate):
-    if find_solution(candidate):
-        output(candidate)
-        return
-
-    # iterate all possible candidates.
-    for next_candidate in list_of_candidates:
-        if is_valid(next_candidate):
-            # try this partial candidate solution
-            place(next_candidate)
-            # given the candidate, explore further.
-            backtrack(next_candidate)
-            # backtrack
-            remove(next_candidate)
-
-```
+    ```
 
 - Java goto like syntax 
-```java
 
-LABEL: // our code will break and jump up here
+    ```java
 
-for (int i=0; i<XX; i++) { 
-    for (int j=0; j<YY; j++) { 
-        // ... after doing some stuff
-        // ... we can check some variable to be true if so we can do
-        // continue LABEL;
-        break LABEL;
+    LABEL: // our code will break and jump up here
+
+    for (int i=0; i<XX; i++) { 
+        for (int j=0; j<YY; j++) { 
+            // ... after doing some stuff
+            // ... we can check some variable to be true if so we can do
+            // continue LABEL;
+            break LABEL;
+        }
     }
-}
+    ```
 
-```
+
+
+**Articles**
+- Segement Tree [link](https://leetcode.com/articles/a-recursive-approach-to-segment-trees-range-sum-queries-lazy-propagation/)
+
 
 ### TODO
 
-| Problem         | Priorty | link                                                                           |
-| --------------- | ------- | ------------------------------------------------------------------------------ |
-| Skyline Problem | medium  | (like)[https://leetcode.com/problems/the-skyline-problem/]                     | 
-| Kth Smallest Element in a Sorted Matrix | low     | [link](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) |
+
+| Problem         | Priorty | link                                                                           | Difficulity |
+| --------------- | ------- | ------------------------------------------------------------------------------ |-------------
+| Skyline Problem | Medium  | [like](https://leetcode.com/problems/the-skyline-problem/)                     | Hard 	   |
+| Kth Smallest Element in a Sorted Matrix | low     | [link](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) | Medium |
+| Closest Binary Search Tree Value        | Medium  | [link](Unavaliable) | Medium/Hard |
+| Word Latter                             | Medium  | [link](https://leetcode.com/problems/word-ladder-ii/) | Hard | 
+| Search in a Sorted Array of Unknow Size | Medium  | [link](Unavailable) | Medium/Hard | 
+| Substring with Concat. of All Words     | Medium  | [link](https://leetcode.com/problems/substring-with-concatenation-of-all-words/) | Hard | 
+| Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts | Medium  | [link](https://leetcode.com/problems/maximum-area-of-a-piece-of-cake-after-horizontal-and-vertical-cuts/) | Medium | 
