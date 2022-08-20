@@ -117,12 +117,17 @@
     ```
 
 
+**Websites** 
+
+- [Programiz] (https://www.programiz.com/)
 
 **Articles**
-- Segement Tree [link](https://leetcode.com/articles/a-recursive-approach-to-segment-trees-range-sum-queries-lazy-propagation/)
+
+- [Segement Tree](https://leetcode.com/articles/a-recursive-approach-to-segment-trees-range-sum-queries-lazy-propagation/)
+- [Sorted Insert for Circular Linkedlist](https://www.geeksforgeeks.org/sorted-insert-for-circular-linked-list/)
 
 
-### TODO
+**TODO**
 
 
 | Problem         | Priorty | link                                                                           | Difficulity |
