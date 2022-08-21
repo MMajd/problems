@@ -25,38 +25,70 @@ Constraints:
 
 
 
-
 class Solution {
-    public int[] intersection(int[] nums1, int[] nums2) {
+    public int[] intersection (int[] nums1, int[] nums2) {
         if (nums1.length<nums2.length) { 
             int[] temp = nums1; 
             nums1 = nums2;
             nums2 = temp;
         }
         
+        int cnt = 0; 
         int[] ans = new int[nums2.length]; 
-        int counter = 0; 
+        int[] hash = new int[1001]; 
+        
+        for (int i : nums2) hash[i]++; 
+        
+        for (int i : nums1) {
+            if (hash[i] != 0) {
+                ans[cnt++] = i; 
+                hash[i] = 0; 
+            }
+        }
+        
+        return Arrays.copyOfRange(ans, 0, cnt);
+    }
+    
+    private int[] usingSet(int[] nums1, int[] nums2) { 
+        int[] ans = new int[nums2.length]; 
+        int cnt = 0; 
+        
+        Set<Integer> set = new HashSet<>();
+        
+        for (int i : nums2) set.add(i);
+        
+        for (int i : nums1) {
+            if (set.contains(i)) { 
+                ans[cnt++] = i; 
+                set.remove(i);
+            }
+        }
+        
+        return Arrays.copyOfRange(ans, 0, cnt);
+    }
+    
+    private int[] usingBS(int[] nums1, int[] nums2) { 
+        int[] ans = new int[nums2.length]; 
+        int cnt = 0; 
         
         Arrays.sort(nums1);
         Arrays.sort(nums2);
         
         for (int t : nums2) { 
             if (bsearch(nums1, nums1.length, t) != -1) {
-				// if t doesn't exist in ans then add add it 
-                if (bsearch(ans, counter, t) == -1) ans[counter++] = t; 
+                if (bsearch(ans, cnt, t) == -1) ans[cnt++] = t; 
             }
         }
         
-        return Arrays.copyOfRange(ans, 0, counter);
+        return Arrays.copyOfRange(ans, 0, cnt);
     }
     
     private int bsearch(int[] arr, int length, int target) { 
         int start=0, end=length-1; 
         
         while(start<=end) {
-			// skip duplicates if they exist 
-            while(start<end && arr[start]==arr[start+1]) start++; 
-            while(end>start && arr[end]==arr[end-1]) end--; 
+            while(start<end && arr[start]==arr[start+1]) start+=1; 
+            while(end>start&& arr[end]==arr[end-1]) end-=1; 
             
             int mid = start+(end-start)/2;
             
