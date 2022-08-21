@@ -1,5 +1,6 @@
 | Problem                                                                     | DataStructure / Algo                                  |
 | --------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Loop Detection | LinkedList Cycle | LinkedList Mid-Element                  | Floyd's Cycle-Finding Algorithm | Fast Slower Runners |
 | Range Min Query                                                             | Segment Tree                                          |
 | Range Sum Query                                                             | Segment Tree                                          |
 | Range GCD Query                                                             | Segment Tree                                          |
