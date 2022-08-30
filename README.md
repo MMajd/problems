@@ -140,3 +140,4 @@
 | Search in a Sorted Array of Unknow Size | Medium  | [link](Unavailable) | Medium/Hard | 
 | Substring with Concat. of All Words     | Medium  | [link](https://leetcode.com/problems/substring-with-concatenation-of-all-words/) | Hard | 
 | Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts | Medium  | [link](https://leetcode.com/problems/maximum-area-of-a-piece-of-cake-after-horizontal-and-vertical-cuts/) | Medium | 
+| Minimum Window Substring | Hard | [link](https://leetcode.com/problems/minimum-window-substring/) | Medium | 
