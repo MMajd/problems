@@ -128,14 +128,14 @@ class Solution {
         
         List<List<Integer>> ans = new ArrayList<>();
 
-        int precol = Integer.MIN_VALUE;
+        int minCol = Integer.MIN_VALUE;
 
         for(int[] node:list){
             int col = node[2];
             int value = node[0];
-            if(col != precol){
+            if(col != minCol){
                 ans.add(new ArrayList<>());
-                precol = col;
+                minCol = col;
             }
             ans.get(ans.size()-1).add(value);
         }
