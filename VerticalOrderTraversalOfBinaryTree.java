@@ -114,10 +114,11 @@ class Solution {
 /** 2. DFS, List, Comparator based solution */
 
 class Solution {
-    List<int[]> list = new ArrayList<>();
 
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        dfs(root, 0, 0);
+        List<int[]> list = new ArrayList<>();
+        
+        dfs(root, 0, 0, list);
 
         Collections.sort(list, (a, b) -> {
             if (a[2] != b[2]) return a[2]-b[2];
@@ -127,27 +128,27 @@ class Solution {
         
         List<List<Integer>> ans = new ArrayList<>();
 
-        int prerow = Integer.MIN_VALUE;
+        int precol = Integer.MIN_VALUE;
 
         for(int[] node:list){
-            int row = node[2];
+            int col = node[2];
             int value = node[0];
-            if(row!=prerow){
+            if(col != precol){
                 ans.add(new ArrayList<>());
-                prerow = row;
+                precol = col;
             }
             ans.get(ans.size()-1).add(value);
         }
         return ans;
     }
 
-    public void dfs(TreeNode node, int row, int col){
+    public void dfs(TreeNode node, int row, int col, List<int[]> list){
         if(node == null) return; 
 
         list.add(new int[]{node.val, row, col});
 
-        dfs(node.left, row+1, col-1);
-        dfs(node.right, row+1, col+1);
+        dfs(node.left, row+1, col-1, list);
+        dfs(node.right, row+1, col+1, list);
     }
 
 }
