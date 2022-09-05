@@ -24,6 +24,7 @@ Constraints:
   
  */
 
+/** Quick sort */
 class Solution {
     public void swap(int[] arr, int i, int j) {
         int tmp = arr[i];
@@ -81,8 +82,33 @@ class Solution {
 }
 
 
+/** Bucket sort */
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        ArrayList<Integer>[] bucket = new ArrayList[nums.length+1];
+        Map<Integer, Integer> map = new HashMap<>();
+        for (Integer num : nums) {
+            map.put(num, map.getOrDefault(num, 0)+1);
+        }
+        for (Integer num : map.keySet()) {
+            int freq = map.get(num);
+            if (bucket[freq] == null) bucket[freq] = new ArrayList<>();
+            bucket[freq].add(num);
+        }
+        ArrayList<Integer> res = new ArrayList<>();
+        for (int i = nums.length; i >= 0 || res.size() < k; i--) {
+            if (bucket[i] != null) res.addAll(bucket[i]);
+        }
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = res.get(i);
+        }
+        return result;
+    }
+}
 
 
+/** Heap */
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {      
         Map<Integer, Integer> map = new HashMap<>(); 
@@ -109,5 +135,6 @@ class Solution {
         return ans; 
     }
 }
+
 
 
