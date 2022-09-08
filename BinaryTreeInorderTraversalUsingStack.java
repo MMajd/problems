@@ -17,32 +17,24 @@
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
         Set<TreeNode> visited = new HashSet<>();
-        Stack<TreeNode> s = new Stack<>();
-        List<Integer> ans = new LinkedList<>();
-        
-        s.push(root);
-        visited.add(root);
-        visited.add(null);
-        
-        while(!s.isEmpty()) { 
-            TreeNode curr = s.pop(); 
-            
-            if (curr == null) continue; 
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> ans = new ArrayList<>();
 
-            if (!visited.contains(curr.left) 
-                || !visited.contains(curr.right)) {
-                if (curr.right != null) {
-                    visited.add(curr.right);
-                    s.push(curr.right);
-                }
-                s.push(curr);
+        if (root != null) stack.push(root);
+        
+        while(!stack.isEmpty()) { 
+            TreeNode node = stack.pop(); 
 
-                if (curr.left != null) { 
-                    visited.add(curr.left);
-                    s.push(curr.left);
-                }
-            } else { 
-                ans.add(curr.val);
+            if (visited.contains(node)) {
+                ans.add(node.val);
+            } 
+            else { 
+                if (node.right != null) stack.push(node.right);
+
+                stack.push(node); 
+                visited.add(node); 
+
+                if (node.left != null) stack.push(node.left);
             }
         }
         
