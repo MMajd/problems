@@ -28,10 +28,10 @@ Constraints:
 class Solution { 
     public int maxProfit(int[] prices) {
         // return topdown(prices); 
-        return bottomup(prices); 
+        return statemachine(prices); 
     }
 
-    private int bottomup(int[] prices) { 
+    private int statemachine(int[] prices) { 
 /*
  *        STATE MACHINE SOLUTION 
  *    ---\
