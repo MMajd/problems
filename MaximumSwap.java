@@ -21,8 +21,31 @@ Constraints:
   
 */
 
+class Solution1 {
+    public int maximumSwap(int num) {        
+        char [] digits = Integer.toString(num).toCharArray();
+        int [] buckets = new int [10];
+        
+        for (int i =0;i<digits.length;i++) {
+            buckets[digits[i]-'0']=i;
+        }
+        
+        for (int i = 0; i< digits.length;i++){            
+            for (int k = buckets.length-1;k > digits[i] - '0';k--){                
+                if (buckets[k] > i ) {
+                    char value = digits[i];
+                    digits[i]= digits[buckets[k]];
+                    digits[buckets[k]]=value;
+                    return Integer.valueOf(new String(digits));
+                } 
+            }  
+        }   
+        return num;
+    }
+}
 
-class Solution {
+
+class Solution2 {
     public int maximumSwap(int num) {
         List<Integer> digits = new ArrayList<>(); 
         
@@ -56,3 +79,6 @@ class Solution {
         return ans; 
     }
 }
+
+
+
