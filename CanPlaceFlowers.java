@@ -39,6 +39,8 @@ class Solution {
                     if (n == 0) return true; 
                 }
             }
+
+            if (n >= len -i) return false;
             
         }
         
