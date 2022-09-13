@@ -34,14 +34,14 @@ class Solution {
         int n = ratings.length; 
         int[] candies = new int[n];
         
-        Arrays.fill(candies, 1);
-        
+        candies[i] = 1; 
         for (int i=1; i<n; i++) { 
-            if (ratings[i] > ratings[i-1]) { 
-                candies[i] = candies[i-1]+1; 
-            }
+            candies[i] = ratings[i] > ratings[i-1] 
+                ? candies[i-1]+1 
+                : 1; 
         }
-        
+        // no comparison here so take this value any way, 
+        // it will be at least one 
         int ans = candies[n-1]; 
         
         for (int i=n-2; i>=0; --i){ 
