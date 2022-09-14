@@ -54,6 +54,7 @@ class Solution {
             
             if (node.left == null && node.right == null) { 
                 count += (path & (path-1)) == 0 ? 1 : 0; 
+                return; 
             }
             
             solve(node.left, path); 
