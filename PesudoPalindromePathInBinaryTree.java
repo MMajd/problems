@@ -21,7 +21,7 @@ Example 3:
     Output: 1
 
 Constraints:
-    The number of nodes in the tree is in the range [1, 105].
+    The number of nodes in the tree is in the range [1, 10^5].
     1 <= Node.val <= 9
 
 */
