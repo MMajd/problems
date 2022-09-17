@@ -1,6 +1,7 @@
 /*
  
  @link https://leetcode.com/problems/palindrome-pairs/
+ @link http://www.allenlipeng47.com/blog/index.php/2016/03/15/palindrome-pairs/
   
  Given a list of unique words, return all the pairs of the distinct indices (i, j) in the given list, so that the concatenation of the two words words[i] + words[j] is a palindrome.
 
@@ -25,88 +26,89 @@ Constraints:
   
  */
 
-
 class Solution {
-    class Node { 
-        static final int SIZE = 26; 
-        int idx; 
-        Node[] children; 
-        boolean isword; 
-        List<Integer> palins; 
+    private static class Node {
+        private int idx; 
+        private Node[] children; 
+        private List<Integer> p; 
         
         public Node() { 
             idx = -1; 
-            children = new Node[SIZE]; 
-            palins = new ArrayList<>(); 
+            children = new Node[26]; 
+            p = new ArrayList<>(); 
         }
         
-        public boolean containsKey(char key) { 
-            return children[key-'a'] != null; 
+        public boolean containsKey(int key) {
+            return children[key-'a'] != null;
         }
         
         public Node get(char key) {
-            if (containsKey(key)) return children[key-'a']; 
+           if (containsKey(key)) return children[key-'a'];
             return null; 
         }
         
-        public void put(char key, Node value) {
+        public void put(char key, Node value) { 
             children[key-'a'] = value; 
         }
         
-        public void setIdx(int i) {
-            idx = i; 
-        }
+        public boolean isWord() { return idx != -1; }
+        
+        public void setWordMark(int i) { idx = i; }
+        public int getWordMark() { return idx; }
+        
+        public void addPalindrome(Integer i) { p.add(i); }
+        public List<Integer> getPalindromes() { return p; }
     }
     
-    class Trie {
+    private static class Trie {
         private Node root; 
         
         public Trie() { 
             root = new Node(); 
         }
         
-        public void insert(String word, int idx) { 
-            Node curr = root; 
-            
-            for (int i=word.length()-1; i>=0; --i) { 
-                char key = word.charAt(i);
-                
-                if (!curr.containsKey(key)) { 
-                    curr.put(key, new Node()); 
-                }
-                
-                if (isPalindrome(word, 0, i)) {
-                    curr.palins.add(idx);
-                }
-                
-                curr = curr.get(key); 
-            }
-            
-            curr.setIdx(idx); 
-            curr.palins.add(idx);
-        }
-        
-        
-        public List<List<Integer>> findPairs(String word, int idx) {
+        public void insert(String word, int idx) {
             int n = word.length();
             Node curr = root; 
             
-            List<List<Integer>> pairs = new ArrayList<>();
-            
-            for (int i=0; i<n && curr != null; i++) { 
-                if (curr.idx >= 0 && idx!=curr.idx && isPalindrome(word, i, n-1)) { 
-                    pairs.add(Arrays.asList(new Integer[]{idx, curr.idx}));
+            for (int i=n-1; i>=0; --i) { 
+                char key = word.charAt(i);
+                
+                if (isPalindrome(word, 0, i)) { 
+                    curr.addPalindrome(idx);
                 }
                 
-                char key = word.charAt(i);
-                curr = curr.get(key); 
+                if (!curr.containsKey(key)) { 
+                    curr.put(key, new Node());
+                } 
+                
+                curr = curr.get(key);
             }
             
-            if (curr != null && curr.palins.size() > 0) { 
-                for (int i : curr.palins) { 
-                    if (idx != i) { 
-                        pairs.add(Arrays.asList(new Integer[]{idx, i}));
-                    }
+            curr.setWordMark(idx);
+            curr.addPalindrome(idx);
+        }
+        
+        public List<List<Integer>> getPalindromePairs(String word, int idx) {
+            Node curr = root; 
+            List<List<Integer>> pairs = new ArrayList<>(); 
+            
+            int n = word.length();
+
+            for (int j=0; j<n && curr!=null; j++) { 
+                
+                if (curr.isWord() 
+                    && curr.getWordMark() != idx 
+                    && isPalindrome(word, j, n-1)) { 
+                    pairs.add(Arrays.asList(new Integer[]{idx, curr.getWordMark()}));
+                }
+                
+                curr = curr.get(word.charAt(j));
+            }
+            
+            if (curr != null && curr.getPalindromes().size() > 0) { 
+                for (int j : curr.getPalindromes()) { 
+                    if (idx != j) pairs.add(Arrays.asList(new Integer[]{idx, j}));
                 }
             }
             
@@ -114,11 +116,9 @@ class Solution {
         }
     }
     
-    
-    public static boolean isPalindrome(String word, int i, int j) { 
-        while (i<j) {
-            if (word.charAt(i++) != word.charAt(j--)) 
-                return false; 
+    public static boolean isPalindrome(String word, int i, int j) {
+        while (i < j) { 
+            if (word.charAt(i++) != word.charAt(j--)) return false; 
         }
         
         return true; 
@@ -134,8 +134,8 @@ class Solution {
             trie.insert(words[i], i);
         }
         
-        for (int i = 0; i < words.length; i++) {
-            ans.addAll(trie.findPairs(words[i], i));
+        for (int i = 0; i<words.length; i++) {
+            ans.addAll(trie.getPalindromePairs(words[i], i));
         }
 
         return ans; 
