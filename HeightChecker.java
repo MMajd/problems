@@ -1,6 +1,8 @@
 /**
   @link https://leetcode.com/problems/height-checker/
 
+  @categories (ordered-set/tree/priorirty-queue/line-sweep)
+
   A school is trying to take an annual photo of all the students. 
   The students are asked to stand in a single file line in non-decreasing order by height. 
   Let this ordering be represented by the integer array expected 
