@@ -133,7 +133,6 @@
 
 | Problem         | Priorty | link                                                                           | Difficulity |
 | --------------- | ------- | ------------------------------------------------------------------------------ |-------------
-| Skyline Problem | Medium  | [like](https://leetcode.com/problems/the-skyline-problem/)                     | Hard 	   |
 | Kth Smallest Element in a Sorted Matrix | low     | [link](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) | Medium |
 | Closest Binary Search Tree Value        | Medium  | [link](Unavaliable) | Medium/Hard |
 | Word Latter                             | Medium  | [link](https://leetcode.com/problems/word-ladder-ii/) | Hard | 
