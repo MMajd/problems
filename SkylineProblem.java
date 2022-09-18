@@ -38,12 +38,16 @@ Constraints:
 */
 
 class Solution {
-    private static class BuildingLine { 
+    private static class BuilingPoint { 
         int x; 
         int h; 
         boolean isstart; 
         
-        public BuildingLine(int x, int h, boolean s) {
+        public BuilingPoint(int x, int h) {
+            this(x, h, false);
+        }
+        
+        public BuilingPoint(int x, int h, boolean s) {
             this.x = x; this.h = h;  this.isstart = s; 
         }
         
@@ -53,54 +57,49 @@ class Solution {
     }
     
     public List<List<Integer>> getSkyline(int[][] buildings) {
-        BuildingLine[] lines = new BuildingLine[buildings.length*2];
-
-        for (int i=0, j=0; i<buildings.length; i++) { 
-            int x1 = buildings[i][0];
-            int x2 = buildings[i][1];
+        int n = buildings.length; 
+        BuilingPoint[] points = new BuilingPoint[2*n];
+        
+        for (int i=0, j=0; i<n; i++) { 
+            int x1 = buildings[i][0]; 
+            int x2 = buildings[i][1]; 
             int h = buildings[i][2]; 
             
-            lines[j++] = new BuildingLine(x1, h, true);
-            lines[j++] = new BuildingLine(x2, h, false);
+            points[j++] = new BuilingPoint(x1, h, true); 
+            points[j++] = new BuilingPoint(x2, h); 
         }
         
-        Arrays.sort(lines, (a, b) -> {
-            // if a and b are isstart lines, then the one with higher height comes first
-            // if a and b are end lines, then the one with lower height comes first
-            // if a and b are not same type, then then one that's of type isstart should comes first 
-            if (a.x != b.x) return a.x - b.x; 
-            return (a.isstart ? -a.h : a.h) - (b.isstart? -b.h : b.h);
+        Arrays.sort(points, (p1, p2) -> {
+            if (p1.x != p2.x) return p1.x - p2.x; 
+            // p1 and p2 have the same x-coordinate
+            // if a and b are start points, then the one with more height is to appear first [height desc]
+            // if a and b are end points, the the one with with less height is to appear first [height asc]
+            // if a and b have different types, the the of start type is to appear first 
+            return (p1.isstart ? -p1.h : p1.h) - (p2.isstart ? -p2.h : p2.h); 
         });
         
-        List<List<Integer>> ans = new ArrayList<>(); 
+        List<List<Integer>> ans = new ArrayList<>();
         TreeMap<Integer, Integer> pq = new TreeMap<>(); 
+        pq.put(0, 1);
         
-        pq.put(0, 1); // 0 height : 1 is the count that we have met heights of zeros
+        int prevHeight = pq.lastKey(); 
         
-        int prevHeight = 0; 
-        
-        for (BuildingLine line : lines) {
-            if (line.isstart) { 
-                pq.compute(line.h, (k, v) -> { 
-                    if (v == null) return 1; 
-                    return ++v; 
-                }); 
+        for (BuilingPoint p: points) { 
+            if (p.isstart) { 
+                pq.compute(p.h, (k, v) -> v==null ? 1 : ++v);
             }
             else { 
-                pq.compute(line.h, (k, v) -> { 
-                    if (v == 1) return null; 
-                    return --v; 
-                });
+                pq.compute(p.h, (k, v) -> v > 1 ? --v : null);
             }
             
-            int currHeight = pq.lastKey();
+            int height = pq.lastKey();
             
-            if (currHeight != prevHeight) { 
-                ans.add(Arrays.asList(new Integer[]{line.x, currHeight}));
-                prevHeight = currHeight; 
+            if (height != prevHeight) { 
+                ans.add(Arrays.asList(new Integer[]{p.x, height}));
+                prevHeight = height; 
             }
         }
-
+        
         return ans; 
     }
 }
