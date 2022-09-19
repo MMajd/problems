@@ -36,13 +36,39 @@ Constraints:
  
 
 Follow up:
-    Imagine you are given a real file system, how will you search files? DFS or BFS?
-    If the file content is very large (GB level), how will you modify your solution?
-    If you can only read the file by 1kb each time, how will you modify your solution?
-    What is the time complexity of your modified solution? What is the most time-consuming part and memory-consuming part of it? How to optimize?
+    1.   Imagine you are given a real file system, how will you search files? DFS or BFS?
+    2.1x If the file content is very large (GB level), how will you modify your solution?
+    2.2  If you can only read the file by 1kb each time, how will you modify your solution?
+
+    3. What is the time complexity of your modified solution? What is the most time-consuming part and memory-consuming part of it? 
+    How to optimize?
     How to make sure the duplicated files you find are not false positive?
   
-  
+
+***************************************
+*                                     *
+*  FOLLOW UP QUESTIONS NOTES/ANSWERS  *
+*                                     *
+***************************************
+
+1. BFS vs DFS
+    - BFS explores neighbors first. This means that files which are located close to each other are also accessed one after another. 
+    This is great for space locality and that's why BFS is expected to be faster. 
+    Also, BFS is easier to parallelize (more fine-grained locking). 
+    - DFS will require a lock on the root node.
+
+2. Very large files and false positives
+For very large files we should do the following comparisons in this order:
+    2.11 - Compare sizes, if not equal, then files are different and stop here!
+    2.12 - Hash them with a fast algorithm e.g. MD5 or use SHA256 (no collisions found yet), if not equal then stop here!
+    2.2x - Compare byte by byte to avoid false positives due to collisions.
+
+Ex: Have you used an IDE in remote development mode?
+For example, CLion has some options on how to compare the local files with the remote server files and then decides to synchronize or not.
+
+3. Complexity: 
+    Runtime - Worst case (which is very unlikely to happen): O(N^2 * L) where L is the size of the maximum bytes that need to be compared
+    Space - Worst case: all files are hashed and inserted in the hashmap, so O(H^2*L), H is the hash code size and L is the filename size
 */
 
 
