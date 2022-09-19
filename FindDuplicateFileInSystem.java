@@ -43,13 +43,15 @@ Follow up:
     3. What is the time complexity of your modified solution? What is the most time-consuming part and memory-consuming part of it? 
     How to optimize?
     How to make sure the duplicated files you find are not false positive?
-  
-
+ 
 ***************************************
 *                                     *
 *  FOLLOW UP QUESTIONS NOTES/ANSWERS  *
 *                                     *
 ***************************************
+
+@link https://leetcode.com/problems/find-duplicate-file-in-system/solution/458521
+@link https://en.wikipedia.org/wiki/Locality_of_reference#:~:text=In%20computer%20science%2C%20locality%20of,a%20short%20period%20of%20time.
 
 1. BFS vs DFS
     - BFS explores neighbors first. This means that files which are located close to each other are also accessed one after another. 
