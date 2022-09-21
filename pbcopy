@@ -72,7 +72,7 @@ class NumArray {
             return; 
         }
         
-        int mid = start+((end-start)>>1);
+        int mid = start+(end-start)>>1;
         
         if (idx>mid) updateHelper(2*pos+1, mid+1, end, idx, val); 
         else updateHelper(2*pos, start, mid, idx, val); 
