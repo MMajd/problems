@@ -1,7 +1,8 @@
 /*  
   
  @link https://leetcode.com/problems/maximum-score-from-performing-multiplication-operations
-  
+ @categories(dp[knapsack-variation]);
+
  You are given two integer arrays nums and multipliers of size n and m respectively, where n >= m. The arrays are 1-indexed.
 
  You begin with a score of 0. You want to perform exactly m operations. On the ith operation (1-indexed), you will:
@@ -38,6 +39,28 @@ Constraints:
     m <= n <= 105
     -1000 <= nums[i], multipliers[i] <= 1000
  */
+
+
+/* Space optimized */ 
+class Solution {
+    public int maximumScore(int[] A, int[] B) {
+        int n = A.length; 
+        int m = B.length; 
+        
+        int[] dp = new int [m+1]; 
+        
+        for (int op=m-1; op>=0; --op) { 
+            int[] prevRow = dp.clone();
+            for (int left=op; left>=0; --left) { 
+                dp[left] = Math.max(B[op]*A[left] + prevRow[left+1], 
+                                        B[op]*A[n-1-op+left] + prevRow[left]);
+            }
+        }
+        
+        return dp[0]; 
+    }
+}
+
 
 class Solution {
     public int maximumScore(int[] nums, int[] multipliers) {
