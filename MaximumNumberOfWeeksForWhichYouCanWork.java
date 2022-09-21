@@ -47,6 +47,19 @@ Constraints:
  */
 
 
+class Solution {
+    public long numberOfWeeks(int[] m) {
+        long sum = Arrays.stream(m).mapToLong(x -> x).sum();
+        long max = Arrays.stream(m).mapToLong(x -> x).max().getAsLong();
+        
+        if ((sum-max) >= max) { 
+            return sum; 
+        }
+        
+        return ((sum-max) << 1) + 1; 
+    }
+}
+
 
 class Solution {
     public long numberOfWeeks(int[] milestones) {
