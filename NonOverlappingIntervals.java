@@ -20,10 +20,36 @@ Example 3:
     Explanation: You don't need to remove any of the intervals since they're already non-overlapping.
 
 Constraints:
-    1 <= intervals.length <= 105
+    1 <= intervals.length <= 10^5
     intervals[i].length == 2
-    -5 * 104 <= starti < endi <= 5 * 104
+    -5 * 10^4 <= starti < endi <= 5 * 10^4
 */
+
+class Solution {
+    public int eraseOverlapIntervals(int[][] A) {
+        int n = A.length; 
+        
+        if (n <= 1) return 0; 
+        
+        Arrays.sort(A, (int[] a, int[] b) -> { 
+            return Integer.compare(a[1], b[1]);
+            return Integer.compare(a[1]-a[0], b[1]-b[0]);
+        });
+        
+        int count = 0; 
+        int time = Integer.MIN_VALUE; 
+        
+        for (int i=0; i<n; i++) { 
+            if (time <= A[i][0]) {
+                time = A[i][1];
+                count += 1;
+            }
+        }
+        
+        return n-count; 
+    }
+}
+
 
 
 class Solution {
