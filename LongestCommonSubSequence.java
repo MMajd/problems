@@ -30,6 +30,60 @@ Constraints:
 */
 
 
+// solving from back
+class Solution {
+    public int longestCommonSubsequence(String s1, String s2) {
+        int n = s1.length(); 
+        int m = s2.length(); 
+        
+        if (m > n) { 
+            return longestCommonSubsequence(s2, s1); 
+        }
+        
+        int[] dp = new int[m+1];
+        
+        for (int i=n-1; i>=0; --i) { 
+            int[] prev = dp.clone();
+            
+            for (int j=m-1; j>=0; --j) {
+                if (s1.charAt(i) == s2.charAt(j)) { 
+                    dp[j] = prev[j+1] + 1; 
+                }
+                else { 
+                    dp[j] = Math.max(prev[j], dp[j+1]);
+                }
+            }
+        }
+        
+        return dp[0]; 
+    }
+}
+
+
+class Solution2 {
+    public int longestCommonSubsequence(String s1, String s2) {
+        int n = s1.length(); 
+        int m = s2.length(); 
+        
+        int[][] dp = new int[n+1][m+1];
+        
+        for (int i=n-1; i>=0; --i) { 
+            for (int j=m-1; j>=0; --j) {
+                if (s1.charAt(i) == s2.charAt(j)) { 
+                    dp[i][j] = dp[i+1][j+1] + 1; 
+                }
+                else { 
+                    dp[i][j] = Math.max(dp[i+1][j], dp[i][j+1]);
+                }
+            }
+        }
+        
+        return dp[0][0];
+    }
+}
+
+
+// solving from front
 class Solution {
     public int longestCommonSubsequence(String s1, String s2) {
         int n = s1.length(); 
