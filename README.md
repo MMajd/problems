@@ -126,6 +126,7 @@
 
 - [Segement Tree](https://leetcode.com/articles/a-recursive-approach-to-segment-trees-range-sum-queries-lazy-propagation/)
 - [Sorted Insert for Circular Linkedlist](https://www.geeksforgeeks.org/sorted-insert-for-circular-linked-list/)
+- [Patience Sort](https://www.youtube.com/watch?v=K9M6g7BiBX4)
 
 
 **TODO**
