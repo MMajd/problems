@@ -1,5 +1,4 @@
 /*
-
  @link https://leetcode.com/problems/delete-operation-for-two-strings
  @categories (dp[longest-common-subsequence-variant])
 
