@@ -30,20 +30,19 @@ Constraints:
 
 
 
-
-
 class Solution {
     private static final class UnionFind { 
-        int[] parent; 
+        int [] parent; 
         
         public UnionFind() { 
             parent = new int[26]; 
+            for (int i=0; i<26; i++) parent[i] = i;
         }
         
         public int find(char x) {
             int xcode = x - 'a'; 
             int temp = xcode; 
-
+            
             while (temp != parent[temp]) { 
                 temp = parent[temp]; 
             }
