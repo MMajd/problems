@@ -2,6 +2,8 @@
  @link https://leetcode.com/problems/number-of-good-paths
  @categories (union-find/graph/trees)
 
+ @link https://www.youtube.com/watch?v=_uVYiM7LmSk
+
  There is a tree (i.e. a connected, undirected graph with no cycles) consisting of n nodes numbered from 0 to n - 1 and exactly n - 1 edges.
 
 You are given a 0-indexed integer array vals of length n where vals[i] denotes the value of the ith node. You are also given a 2D integer array edges where edges[i] = [ai, bi] denotes that there exists an undirected edge connecting nodes ai and bi.
