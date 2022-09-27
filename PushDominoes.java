@@ -35,6 +35,49 @@ Constraints:
 
 */
 
+/** 
+ * My explanation link 
+ * @link https://leetcode.com/problems/push-dominoes/discuss/2631209/Java-Intuitive-One-Path-Solution-Similar-to-Two-Pointers
+ *
+ */ 
+class Solution {
+    public String pushDominoes(String s) {
+        int n = s.length() + 2; 
+        char[] A = new char[n]; 
+        
+        A[0] = 'L'; 
+        A[n-1] = 'R';
+        
+        for (int i=1; i<n-1; i++) { 
+            A[i] = s.charAt(i-1);
+        }
+        
+        int i=0, j=0; 
+
+        while (i < n) { 
+            while (i < n && A[i] == '.') i++; 
+            
+            if (A[j] == 'R' && A[i] == 'L') { 
+                int end = i; 
+                while (++j < --end) {
+                    A[end] = 'L'; 
+                    A[j] = 'R'; 
+                }
+            }
+            else if (A[j] == 'R' && A[i] == 'R' || 
+					    A[j] == 'L' && A[i] == 'L') { 
+                while(++j <= i) A[j]  = A[j-1]; 
+            }
+            
+            j = i; 
+            i += 1; 
+        }
+        
+        return new String(Arrays.copyOfRange(A, 1, n-1));
+    }
+}
+
+
 class Solution {
     public String pushDominoes(String D) {
         int n = D.length();
