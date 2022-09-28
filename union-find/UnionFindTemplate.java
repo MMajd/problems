@@ -1,7 +1,7 @@
 class DSU {
     private int[] parent;
     private int[] sz; 
-    private int sets; 
+    private int components; 
 
     private DSU(int size) {
         parent = new int[size];
@@ -12,57 +12,57 @@ class DSU {
             return i; 
         });
         
-        sets = size; 
+        components = size; 
     }
 
        
     // recursive find with path compression
-    private int __find(int x) { 
-        if (x != parent[x]) { 
-            parent[x]= __find(parent[x]); 
-            return parent[x];
+    private int __find(int u) { 
+        if (u != parent[u]) { 
+            parent[u]= __find(parent[u]); 
+            return parent[u]; 
         }
-        return x; 
+        return parent[u]; 
     }
     
-    public int parent(int x) { 
-        return find(x); 
+    public int parent(int u) { 
+        return find(u); 
     }
     
-    public int find(int x) {
-        int root = x, next; 
+    public int find(int u) {
+        int root = u, next; 
         
         while(root != parent[root]) root = parent[root]; 
         
-        while(x != root) {
-            next = parent[x]; 
-            parent[x] = root; 
-            x = next; 
+        while(u != root) {
+            next = parent[u]; 
+            parent[u] = root; 
+            u = next; 
         }
         
         return root;            
     }
     
-    public boolean connected(int x, int y) { 
-        return find(x) == find(y);
+    public boolean connected(int u, int v) { 
+        return find(u) == find(v);
     }
 
-    public boolean union(int x, int y) {
-        int xroot = find(x);
-        int yroot = find(y);
+    public boolean union(int u, int v) {
+        int up = find(u);
+        int vp = find(v);
         
-        if (xroot == yroot) return false; 
+        if (up == vp) return false; 
 
-        if (sz[xroot] >= sz[yroot]) {
-            parent[yroot] = xroot; 
-            sz[xroot] += sz[yroot]; 
+        if (sz[up] >= sz[vp]) {
+            parent[vp] = up; 
+            sz[up] += sz[vp]; 
         } 
         else { 
-            parent[xroot] = yroot; 
-            sz[yroot] += sz[xroot]; 
+            parent[up] = vp; 
+            sz[vp] += sz[up]; 
         }
         
-        sets -= 1; 
+        components -= 1; 
         return true; 
     }
 }
