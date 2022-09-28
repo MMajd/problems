@@ -62,12 +62,13 @@ class DSU {
 
         if (sz[up] >= sz[vp]) {
             parent[vp] = up; 
-            sz[up] += sz[vp]; 
         } 
         else { 
             parent[up] = vp; 
-            sz[vp] += sz[up]; 
         }
+
+        sz[up] += sz[vp]; 
+        sz[vp] = sz[up]; 
         
         components -= 1; 
         return true; 
