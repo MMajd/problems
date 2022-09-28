@@ -2,6 +2,7 @@ class DSU {
     private int[] parent;
     private int[] sz; 
     private int components; 
+    private int max; 
 
     private DSU(int size) {
         parent = new int[size];
@@ -12,16 +13,20 @@ class DSU {
             return i; 
         });
         
+        max = 1; 
         components = size; 
     }
 
+    public int components() {
+        return components
+    }
+
+    public int max() {
+        return max;
+    }
        
-    // recursive find with path compression
-    private int __find(int u) { 
-        if (u != parent[u]) { 
-            parent[u]= __find(parent[u]); 
-            return parent[u]; 
-        }
+    private int f(int u) {// recursive find with path compression
+        if (u != parent[u]) parent[u] = f(parent[u]); 
         return parent[u]; 
     }
     
@@ -52,6 +57,8 @@ class DSU {
         int vp = find(v);
         
         if (up == vp) return false; 
+
+        max = Math.max(max, sz[up]+sz[vp]);
 
         if (sz[up] >= sz[vp]) {
             parent[vp] = up; 
