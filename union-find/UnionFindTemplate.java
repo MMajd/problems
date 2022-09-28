@@ -18,10 +18,10 @@ class DSU {
     }
 
     public int components() {
-        return components
+        return components; 
     }
 
-    public int max() {
+    public int maxComponentSize() {
         return max;
     }
        
