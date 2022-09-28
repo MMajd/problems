@@ -20,7 +20,6 @@ class DSU {
     private int __find(int x) { 
         if (x != parent[x]) { 
             parent[x]= __find(parent[x]); 
-            return parent[x]; 
         }
         return x; 
     }
