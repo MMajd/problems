@@ -1,7 +1,7 @@
 /*
  
  @link https://leetcode.com/problems/find-k-closest-elements
-
+ @categories (binary-search/two-pointers/priority-queue)
  Given a sorted integer array arr, two integers k and x, 
 return the k closest integers to x in the array. 
 The result should also be sorted in ascending order.
@@ -25,28 +25,18 @@ Constraints:
     arr is sorted in ascending order.
     -10^4 <= arr[i], x <= 10^4
 
+*************************************************
+Intuition: 
+    The array is sorted.
+    If we want find the one number closest to x,
+    we don't have to check one by one.
+    it's straightforward to use binary research.
 
-Explanantion: 
-
-    
-lee215's avatar
-lee215
-157451
-Last Edit: April 29, 2020 8:11 AM
-
-68.3K VIEWS
-
-Intuition
-The array is sorted.
-If we want find the one number closest to x,
-we don't have to check one by one.
-it's straightforward to use binary research.
-
-Now we want the k closest,
-the logic should be similar.
+    Now we want the k closest,
+    the logic should be similar.
 
 
-Explanation
+Detailed Explanation
     Assume we are taking A[i] ~ A[i + k -1].
     We can binary research i
     We compare the distance between x - A[mid] and A[mid + k] - x
@@ -77,19 +67,54 @@ Explanation
 */
 
 class Solution {
-    public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        int N = arr.length; 
-        int start=0, end=N-k; 
-        
-        while(start<end) { 
-            int mid = start+(end-start)/2; 
 
-            if (x - arr[mid] > arr[mid + k] - x) start= mid + 1;
-            else end= mid;
+    public List<Integer> findClosestElements1(int[] A, int k, int x) {
+        int n = A.length;
+        int s=0, e=n-k; 
+        
+        while (s < e) {
+            int m = s+(e-s)/2; 
+            if (x-A[m] > A[m+k]-x) s = m+1; 
+            else e = m; 
         }
         
-        return Arrays.stream(arr, start, start+k)
-                .boxed()
-                .collect(Collectors.toList());
+        return Arrays
+            .stream(Arrays.copyOfRange(A, s, s+k))
+            .boxed()
+            .collect(Collectors.toList());
+    }
+    
+    public List<Integer> findClosestElements2(int[] A, int k, int x) {
+        int n = A.length;
+        int s=0, e=n-1; 
+        
+        while((e-s)>=k) { 
+            int a = x-A[s];
+            int b = A[e]-x;
+            
+            if (a > b) s += 1; 
+            else e -= 1; 
+        }
+        return Arrays
+            .stream(Arrays.copyOfRange(A, s, s+k))
+            .boxed()
+            .collect(Collectors.toList());
+    }
+    
+    public List<Integer> findClosestElements3(int[] A, int k, int x) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for (int i : A) {
+            if (pq.size() < k) {
+                pq.offer(i);
+            } 
+            else if (x-pq.peek() > i-x) {
+                pq.poll();
+                pq.offer(i);
+            }
+        }
+        
+        List<Integer> ans = new ArrayList<>(pq.size());
+        while (!pq.isEmpty()) ans.add(pq.poll());
+        return ans;
     }
 }
