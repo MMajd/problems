@@ -35,71 +35,105 @@ Constraints:
     1 <= heighti <= 231 - 1
     buildings is sorted by lefti in non-decreasing order.
 
+
+*************************************************
+Intiution: 
+    * Main point is to process buildings starting/ending point as an independent event 
+    * Every given building will be converted to 2 events, starting and ending one 
+    * Sort events according to their appearance on x-axis 
+    * When Sorting events there're some edge cases, 
+        1. When having two starting events with the same x-point, but with different height, 
+        the one with higher hight must appear first, Ex: {2,4,start},{2,5,start} -> {2,5,start},{2,4,start}
+
+        2. When having two events with same x-point but with diferent types 
+        the first is ending event and the seconding is starting event, 
+        the starting event must always appear first in this case, Ex: {2,3,end},{2,2,start} -> {2,2,start},{2,3,end}
+
+        3. When having two ending events with the same x-point, but with different height, 
+        the one with lower hight must appear first, Ex: {2,4, end},{2,5, end} -> {2,4,end},{2,5,end}
+
+    * When processing events we must use some sort of ordered data structure to be able to get highest event in x-point of time, 
+    also this DS should be able to have multiple events of the same value
+    * Perfect match for the before-mentioned properties is Multi-Orderd Set (TreeMap in java/ multiset in C++)
 */
 
 class Solution {
-    private static class BuilingPoint { 
-        int x; 
-        int h; 
-        boolean isstart; 
+    private static enum Type { 
+        start, 
+        end; 
+    }
+    
+    private static final class Point {
+        int x, y; 
+        Type type;
         
-        public BuilingPoint(int x, int h) {
-            this(x, h, false);
+        public Point(int x, int y, Type t) {
+            this.x=x; 
+            this.y=y; 
+            this.type=t;
         }
         
-        public BuilingPoint(int x, int h, boolean s) {
-            this.x = x; this.h = h;  this.isstart = s; 
-        }
-        
-        public String toString() {
-            return "{ x: " + x + ", h: " + h + ", s: " + isstart + " }";
+        public String toString() { 
+            return "{ x: " + x 
+                + ", y: " + y 
+                + ", type: " + type
+                + " }"; 
         }
     }
     
     public List<List<Integer>> getSkyline(int[][] buildings) {
-        int n = buildings.length; 
-        BuilingPoint[] points = new BuilingPoint[2*n];
+        int n = buildings.length;
+        Point[] points = new Point[2*n]; 
         
         for (int i=0, j=0; i<n; i++) { 
-            int x1 = buildings[i][0]; 
-            int x2 = buildings[i][1]; 
-            int h = buildings[i][2]; 
+            int x1 = buildings[i][0];
+            int x2 = buildings[i][1];
+            int y = buildings[i][2];
             
-            points[j++] = new BuilingPoint(x1, h, true); 
-            points[j++] = new BuilingPoint(x2, h); 
+            points[j++] = new Point(x1, y, Type.start); 
+            points[j++] = new Point(x2, y, Type.end); 
         }
         
-        Arrays.sort(points, (p1, p2) -> {
-            if (p1.x != p2.x) return p1.x - p2.x; 
-            // p1 and p2 have the same x-coordinate
-            // if a and b are start points, then the one with more height is to appear first [height desc]
-            // if a and b are end points, the the one with with less height is to appear first [height asc]
-            // if a and b have different types, the the of start type is to appear first 
-            return (p1.isstart ? -p1.h : p1.h) - (p2.isstart ? -p2.h : p2.h); 
+        Arrays.sort(points, (a, b) -> {
+            if (a.x != b.x) return Integer.compare(a.x, b.x);
+            return Integer.compare(
+                    a.type == Type.start ? -a.y : a.y, 
+                    b.type == Type.start ? -b.y : b.y
+                );
         });
         
-        List<List<Integer>> ans = new ArrayList<>();
-        TreeMap<Integer, Integer> pq = new TreeMap<>(); 
-        pq.put(0, 1);
+        List<List<Integer>> ans = new ArrayList<>(2*n);
+        TreeMap<Integer, Integer> multiSet = new TreeMap<>(); 
         
-        int prevHeight = pq.lastKey(); 
+        multiSet.put(0, 1);
+        Integer prevHeight = 0; 
         
-        for (BuilingPoint p: points) { 
-            if (p.isstart) { 
-                pq.compute(p.h, (k, v) -> v==null ? 1 : ++v);
-            }
-            else { 
-                pq.compute(p.h, (k, v) -> v > 1 ? --v : null);
-            }
+        for (Point p : points) { 
+            multiSet.compute(p.y, (k, v) -> { 
+                if (p.type == Type.start) { 
+                    return v==null ? 1 : ++v; 
+                }
+                
+                return v > 1 ? --v : null; 
+            });
             
-            int height = pq.lastKey();
+            Integer currHeight = multiSet.lastKey(); 
             
-            if (height != prevHeight) { 
-                ans.add(Arrays.asList(new Integer[]{p.x, height}));
-                prevHeight = height; 
+            if (prevHeight != currHeight) { 
+                ans.add(
+                    new ArrayList<>(2){{
+                    add(p.x); 
+                    add(currHeight);
+                }});
+                prevHeight = currHeight; 
             }
         }
         
         return ans; 
     }
 }
+
+
+
+
+
