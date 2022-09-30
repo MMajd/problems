@@ -40,17 +40,14 @@ Constraints:
 class Solution { 
     /** 
     Intiution: 
-        - This is reduces to a graph coloring problem, but we have to color te graph using exactly two-colors
+        - This is reduces to a graph coloring problem, but we have to color the graph using exactly two-colors
         
-        - Using disjoint sets instead of coloring we put nodes with same color in one group/set
+        - Using disjoint sets to do the coloring by putting adj-nodes 
+        to the i-th nodes in the same group/set
         
-        - How would we do that? 
-        - We put neighbors of the ith node in the same sets, buy merging them togther 
-        
-        - To detect if given graph is not bi-partite, created groups will not be disjoint as expected if the graph is a truley bi-partite
+        - To detect if given graph is not bi-partite, created groups will not be disjoint as expected if the graph is a bi-partite. 
     
-        - We should check if the ith node have with its jth neighbor, if this is true then we know that sets are not disjoint and the graph is not a bi-graph
-    
+        - We should check if the i-th node have same color as its j-th neighbor, if this is true then we know that sets are not disjoint and the graph is not a bi-graph. 
     */
     
     public boolean isBipartite(int[][] graph) {
@@ -61,12 +58,12 @@ class Solution {
             int m = graph[i].length;
             
             for (int j=0; j<m; j++) { 
-                // if sets are not disjoint, then graph is not bi-graph
+                // if i-th node and its j-th neighbor have the same color, then graph is not bi-graph
                 if (dsu.connected(i, graph[i][j])) {
                     return false; 
                 }
                 
-                // create a group of i-th node neighbors by linking them all to the its first neighbor in the adj-node list, as list size is varies, its guaranteed to always find an element in index 0 if there're neighbors to the i-th node 
+                // create a color set of i-th node neighbors by linking them all to its first neighbor in the adj-node list, as list size may varies from one node to the other, its guaranteed to find an element in index 0 if there's adj-node list to the i-th node 
                 dsu.union(graph[i][0], graph[i][j]);
             }
         }
@@ -74,9 +71,8 @@ class Solution {
         return true; 
     }
     
-    /**
-     * DSU - DisjoinSetsUnion class 
-     */ 
+    
+    
     private static final class DSU { 
         private int[] parent; 
         private int[] sz; 
