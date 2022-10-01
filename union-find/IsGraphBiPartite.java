@@ -34,6 +34,44 @@ Constraints:
  */ 
 
 /** 
+ * BFS solution
+ */ 
+
+class Solution { 
+    
+    public boolean isBipartite(int[][] G) {
+        int n = G.length;
+        byte[] colors = new byte[n];
+        
+        for (int i=0; i<n; i++) { 
+            if (colors[i] == 0) { 
+                colors[i] = 1; 
+                Deque<Integer> q = new ArrayDeque<>(); 
+                
+                q.add(i);
+                
+                while (!q.isEmpty()) {
+                    int u = q.poll();
+                    
+                    for (int v : G[u]) { 
+                        if (colors[v] == colors[u]) return false; 
+                        
+                        if (colors[v] == 0) { 
+                            colors[v] = (byte)(0x03 - colors[u]); 
+                            q.add(v);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return true; 
+    }
+}
+
+
+
+/** 
  * Disjoint sets solution 
  */
 
