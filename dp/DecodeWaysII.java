@@ -50,48 +50,100 @@ Constraints:
 
 
 
-
 class Solution {
     private static final long M = 1_000_000_007; 
     
     public int numDecodings(String s) {
-        Long[] memo = new Long[s.length()]; 
-        return (int) dfs(s.toCharArray(), 0, memo);
+        int n = s.length();
+        Long[] dp = new Long[n+1]; 
+        
+        dp[n] = 1L;
+        
+        for (int i=n-1; i>=0; --i) { 
+            char u = s.charAt(i);
+            long ways = 0; 
+            
+            if (u == '*') { 
+                ways = (9 * dp[i+1]) % M;
+                
+                if (i+1<n) { 
+                    char v = s.charAt(i+1);
+
+                    if (v == '*') {
+                        ways = (ways + 15 * dp[i+2]) % M;
+                    }
+                    else if (v < '7') {
+                        ways = (ways + 2 * dp[i+2]) % M; 
+                    }
+                    else { 
+                        ways = (ways + dp[i+2]) % M; 
+                    }
+                }
+            } 
+            else if (u != '0') {
+                ways = dp[i+1] % M; 
+
+                if (i+1<n) { 
+                    char v = s.charAt(i+1);
+                    
+                    if (u == '1' && v == '*') { 
+                        ways = (ways + 9 * dp[i+2]) % M; 
+                    }
+                    else if (u == '2' && v == '*') { 
+                        ways = (ways + 6 * dp[i+2]) % M; 
+                    }
+                    else if (u == '1' || u== '2' && v < '7') { 
+                        ways = (ways + dp[i+2]) % M; 
+                    }
+                }
+            }
+
+            dp[i] = ways; 
+        }
+        
+        return (int)(dp[0].longValue());
     }
     
-    private long dfs(char[] s, int i, Long[] memo) {
-        if (i == s.length) return 1;
-        if (s[i] == '0') return 0;
+    public int numDecodingsMemo(String s) {
+        int n = s.length();
+        Long[] memo = new Long[n+1]; 
+
+        return (int) dp(s.toCharArray(), 0, memo);
+    }
+
+    private long dp(char[] s, int i, Long[] memo) {
+        if (i == s.length) return 1L;
+        if (s[i] == '0') return 0L;
         if (memo[i] != null) return memo[i]; 
         
         if (s[i] == '*') { 
-            long ways = (9 * dfs(s, i+1, memo)) % M;
+            long ways = (9 * dp(s, i+1, memo)) % M;
             
             if (i+1<s.length && s[i+1] == '*') {
-                ways = (ways + 15 * dfs(s, i+2, memo)) % M;
+                ways = (ways + 15 * dp(s, i+2, memo)) % M;
             }
             else if (i+1<s.length && s[i+1] < '7') {
-                ways = (ways + 2 * dfs(s, i+2, memo)) % M; 
+                ways = (ways + 2 * dp(s, i+2, memo)) % M; 
             }
             else if (i+1<s.length) { 
-                ways = (ways + dfs(s, i+2, memo)) % M; 
+                ways = (ways + dp(s, i+2, memo)) % M; 
             }
             
             memo[i] = ways;
             return ways; 
         }
         
-        long ways = dfs(s, i+1, memo) % M; 
+        long ways = dp(s, i+1, memo) % M; 
         
         if (i+1<s.length) { 
             if (s[i] == '1' && s[i+1] == '*') { 
-                ways = (ways + 9 * dfs(s, i+2, memo)) % M; 
+                ways = (ways + 9 * dp(s, i+2, memo)) % M; 
             }
             else if (s[i] == '2' && s[i+1] == '*') { 
-                ways = (ways + 6 * dfs(s, i+2, memo)) % M; 
+                ways = (ways + 6 * dp(s, i+2, memo)) % M; 
             }
             else if (s[i] == '1' || s[i] == '2' && s[i+1] < '7') { 
-                ways = (ways + dfs(s, i+2, memo)) % M; 
+                ways = (ways + dp(s, i+2, memo)) % M; 
             }
         }
         
@@ -100,4 +152,3 @@ class Solution {
         return ways; 
     }
 }
-
