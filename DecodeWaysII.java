@@ -52,6 +52,60 @@ Constraints:
 
 class Solution {
     private static final long M = 1_000_000_007; 
+
+
+    /** Space optimized */
+    public int numDecodings(String s) {
+        int n = s.length();
+
+        long first = 1; 
+        long second = 1; 
+        
+        for (int i=n-1; i>=0; --i) { 
+            char u = s.charAt(i);
+            long ways = 0; 
+            
+            if (u == '*') { 
+                ways = (9 * first) % M;
+                
+                if (i+1<n) { 
+                    char v = s.charAt(i+1);
+
+                    if (v == '*') {
+                        ways = (ways + 15 * second) % M;
+                    }
+                    else if (v < '7') {
+                        ways = (ways + 2 * second) % M; 
+                    }
+                    else { 
+                        ways = (ways + second) % M; 
+                    }
+                }
+            } 
+            else if (u != '0') {
+                ways = first % M; 
+
+                if (i+1<n) { 
+                    char v = s.charAt(i+1);
+                    
+                    if (u == '1' && v == '*') { 
+                        ways = (ways + 9 * second) % M; 
+                    }
+                    else if (u == '2' && v == '*') { 
+                        ways = (ways + 6 * second) % M; 
+                    }
+                    else if (u == '1' || u== '2' && v < '7') { 
+                        ways = (ways + second) % M; 
+                    }
+                }
+            }
+
+            second = first; 
+            first = ways; 
+        }
+        
+        return (int) first; 
+    }
     
     public int numDecodings(String s) {
         int n = s.length();
