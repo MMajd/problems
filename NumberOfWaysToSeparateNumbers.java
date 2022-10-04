@@ -1,7 +1,7 @@
 /*
 
 @link https://leetcode.com/problems/number-of-ways-to-separate-numbers/
-@categories (dp/strings)
+@categories (dp[top-down/bottom-up]/strings)
 
 You wrote down many positive integers in a string called num. However, you realized that you forgot to add commas to seperate the different numbers. You remember that the list of integers was non-decreasing and that no integer had leading zeros.
 
@@ -29,10 +29,17 @@ Constraints:
     num consists of digits '0' through '9'.
 
 */
-
 class Solution {
+    private static final int MOD = 1_000_000_007; 
+    
+/** 
+0 1 2 3 4 5 6
+x x x x x x x           len= 4, i= 6, j=6-4+1 = 3; 
+      j     i
 
-        public int numberOfCombinations(String s) {
+if remaing string less than the length there's no need to check as curr number has more digits than the previous one
+*/
+    public int numberOfCombinations2(String s) {
         int n = s.length();
         
         // long[][] dp = new long[n][n+1]; 
@@ -95,13 +102,54 @@ class Solution {
         
         return (int) presum[n-1][n]; 
     }
+    
+    
+    public int numberOfCombinations(String s) {
+        int n = s.length();
+        
+        char[] chars = s.toCharArray();
+        int[][] dp = new int[n+1][n+1]; 
+        int[][] lcs = new int[n+1][n+1]; 
 
+        
+        for(int i=n-1; i>=0; --i){ 
+            for(int j=i; j>=0; --j) {
+                if(chars[i] == chars[j]) {
+                    lcs[i][j] = 1 + lcs[i+1][j+1]; 
+                }
+            }
+        }
 
+        
+        for(int i=n-1; i>=0 ; --i){
+            if (chars[i] == '0') continue;
+            
+            dp[i][n-i] = 1;
+            
+            for(int j=n-i-1; j>=1; --j) {
+                
+                dp[i][j] = dp[i][j+1];
+                
+                if (i-1 + (j<<1) >= n) continue;
+                
+                int r = i+j; 
+                int lc = lcs[r][i]; 
+                
+                if (i+lc== r || r+lc==n || chars[i+lc] <= chars[r+lc]) { 
+                    dp[i][j] = (dp[i][j] + dp[r][j]) % MOD;
+                }
+                else { 
+                    dp[i][j] = (dp[i][j] + dp[r][j+1]) % MOD;
+                }
+            }
+        }
+        
+        return (int) dp[0][1]; 
+    }
+  
+    
     public int numberOfCombinations1(String s) {
         int n = s.length()+1;
-
-        // need to cheet the all 1's input with more than 2000 in length
-        // if charat(0) == charAt(n-1) == 1 and n > 2000 return the ans
         
         Integer[][] memo = new Integer[n][n]; 
         return dfs(s, 0, "", memo);
@@ -132,4 +180,3 @@ class Solution {
     }
 }
 
-}
