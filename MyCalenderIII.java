@@ -41,6 +41,32 @@ Constraints:
  *  and to return the maximum number of meeting rooms needed till the i-th call
  */ 
 
+/** Line Sweep */
+class MyCalendarThree {
+    TreeMap<Integer, Integer> count;
+    int max, curr;
+
+    public MyCalendarThree() {
+        count = new TreeMap();
+        max = 0;
+    }
+
+    public int book(int start, int end) {
+        count.put(start, count.getOrDefault(start, 0)+1);
+        count.put(end, count.getOrDefault(end, 0)-1);
+        
+        int curr = 0; 
+
+        for (Map.Entry<Integer, Integer> e : count)  { 
+            curr += e.getValue(); 
+            max = Math.max(max, curr);
+        } 
+
+        return max;
+    }
+}
+
+
 class MyCalendarThree {
 
     TreeMap<Integer, Integer> count;
