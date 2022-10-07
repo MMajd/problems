@@ -33,6 +33,14 @@ Constraints:
     At most 400 calls will be made to book.
 */
 
+
+/** 
+ * OBSERVATION: 
+ *  This is problem is similiar in nature to meeting rooms
+ *  We are given events dynamically and asked to schedule them to meeting rooms 
+ *  and to return the maximum number of meeting rooms needed till the i-th call
+ */ 
+
 class MyCalendarThree {
 
     TreeMap<Integer, Integer> count;
