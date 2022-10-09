@@ -134,6 +134,7 @@
 
 | Problem         | Priorty | link                                                                           | Difficulity |
 | --------------- | ------- | ------------------------------------------------------------------------------ |-------------
+| Partition to K Equal Sum Subsets        | low     | [link](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/) | Medium |
 | Calender III                            | low     | [link](https://leetcode.com/problems/my-calendar-iii/) | Medium |
 | Kth Smallest Element in a Sorted Matrix | low     | [link](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) | Medium |
 | Closest Binary Search Tree Value        | Medium  | [link](Unavaliable) | Medium/Hard |
