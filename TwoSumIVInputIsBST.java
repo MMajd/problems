@@ -1,6 +1,6 @@
 /*
  @link https://leetcode.com/problems/two-sum-iv-input-is-a-bst/
- @categories (bst/two-pointers/dfs/bfs/binary-search)
+ @categories (bst/two-pointers/dfs/bfs/binary-treeBinarySearch)
 
  Given the root of a Binary Search Tree and a target number k, 
  return true if there exist two elements in the BST such that their sum is equal to the given target.
@@ -16,7 +16,7 @@ Example 2:
 Constraints:
     The number of nodes in the tree is in the range [1, 10^4].
     -10^4 <= Node.val <= 10^4
-    root is guaranteed to be a valid binary search tree.
+    root is guaranteed to be a valid binary treeBinarySearch tree.
     -10^5 <= k <= 10^5
 */
 
@@ -41,23 +41,23 @@ class Solution {
     public boolean findTarget(TreeNode root, int k) {
         // return findTargetUsingMap(root, k); 
         // return findTargetInList(root, k); 
-        return binarySearch(root, root, k);
+        return findTargetBinarySearch(root, root, k);
     }
     
-    public boolean binarySearch(TreeNode root, TreeNode cur, int k){
+    public boolean findTargetBinarySearch(TreeNode root, TreeNode cur, int k){
         if(cur == null) return false;
         
-        return search(root, cur, k - cur.val) 
-            || binarySearch(root, cur.left, k) 
-            || binarySearch(root, cur.right, k);
+        return treeBinarySearch(root, cur, k - cur.val) 
+            || findTargetBinarySearch(root, cur.left, k) 
+            || findTargetBinarySearch(root, cur.right, k);
     }
     
-    public boolean search(TreeNode root, TreeNode cur, int k){
+    public boolean treeBinarySearch(TreeNode root, TreeNode cur, int k){
         if(root == null) return false;
         
         return (root.val == k) && (root != cur) 
-            || (root.val < k) && search(root.right, cur, k) 
-            || (root.val > k) && search(root.left, cur, k);
+            || (root.val < k) && treeBinarySearch(root.right, cur, k) 
+            || (root.val > k) && treeBinarySearch(root.left, cur, k);
     }
 
     
