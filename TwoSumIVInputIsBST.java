@@ -44,7 +44,7 @@ class Solution {
         return findTargetBinarySearch(root, root, k);
     }
     
-    public boolean findTargetBinarySearch(TreeNode root, TreeNode cur, int k){
+    public boolean findTargetBinarySearch(TreeNode root, TreeNode cur, int k) {
         if(cur == null) return false;
         
         return treeBinarySearch(root, cur, k - cur.val) 
@@ -52,7 +52,7 @@ class Solution {
             || findTargetBinarySearch(root, cur.right, k);
     }
     
-    public boolean treeBinarySearch(TreeNode root, TreeNode cur, int k){
+    public boolean treeBinarySearch(TreeNode root, TreeNode cur, int k) {
         if(root == null) return false;
         
         return (root.val == k) && (root != cur) 
