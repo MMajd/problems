@@ -134,6 +134,8 @@
 
 | Problem         | Priorty | link                                                                           | Difficulity |
 | --------------- | ------- | ------------------------------------------------------------------------------ |-------------
+| String Compression II                   | low     | [link](https://leetcode.com/problems/string-compression-ii/) | Hard   |
+| String Compression I                    | low     | [link](https://leetcode.com/problems/string-compression/)    | Medium |
 | Partition to K Equal Sum Subsets        | low     | [link](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/) | Medium |
 | Calender III                            | low     | [link](https://leetcode.com/problems/my-calendar-iii/) | Medium |
 | Kth Smallest Element in a Sorted Matrix | low     | [link](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) | Medium |
