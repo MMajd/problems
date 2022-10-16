@@ -134,14 +134,15 @@
 
 | Problem         | Priorty | link                                                                           | Difficulity |
 | --------------- | ------- | ------------------------------------------------------------------------------ |-------------
-| String Compression II                   | low     | [link](https://leetcode.com/problems/string-compression-ii/) | Hard   |
-| String Compression I                    | low     | [link](https://leetcode.com/problems/string-compression/)    | Medium |
-| Partition to K Equal Sum Subsets        | low     | [link](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/) | Medium |
-| Calender III                            | low     | [link](https://leetcode.com/problems/my-calendar-iii/) | Medium |
-| Kth Smallest Element in a Sorted Matrix | low     | [link](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) | Medium |
+| String Compression II                   | High    | [link](https://leetcode.com/problems/string-compression-ii/) | Hard   |
+| Minimum Difficulty of a Job Schedule    | High    | [link](https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule)    | Hard |
+| Minimum Window Substring                | High    | [link](https://leetcode.com/problems/minimum-window-substring/) | Medium | 
 | Closest Binary Search Tree Value        | Medium  | [link](Unavaliable) | Medium/Hard |
 | Word Latter                             | Medium  | [link](https://leetcode.com/problems/word-ladder-ii/) | Hard | 
 | Search in a Sorted Array of Unknow Size | Medium  | [link](Unavailable) | Medium/Hard | 
 | Substring with Concat. of All Words     | Medium  | [link](https://leetcode.com/problems/substring-with-concatenation-of-all-words/) | Hard | 
 | Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts | Medium  | [link](https://leetcode.com/problems/maximum-area-of-a-piece-of-cake-after-horizontal-and-vertical-cuts/) | Medium | 
-| Minimum Window Substring | Hard | [link](https://leetcode.com/problems/minimum-window-substring/) | Medium | 
+| String Compression I                    | Low     | [link](https://leetcode.com/problems/string-compression/)    | Medium |
+| Partition to K Equal Sum Subsets        | Low     | [link](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/) | Medium |
+| Calender III                            | Low     | [link](https://leetcode.com/problems/my-calendar-iii/) | Medium |
+| Kth Smallest Element in a Sorted Matrix | Low     | [link](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/) | Medium |
