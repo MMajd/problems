@@ -24,6 +24,62 @@ Constraints:
 
 */ 
 
+
+class Solution {
+    public int[] findErrorNums(int[] nums) {
+        int n = nums.length; 
+        int d = -1; 
+        int actual = 0, expected = (n * (n+1))/2;
+        
+        for (int x : nums) {
+            if (nums[Math.abs(x)-1] < 0) {
+                d = Math.abs(x);
+            }
+            else { 
+                nums[Math.abs(x)-1] *= -1; 
+            }
+            
+            actual += Math.abs(x);
+        }
+        
+        return new int[]{d , d+(expected-actual)}; 
+    }
+}
+
+public class Solution {
+    public int[] findErrorNums(int[] nums) {
+        int dup = -1, missing = 1;
+        for (int n: nums) {
+            if (nums[Math.abs(n) - 1] < 0)
+                dup = Math.abs(n);
+            else
+                nums[Math.abs(n) - 1] *= -1;
+        }
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > 0)
+                missing = i + 1;
+        }
+        return new int[]{dup, missing};
+    }
+}
+
+class Solution {
+    public int[] findErrorNums(int[] nums) {
+        int n = nums.length; 
+        int d = -1; 
+        int actual = 0, expected = (n * (n+1))/2;
+        
+        Set<Integer> set = new HashSet<>(); 
+        
+        for (int x : nums) { 
+            if (!set.add(x)) d = x; 
+            actual += x; 
+        }
+        
+        return new int[]{d , d+(expected-actual)}; 
+    }
+}
+
 public class Solution {
     public int[] findErrorNums(int[] nums) {
         Map < Integer, Integer > map = new HashMap();
