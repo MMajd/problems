@@ -31,6 +31,30 @@ Constraints:
 */
 
 class Solution {
+    public boolean arrayStringsAreEqual(String[] w1, String[] w2) {
+        int i = 0, j = 0; 
+        int x = 0, y = 0; 
+        
+        
+        while (x < w1.length && y < w2.length) {
+            if (w1[x].charAt(i++) != w2[y].charAt(j++)) return false;
+            
+            if (i == w1[x].length()) {
+                x += 1; 
+                i = 0; 
+            }
+
+            if (j == w2[y].length()) { 
+                y += 1; 
+                j = 0; 
+            }
+        }
+        
+        return x == w1.length && y == w2.length;
+    }
+}
+
+class Solution {
     public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
         StringBuilder sb1 = new StringBuilder(); 
         for (String w : word1) sb1.append(w);
