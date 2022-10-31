@@ -1,6 +1,6 @@
 /*
  @link https://leetcode.com/problems/string-compression-ii/
- @categories (dp)
+ @categories (dp/backtracking[similiar approach])
 
  Run-length encoding is a string compression method that works by replacing consecutive identical characters (repeated 2 or more times) with the concatenation of the character and the number marking the count of the characters (length of the run). For example, to compress the string "aabccc" we replace "aa" by "a2" and replace "ccc" by "c3". Thus the compressed string becomes "a2bc3".
 
@@ -33,27 +33,46 @@ Constraints:
 */
 
 class Solution {
+
+    private int xs(int x) { 
+        return x < 2 ? 0 : x < 10 ? 1 : x < 100 ? 2 : 3; 
+    }
+
     public int getLengthOfOptimalCompression(String s, int k) {
         // dp[i][k]: the minimum length for s[:i] with at most k deletion.
         int n = s.length();
-        int[][] dp = new int[110][110];
-        for (int i = 0; i <= n; i++) for (int j = 0; j <= n; j++) dp[i][j] = 9999;
-		// for (int[] i : dp) Arrays.fill(i, n); // this is a bit slower (100ms)
+        int[][] dp = new int[n+1][k+1];
+
+        Arrays.setAll(dp, i -> { 
+            Arrays.fill(dp[i], 1<<10);
+            return dp[i]; 
+        });
+
         dp[0][0] = 0;
+
         for(int i = 1; i <= n; i++) {
             for(int j = 0; j <= k; j++) {                
                 int cnt = 0, del = 0;
-                for(int l = i; l >= 1; l--) { // keep s[i], concat the same, remove the different
-                    if(s.charAt(l - 1) == s.charAt(i - 1)) cnt++;
-                    else del++;
-                    if(j - del >= 0) 
-                        dp[i][j] = Math.min(dp[i][j], 
-                                            dp[l-1][j-del] + 1 + (cnt >= 100 ? 3 : cnt >= 10 ? 2 : cnt >= 2 ? 1: 0));
-                }
-                if (j > 0) // delete s[i]
+
+                // we have two choices, either to delete s[i] or to keep it 
+                if (j != 0) {
                     dp[i][j] = Math.min(dp[i][j], dp[i-1][j-1]);
+                }
+
+                // keep s[i], here we have some kind of greedy approach, 
+                // we try to keep the current char and delete all different chars
+                // basically, concat the same, remove the different
+                for(int p = i; p >= 1; p--) { 
+                    if (s.charAt(p - 1) == s.charAt(i - 1)) cnt++;
+                    else del++;
+
+                    if (del - j > 0) break;
+
+                    dp[i][j] = Math.min(dp[i][j], dp[p-1][j-del] + 1 + xs(cnt));
+                }
             }
         }
+
         return dp[n][k];
     }
 }
