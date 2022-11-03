@@ -39,19 +39,18 @@ HINT: Needs two hashtables, one for valid mutations, and one for visited mutaito
 **********************
 */
 
-
 class Solution {
+    private static final char[] charset = {'A', 'C', 'G', 'T'};  
+    
     public int minMutation(String start, String end, String[] bank) {
-        char[] chars = {'A', 'C', 'G', 'T'};  
 
-        Deque<StringBuilder > q = new ArrayDeque<>();
-        q.add(new StringBuilder(start));
+        Deque<String > q = new ArrayDeque<>();
+        q.add(start);
         
-        Set<String> valid = new HashSet<>(); 
-        Set<String> visited = new HashSet<>(); 
+        Map<String, Integer> valid = new HashMap<>(); 
         
         for (int i=0; i<bank.length; i++) { 
-            valid.add(bank[i]);
+            valid.put(bank[i], 1);
         }
         
         int steps = 0;
@@ -60,21 +59,23 @@ class Solution {
             int size = q.size(); 
             
             while (size-- > 0) { 
-                StringBuilder gene = q.poll(); 
+                String gene = q.poll(); 
                 
-                if (gene.toString().equals(end)) return steps; 
+                if (gene.equals(end)) return steps; 
                 
-                for(int j=0; j<4; j++) { 
-                    for (int i=0; i<gene.length(); i++) {
-                        char t = gene.charAt(i);
-                        gene.setCharAt(i, chars[j]); 
+                for(int j=0; j<4; j++) {
+                    char[] m = gene.toCharArray(); 
+                    
+                    for (int i=0; i<8; i++) {
+                        char t = m[i];
+                        m[i] = charset[j];
                         
-                        if (!visited.contains(gene.toString()) && valid.contains(gene.toString())) { 
-                            q.add(new StringBuilder(gene));
-                            visited.add(gene.toString());
+                        if (valid.getOrDefault(String.valueOf(m), 0) != 0) { 
+                            q.add(String.valueOf(m));
+                            valid.put(String.valueOf(m), 0);
                         }
                         
-                        gene.setCharAt(i, t); 
+                        m[i] = t; 
                     }
                 }
             }
