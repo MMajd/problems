@@ -31,52 +31,50 @@ Constraints:
 
 */
 
+
 class Solution {
     private final static int[] DIRS = {-1, 0, 1, 0, -1}; 
     
-    public int shortestPath(int[][] grid, int k) {
-        int m = grid.length; 
-        int n = grid[0].length; 
+    public int shortestPath(int[][] grid, int K) {
+        int M = grid.length; 
+        int N = grid[0].length; 
         
-        int[][] seen = new int[m][n];
+        Deque<int[]> q = new ArrayDeque<>();
+        q.add(new int[]{0, 0, 0});
         
-        Arrays.setAll(seen, i-> {
-            Arrays.fill(seen[i], Integer.MAX_VALUE);
-            return seen[i]; 
+        int[][] visitCost = new int[M][N]; // visitCost(i,j) is the cost of visiting that route
+        
+        Arrays.setAll(visitCost, i -> { 
+            Arrays.fill(visitCost[i], Integer.MAX_VALUE);
+            return visitCost[i]; 
         });
         
-        seen[0][0] = 0; 
-        
-        Deque<int[]> queue = new ArrayDeque<>();
-        queue.add(new int[]{0, 0, 0});
-        
         int steps = 0; 
-
-        while(!queue.isEmpty()) {
-            int size = queue.size(); 
+        
+        
+        while (!q.isEmpty()) { 
+            int size = q.size(); 
             
             while (size-- > 0) {
-                int[] p = queue.poll();
-                int u = p[0]; 
-                int v = p[1]; 
-                int currK = p[2];
-
-                if (u == m-1 && v == n-1) return steps; 
+                int[] temp = q.poll(); 
+                int r = temp[0]; 
+                int c = temp[1]; 
+                int cost = temp[2]; 
                 
-                for (int i=0; i<4; i++) {
-                    int r = u + DIRS[i]; 
-                    int c = v + DIRS[i+1]; 
+                if (r == M-1 && c == N-1) return steps; 
+                
+                for (int d=0; d<4; d++) { 
+                    int i = r + DIRS[d];
+                    int j = c + DIRS[d+1]; 
                     
-                    if (r < 0 || c < 0 || r >= m || c >= n) continue;
+                    if (i<0 || i>=M || j<0 || j>=N) continue; 
                     
-                    int nextK = currK + grid[r][c]; 
-                    k
-                    // if we have shorter route or need to eliminated k obstaclesdon't bother 
-                    if (nextK-seen[r][c] >= 0 || nextK-k > 0) continue; 
+                    int newCost = cost + grid[i][j];
                     
-                    seen[r][c] = nextK; 
+                    if (newCost >= visitCost[i][j] || newCost > K) continue;
                     
-                    queue.add(new int[]{r, c, nextK});    
+                    visitCost[i][j] = newCost; 
+                    q.add(new int[]{i, j, newCost});
                 }
             }
             
