@@ -46,8 +46,8 @@ class Solution {
         for (int i = 0; i < nums.length; i++) {
             sum += nums[i];
             if (!hashMap.containsKey(sum % k))
-                hashMap.put(sum % k, i + 1);
-            else if (hashMap.get(sum % k) < i)
+                hashMap.put(sum % k, i + 1); // i + 1 represents the length of sum subarray
+            else if (hashMap.get(sum % k) < i) // comparing it with i, to guarantee having at least length of 2 
                 return true;
         }
         return false;
