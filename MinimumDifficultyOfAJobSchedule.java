@@ -50,10 +50,12 @@ class Solution {
     public int bottomUp(int[] A, int D) {
         final int N = A.length;
         if(N < D) return -1;
+
         int[][] dp = new int[D][N];
 
         dp[0][0] = A[0];
-        for(int j = 1; j < N-D; ++j){ // find the max for day zero 
+
+        for(int j = 1; j<N; ++j){ // find the max for day zero 
             dp[0][j] = Math.max(A[j], dp[0][j - 1]);
         }
 
