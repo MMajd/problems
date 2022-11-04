@@ -59,8 +59,6 @@ class Solution {
 
         for(int day = 1; day < D; ++day) { // solve for days from 1 to D-1 
             // We have to do at least one job per day so we start i with day, to have the bare-minimum 
-            // also the condition must keep N-day+D jobs for the remaining days 
-            // for(int i = day; i <N-day+D; ++i) { 
             for(int i = day; i <N; ++i) { 
                 // for scheduling curr job we have to see if there's a better solution, by checking previous solution 
                 int currMax = A[i];
