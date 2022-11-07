@@ -33,10 +33,10 @@
 - Minimum operations to reduce X to zero / Minimum size subarray sum
   - Covert the problem to finding the subarray with max length and sum equal to original sum - x | sum(nums) - x or sum(nums) - targetSum
 
-- An equation to ceil result of a divison by some value x number, 
- quo = (value + x - 1) / x 
-    = ceil{ 1.0 * value / x } 
-    = value / x + (value % x) != 0 ? 1 : 0 
+- Fast ceiling equation for division by integer y, 
+    first method: q = x / y + (x % y) != 0 ? 1 : 0, 
+    second method: q = (x + y - 1) / y, 
+    or (avoiding overflow in x+y), q = 1 + ((x - 1) / y); // if x != 0
 
 **Bit manipulation notes**
 
