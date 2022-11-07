@@ -6,6 +6,8 @@
 
 Koko can decide her bananas-per-hour eating speed of k. Each hour, she chooses some pile of bananas and eats k bananas from that pile. If the pile has less than k bananas, she eats all of them instead and will not eat any more bananas during this hour.
 
+[NOTE]: Knowing, that koko eats a pile per hour, and eats no more than that pile if finishes before time outs, that means ceiling
+
 Koko likes to eat slowly but still wants to finish eating all the bananas before the guards return.
 
 Return the minimum integer k such that she can eat all the bananas within h hours.
