@@ -30,7 +30,7 @@ Constraints:
 
 class Solution {
     public int minEatingSpeed(int[] P, int h) {
-        int left = 1, right = (int)10E9; 
+        int left = 1, right =1000_000_000; 
         
         while(left < right) {
             int k = left+(right-left)/2; 
