@@ -54,7 +54,7 @@ class Solution {
 
         while (left < right) { 
             int mid = left + (right - left)/2;
-            int r = 0, d = 0; 
+            int r = 0, d = 1; 
 
             for (int w : W) { 
                 if (r + w > mid) { 
@@ -63,8 +63,7 @@ class Solution {
                 }
                 r += w; 
             }
-            if (r > 0) d += 1; 
-
+            
             if (d > D) left = mid+1; 
             else right = mid; 
         }
