@@ -37,7 +37,7 @@ class Solution {
             int hrs = 0;
 
             for (int p : P) {
-                hrs += (p+k-1)/k;
+                hrs += (p+k-1)/k; // fast integer ceiling
             }
 
             if (hrs > h) left = k+1; 
