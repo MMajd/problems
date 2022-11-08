@@ -30,35 +30,31 @@ Constraints:
     1 <= m <= min(50, nums.length)
 */
 
-
-
-
 class Solution {
-    public int splitArray(int[] arr, int m) {
-        int low = 0, high=0;
+    public int splitArray(int[] A, int m) {
+        int left= 0, right=0;
         
-        for (int i : arr) { 
-            low = Math.max(i, low);
-            high += i; 
+        for (int a : A) { 
+            left = Math.max(a, left);
+            right += a; 
         }
         
-        while(low < high) { 
-            int mid = low + (high-low) / 2; 
-            int count=1, total=0; 
+        while(left < right) { 
+            int mid = left+(right-left)/2; 
+            int cnt=1, sum=0; 
             
-            for (int i : arr) { 
-                total += i; 
-                
-                if (total > mid) { 
-                    total = i; 
-                    count += 1; 
+            for (int a : A) { 
+                if (a + sum > mid) { 
+                    cnt += 1; 
+                    sum = 0; 
                 }
+                sum += a; 
             }
             
-            if (count > m) low = mid+1;  
-            else high = mid;
+            if (cnt > m) left = mid+1;
+            else right = mid;
         }
         
-        return low; 
+        return left; 
     }
 }
