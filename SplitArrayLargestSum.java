@@ -62,6 +62,7 @@ class Solution {
     }
 }
 
+
 class Solution2 {
     public int splitArray(int[] nums, int m) {
         int n = nums.length;
@@ -82,7 +83,8 @@ class Solution2 {
         for (int i=1; i<=n; i++) { 
             for (int j=1; j<=Math.min(i, m); j++) { 
                 for (int k=0; k<i; k++) { 
-                    dp[i][j] = Math.min(Math.max(dp[k][j-1], presum[i]-presum[k]), dp[i][j]);
+                    int curr = Math.max(dp[k][j-1], presum[i]-presum[k]);
+                    dp[i][j] = Math.min(curr, dp[i][j]);
                 }
             }
         }
@@ -90,3 +92,4 @@ class Solution2 {
         return dp[n][m]; 
     }
 }
+
