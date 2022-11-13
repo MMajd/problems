@@ -1,28 +1,24 @@
 /** 
+ @link https://leetcode.com/problems/reverse-words-in-a-string/
+ @categories (string/two-pointers/arrays) 
 
-@link https://leetcode.com/problems/reverse-words-in-a-string/
-
-Given an input string s, reverse the order of the words.
+ Given an input string s, reverse the order of the words.
 A word is defined as a sequence of non-space characters. 
 The words in s will be separated by at least one space.
 
 Return a string of the words in reverse order concatenated by a single space.
 
-Note that s may contain leading or trailing spaces or multiple spaces between two words. 
+ Note that s may contain leading or trailing spaces or multiple spaces between two words. 
 The returned string should only have a single space separating the words. 
 Do not include any extra spaces.
 
-    Example 1:
-
+Example 1:
     Input: s = "the sky is blue"
     Output: "blue is sky the"
 
-    Example 2: 
-
+Example 2: 
     Input: s = "      the sky        is blue      "
     Output: "blue is sky the"
-
-
  */ 
 
 class Solution {
@@ -60,9 +56,7 @@ class Solution {
     }
 
     private void reverse(char[] a, int i, int j) {
-        while (i < j) {
-            swap(a, i++, j--);
-        }
+        while (i < j) swap(a, i++, j--);
     }
 
     private void swap(char[] arr, int i, int j) { 
