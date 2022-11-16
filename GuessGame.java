@@ -1,6 +1,35 @@
 /**
  @link https://leetcode.com/problems/guess-number-higher-or-lower
+ @categories (binary-search) 
+
+ We are playing the Guess Game. The game is as follows:
+I pick a number from 1 to n. You have to guess which number I picked.
+Every time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.
+
+You call a pre-defined API int guess(int num), which returns three possible results:
+    * -1: Your guess is higher than the number I picked (i.e. num > pick).
+    * 1: Your guess is lower than the number I picked (i.e. num < pick).
+    * 0: your guess is equal to the number I picked (i.e. num == pick).
+        Return the number that I picked.
+
+
+Example 1:
+    Input: n = 10, pick = 6
+    Output: 6
+
+Example 2:
+    Input: n = 1, pick = 1
+    Output: 1
+
+Example 3:
+    Input: n = 2, pick = 1
+    Output: 1
+
+Constraints:
+    1 <= n <= 2^31 - 1
+    1 <= pick <= n
 */
+
 
 /** 
  * Forward declaration of guess API.
@@ -13,20 +42,16 @@
 
 public class Solution extends GuessGame {
     public int guessNumber(int n) {
-        if (guess(n) == 0) return n; 
-        
-        int start=1, end=n-1; 
-        
-        while(start<=end) { 
-            int mid = start+(end-start)/2; 
-            int cmp = guess(mid); 
-            if (cmp == 0) return mid; 
-            if (cmp == 1) start=mid+1; 
-            else end=mid-1; 
+        int l = 1, r = n; 
+
+        while (l <= r) { 
+            int mid = l + (r-l)/2; 
+            int res = guess(mid);
+            if (res == 0) return mid; 
+            else if (res > 0) l = mid+1; 
+            else r = mid-1; 
         }
 
-        return end;  
+        return -1; 
     }
 }
-
-
