@@ -28,36 +28,38 @@ Constraints:
     Every number and running calculation will fit in a signed 32-bit integer.
 */
 
-
 class Solution {
-    public int calculate(String s) {
+    public int calculate(String S) {
+        int n = S.length(); 
+
         int sum = 0;
         int sign = 1;
-        Stack<Integer>st = new Stack<>();
-        for(int i = 0;i<s.length();i++){
-            char ch = s.charAt(i);
-            if(Character.isDigit(ch)){
+
+        char[] s = S.toCharArray();
+        Stack<Integer> st = new Stack<>();
+
+        for (int i = 0;i<n;i++) {
+            if (Character.isDigit(s[i])) {
                 int val = 0;
-                 while(i < s.length() && Character.isDigit(s.charAt(i))){
-                     val = val * 10 + (s.charAt(i) - '0');
-                     i++;
-                 }
-             i--;
-             val = val * sign;
-             sign = 1;
-             sum += val;   
+                while(i < n && Character.isDigit(s[i])) {
+                    val = val * 10 + (s[i++] - '0');
+                }
+                i--; // back one step, will added by the loop 
+                val = val * sign;
+                sum += val;   
+                sign = 1; // default sign 
             }
-            else if(ch == '('){
-              st.push(sum);
-              st.push(sign);
+            else if(s[i] == '('){
+                st.push(sum);
+                st.push(sign);
                 sum = 0;
                 sign = 1;
             }
-            else if(ch == ')'){
+            else if(s[i] == ')') {
                 sum *= st.pop();
                 sum += st.pop();
             }
-            else if(ch == '-'){
+            else if(s[i] == '-') {
                 sign*= -1;
             }
         }
