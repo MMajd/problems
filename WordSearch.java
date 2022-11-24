@@ -1,12 +1,11 @@
 /*
+ @link https://leetcode.com/problems/word-search/
+ @categories (backtracking/matrix/array) 
 
-   @link https://leetcode.com/problems/word-search/
+ Given an m x n grid of characters board and a string word, return true if word exists in the grid.
 
-   Given an m x n grid of characters board and a string word, return true if word exists in the grid.
+ The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
 
-The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
-
- 
 
 Example 1:
     Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
@@ -20,7 +19,6 @@ Example 3:
     Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
     Output: false
  
-
 Constraints:
     m == board.length
     n = board[i].length
@@ -29,9 +27,8 @@ Constraints:
     board and word consists of only lowercase and uppercase English letters.
  
 
-Follow up: Could you use search pruning to make your solution faster with a larger board?
-
-
+Follow up: 
+    - Could you use search pruning to make your solution faster with a larger board?
 
 Time Complexity: 
     Lower bound: O(n^2)
@@ -43,44 +40,29 @@ class Solution {
     
     int m, n; 
     
-    public boolean exist(char[][] board, String word) {
-        m = board.length; 
-        n = board[0].length; 
-        
+    public boolean exist(char[][] b, String word) {
+        m = b.length; 
+        n = b[0].length; 
         char[] w = word.toCharArray();
         
-        // this reduces the time complexity radically  
-        // n^2 
-        if (!isBoardGood(board, w)) { 
-            return false; 
-        }
+        if (!isBoardGood(b, w)) return false; 
         
-        boolean[][] v = new boolean[m][n];
         char[] s = new char[w.length]; 
-
-
-        // Upper bound: O(n*m * 4^k) = O(n^2 * 4^k); 
+        
         for (int i=0; i<m; i++) { 
             for (int j=0; j<n; j++) { 
-                // guard stack call by making sure that 
-                // there's at least one char match before 
-                // calling the method
-                if (w[0] == board[i][j] 
-                    && backtrack(i, j, board, w, s, 0, v)) { 
-                    return true; 
-                }
+                if (w[0] != b[i][j]) continue; 
+
+                boolean[][] v = new boolean[m][n];
+                if (solve(i, j, b, w, s, 0, v)) return true; 
             }
         }
         
         return false; 
     }
     
-    private boolean backtrack(int i, int j, char[][] b, 
-            char[] w, char[] s, int idx, boolean[][] v) { 
-         
-        if (idx == w.length) { 
-            return true; 
-        }
+    private boolean solve(int i, int j, char[][] b, char[] w, char[] s, int idx, boolean[][] v) { 
+        if (idx == w.length) return true; 
         
         if (i<0 
             || i>=m
@@ -91,11 +73,11 @@ class Solution {
            ) return false; 
                 
         v[i][j] = true; 
-        s[idx] = b[i][j];
+        s[idx] = b[i][j]; // can be the store of word cells on the board
         
         for (int k=0; k<4; k++) { 
             int x = DIRS[k]+i, y = DIRS[k+1]+j; 
-            if (backtrack(x, y, b, w, s, idx+1, v)) { 
+            if (solve(x, y, b, w, s, idx+1, v)) { 
                 return true; 
             }
         }
