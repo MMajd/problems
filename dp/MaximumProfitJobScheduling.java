@@ -32,6 +32,11 @@ Constraints:
     1 <= profit[i] <= 10^4
 */
 
+
+/**
+ * TLE solution below, more obvious DP solution. 
+ */ 
+
 class Solution {
     public int jobScheduling(int[] S, int[] E, int[] P) {
         int N = S.length; 
@@ -61,4 +66,44 @@ class Solution {
         return dp.lastEntry().getValue();
     }
 }
+
+
+
+
+class Solution {
+    public int jobScheduling(int[] S, int[] E, int[] P) {
+        int N = S.length;
+        int[][] jobs = new int[N][3]; 
+
+        for (int i=0; i<N; i++) jobs[i] = new int[]{S[i], E[i], P[i]};
+
+        Arrays.sort(jobs, (a, b) -> a[1] - b[1]);
+
+        int[] dp = new int[N]; 
+
+        Arrays.setAll(dp, i -> { 
+            dp[i] = jobs[i][2]; 
+            return dp[i]; 
+        }); 
+
+        int max = dp[0]; 
+
+        for (int i=1; i<N; i++) {
+            for (int j=0; j<i; j++) { 
+                if (!overlap(jobs[i], jobs[j])) {
+                    dp[i] = Math.max(dp[i], dp[j]+jobs[i][2]); 
+                }
+            }
+            max = Math.max(dp[i], max);
+        }
+
+        return max; 
+    }
+
+    private boolean overlap(int[] a, int[] b) {
+        if (b[1] <= a[0] || a[1] <= b[0]) return false;
+        return true; 
+    }
+}
+
 
