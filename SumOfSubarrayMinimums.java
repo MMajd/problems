@@ -28,24 +28,25 @@ class Solution {
 
     public int sumSubarrayMins(int[] A) {
         int N = A.length;
+        
         int top = 0; 
         int[] stack = new int[N]; 
 
         int[] dp = new int[N]; 
         dp[0] = A[0];
 
-        long ans = dp[0]; 
+        int ans = dp[0]; 
 
         for (int i=1; i<N; i++) {
-            while(top >= 0 && A[stack[top]] >= A[i]) top--; // poping
+            while(top >= 0 && A[stack[top]] > A[i]) top--; // poping
 
-            if (top >= 0) dp[i] = dp[stack[top]] + A[i] * (i-stack[top]); 
-            else dp[i] = A[i] * (i+1); 
+            if (top >= 0) dp[i] = (dp[stack[top]] + A[i] * (i-stack[top])) % MOD; 
+            else dp[i] = (A[i] * (i+1)) % MOD; 
 
             ans = (ans + dp[i]) % MOD; 
             stack[++top] = i; 
         }
         
-        return (int)(ans % MOD); 
+        return ans; 
     }
 }
