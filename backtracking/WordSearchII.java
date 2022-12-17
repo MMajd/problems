@@ -25,19 +25,27 @@ Constraints:
     words[i] consists of lowercase English letters.
     All the strings of words are unique.
 */
-
 class Solution { 
     private static final int[] DIRS = {-1, 0, 1, 0, -1}; 
+    private static final char a = 'a'; 
+    private static final char dash = '-'; 
+    private int m, n; 
+
+
+    private static class TrieNode {
+        TrieNode[] next = new TrieNode[26];
+        String word;
+    }
 
     public List<String> findWords(char[][] B, String[] words) {
-        int M = B.length; 
-        int N = B[0].length; 
+        m = B.length; 
+        n = B[0].length; 
 
         List<String> res = new ArrayList<>();
         TrieNode root = buildTrie(words);
 
-        for (int i=0; i<M; i++) {
-            for (int j=0; j<N; j++) {
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
                 search (B, i, j, root, res);
             }
         }
@@ -45,48 +53,45 @@ class Solution {
         return res;
     }
     
-    public void search(char[][] B, int i, int j, TrieNode p, List<String> res) {
-        if (i<0 || j<0 || i>=B.length || j>=B[0].length) return;
-        if (B[i][j] == '#' || p.next[B[i][j] - 'a'] == null) return; 
+    public void search(char[][] B, int x, int y, TrieNode node, List<String> res) {
+        if (x<0 || y<0 || x>=m || y>=n) return;
+        if (B[x][y] == dash || node.next[B[x][y]-a] == null) return; 
 
-        char c = B[i][j]; 
-        B[i][j] = '#';
+        char c = B[x][y]; 
+        B[x][y] = dash; 
 
-        p = p.next[c-'a'];
+        node = node.next[c-a];
 
-        if (p.word != null) {
-            res.add(p.word);
-            p.word = null; // prevent adding a word more than once
+        if (node.word != null) {
+            res.add(node.word);
+            node.word = null; 
         }
 
         for (int k=0; k<4; k++) {
-            search(B, i+DIRS[k], j+DIRS[k+1], p, res);
+            search(B, x+DIRS[k], y+DIRS[k+1], node, res);
         }
 
-        B[i][j] = c;
+        B[x][y] = c;
     }
     
-    public TrieNode buildTrie(String[] words) {
+    private TrieNode buildTrie(String[] words) {
         TrieNode root = new TrieNode();
 
         for (String word : words) {
-            TrieNode p = root;
-
-            for (char c : word.toCharArray()) {
-                int i = c - 'a';
-                if (p.next[i] == null) p.next[i] = new TrieNode();
-                p = p.next[i];
-            }
-
-            p.word = word;
+            insertWord(root, word);
         }
 
         return root;
-    }
-    
-    class TrieNode {
-        TrieNode[] next = new TrieNode[26];
-        String word;
+    }  
+
+    private void insertWord(TrieNode root, String word) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            int i = c - 'a';
+            if (node.next[i] == null) node.next[i] = new TrieNode();
+            node = node.next[i];
+        }
+        node.word = word;
     }
 }
 
@@ -146,4 +151,3 @@ class Solution2 {
         return res; 
     }
 }
-
