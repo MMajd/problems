@@ -1,7 +1,7 @@
 /* 
-
  @link https://leetcode.com/problems/best-time-to-buy-and-hold-stock-with-cooldown
-  
+ @categories (dp) 
+
  You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
 Find the maximum profit you can achieve. You may complete as many transactions as you like (i.e., buy one and hold one share of the stock multiple times) with the following restrictions:
@@ -26,12 +26,15 @@ Constraints:
 
 
 class Solution { 
+    private static final int buy = 0; 
+    private static final int sell = 1; 
+    private static final int rest = 2; 
+
     public int maxProfit(int[] prices) {
         // return topdown(prices); 
         return statemachine(prices); 
     }
 
-    private int statemachine(int[] prices) { 
 /*
  *        STATE MACHINE SOLUTION 
  *    ---\
@@ -45,7 +48,21 @@ class Solution {
  *               |---|              
  */
 
+    private int bottomupWithMemo(int[] prices) {
+        int n = prices.length; 
+        int[][] dp = new int[n][3];
+        dp[0][buy] = -prices[0]; 
 
+        for (int i=1; i<n; i++) {
+            dp[i][buy] = Math.max(dp[i-1][buy], -prices[i]+dp[i-1][rest]);
+            dp[i][sell] = Math.max(dp[i-1][sell], prices[i]+dp[i-1][buy]);
+            dp[i][rest] = Math.max(dp[i-1][rest], dp[i-1][sell]);
+        }
+
+        return Math.max(dp[n-1][sell], dp[n-1][rest]);
+    }
+
+    private int bottomupSpaceOptimized(int[] prices) { 
         int hold = 0; 
         int rest = Integer.MIN_VALUE; 
         int cooldown = 0; 
