@@ -26,10 +26,6 @@ Constraints:
 
 
 class Solution { 
-    private static final int buy = 0; 
-    private static final int sell = 1; 
-    private static final int rest = 2; 
-
     public int maxProfit(int[] prices) {
         // return topdown(prices); 
         return statemachine(prices); 
@@ -50,16 +46,19 @@ class Solution {
 
     private int bottomupWithMemo(int[] prices) {
         int n = prices.length; 
-        int[][] dp = new int[n][3];
-        dp[0][buy] = -prices[0]; 
+        int[] buy  = new int[n]; 
+        int[] sell = new int[n]; 
+        int[] rest = new int[n]; 
+
+        buy[0]= -prices[0]; 
 
         for (int i=1; i<n; i++) {
-            dp[i][buy] = Math.max(dp[i-1][buy], -prices[i]+dp[i-1][rest]);
-            dp[i][sell] = Math.max(dp[i-1][sell], prices[i]+dp[i-1][buy]);
-            dp[i][rest] = Math.max(dp[i-1][rest], dp[i-1][sell]);
+            buy[i]  = Math.max(buy[i-1], -prices[i]+rest[i-1]);
+            sell[i] = Math.max(sell[i-1], prices[i]+buy[i-1]);
+            rest[i] = Math.max(rest[i-1], sell[i-1]);
         }
 
-        return Math.max(dp[n-1][sell], dp[n-1][rest]);
+        return Math.max(sell[n-1], rest[n-1]);
     }
 
     private int bottomupSpaceOptimized(int[] prices) { 
