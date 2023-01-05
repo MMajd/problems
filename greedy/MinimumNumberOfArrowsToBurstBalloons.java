@@ -1,6 +1,5 @@
 /*
  @link https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/
-
  @categories (greedy[activity-selection]/sorting/arrays)
 
  There are some spherical balloons taped onto a flat wall that represents the XY-plane. The balloons are represented as a 2D integer array points where points[i] = [xstart, xend] denotes a balloon whose horizontal diameter stretches between xstart and xend. You do not know the exact y-coordinates of the balloons.
