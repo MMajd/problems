@@ -26,7 +26,6 @@ Example 3:
     Explanation: The balloons can be burst by 2 arrows:
     - Shoot an arrow at x = 2, bursting the balloons [1,2] and [2,3].
     - Shoot an arrow at x = 4, bursting the balloons [3,4] and [4,5].
- 
 
 Constraints:
     1 <= points.length <= 10^5
@@ -34,26 +33,32 @@ Constraints:
     -2^31 <= xstart < xend <= 2^31 - 1
 */
 
+/** 
+ * This is an activity selection problem but the logic of the problem statement is inverted
+ * in pure activity selection pure statment we want to get max number of events that doesn't overlap
+ * also here we want to get that number but the max number of non-overlapping events is the minimum number
+ * of errors need to burts the ballons, as all overlapping events will be bursts implicitely 
+ */
 
 class Solution {
     public int findMinArrowShots(int[][] A) {
         int n = A.length; 
-        
-        Arrays.sort(A, (int[] a, int[] b) -> {
-            if (a[1] != b[1]) return Integer.compare(a[1], b[1]); 
+        Arrays.sort(A, (a, b) -> {
+            if (a[1]!=b[1]) return Integer.compare(a[1], b[1]);
             return Integer.compare(a[1]-a[0], b[1]-b[0]);
-        });
-        
-        int count = 0;
+        }); 
+
+        int arrows = 0; 
         long time = Long.MIN_VALUE; 
-        
-        for (int i=0; i<n; i++) { 
-            if (time < A[i][0]) { 
-                count += 1; 
-                time = A[i][1];
+
+        for (int[] t : A) { 
+            if (time < t[0]) { 
+                arrows += 1; 
+                time = t[1]; 
             }
         }
-        
-        return count; 
+
+        return arrows; 
     }
 }
+
