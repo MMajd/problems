@@ -31,39 +31,31 @@ Example 2:
     Travel to station 1. Your tank = 3 - 3 + 3 = 3
     You cannot travel back to station 2, as it requires 4 unit of gas but you only have 3.
     Therefore, you can't travel around the circuit once no matter where you start.
- 
 
 Constraints:
     n == gas.length == cost.length
-    1 <= n <= 105
-    0 <= gas[i], cost[i] <= 104
+    1 <= n <= 10^5
+    0 <= gas[i], cost[i] <= 10^4
 
  */
-
-
-
-
 
 class Solution {
     public int canCompleteCircuit(int[] gas, int[] cost) {
         int n = gas.length; 
         int tank = 0; 
-        int start = 0; 
+        int start = 0;  // assume our start is first station 
         int total = 0; 
         
         for (int i=0; i<n; i++) { 
-            tank += gas[i]-cost[i]; 
+            tank += gas[i]-cost[i]; // accumulate 
             
-            if (tank < 0) {
-                total += tank; 
-                start = i + 1; 
-                tank = 0; 
+            if (tank < 0) { // if we have a shortage in gas, start over
+                total += tank; // add current tank to total 
+                start = i + 1; // reset start to be the next station 
+                tank = 0; // start with an empty tank
             }
         }
         
-        // if total >= 0 means we have at least enough gas to make the trip       
-        total += tank;   
-        
-        return total>=0 ? start : -1; 
+        return (tank+total) >= 0 ? start : -1; 
     }
 }
