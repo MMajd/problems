@@ -53,9 +53,7 @@ class Solution {
         }
 
         public int find(int u) { 
-            if (u != chars[u]) { 
-                chars[u] = find (chars[u]); 
-            }
+            if (u != chars[u]) return find (chars[u]); 
             return chars[u]; 
         }
 
