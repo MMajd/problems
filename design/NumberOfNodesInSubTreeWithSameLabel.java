@@ -41,21 +41,28 @@ Constraints:
 /** BFS Solution starting from leafs first and going up
  * This one is coming first as its more interesting that DFS
  * */
+
 class Solution {
     public int[] countSubTrees(int n, int[][] edges, String labels) {
+        int[] ans = new int[n];
+        int[][] count = new int[n][26];
+        Queue<Integer> q = new LinkedList<>();
+        // main reason we are using sets is to be able to remove elements easily 
         Map<Integer, Set<Integer>> adj = new HashMap<>();
+
         for (int[] edge : edges) {
-            int a = edge[0], b = edge[1];
-            adj.computeIfAbsent(a, value -> new HashSet<Integer>()).add(b);
-            adj.computeIfAbsent(b, value -> new HashSet<Integer>()).add(a);
+            int a = edge[0]; 
+            int b = edge[1];
+            adj.computeIfAbsent(a, v -> new HashSet<Integer>()).add(b);
+            adj.computeIfAbsent(b, v -> new HashSet<Integer>()).add(a);
         }
 
-        int[][] counts = new int[n][26];
-        Queue<Integer> q = new LinkedList<>();
 
         for (int i = 0; i < n; i++) {
-            counts[i][labels.charAt(i) - 'a'] = 1;
-            if (i != 0 && adj.get(i).size() == 1) {
+            count[i][labels.charAt(i) - 'a'] = 1;
+
+            if (i != 0 && adj.get(i).size() == 1) { 
+                // if leaf add it to queue
                 q.offer(i);
             }
         }
@@ -65,19 +72,21 @@ class Solution {
             int parent = adj.get(node).stream().findFirst().get();
             adj.get(parent).remove(node);
 
-            for (int i = 0; i < 26; i++) {
-                counts[parent][i] += counts[node][i];
+            for (int i=0; i<26; i++) {
+                count[parent][i] += count[node][i];
             }
 
             if (parent != 0 && adj.get(parent).size() == 1) {
+                // became a leaf add it to queue
                 q.offer(parent);
             }
         }
 
-        int[] ans = new int[n];
         for (int i = 0; i < n; i++) {
-            ans[i] = counts[i][labels.charAt(i) - 'a'];
+            int idx = labels.charAt(i)-'a';
+            ans[i] = count[i][idx];
         }
+        
         return ans;
     }
 }
