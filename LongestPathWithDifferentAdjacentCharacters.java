@@ -27,39 +27,52 @@ Constraints:
     s consists of only lowercase English letters.
 */ 
 
+/** 
+ * NOTE: path is  a sequence of non-repeated nodes connected through edges present in a graph, so it could contain a parent and two childs of that parent 
+ *
+ * Longest path here is [x, b, a , c, v] or [..., u] 
+ *                a
+ *              /   \ 
+ *            b      c 
+ *            |    /   \ 
+ *            x   u     v   
+ */ 
+
 class Solution {
-    private int ans = 1;
+    // at least we have one node which is the zero node
+    int ans = 1; 
 
-    public int dfs(int node, Map<Integer, List<Integer>> children, String s) {
-        if (!children.containsKey(node)) return 1;
+    public int longestPath(int[] parent, String s) { 
+        int n = parent.length; 
+        Map<Integer, List<Integer>> adj = new HashMap<>(); 
 
-        int a = 0, b = 0;
-        for (int child : children.get(node)) {
-            int sub = dfs(child, children, s);
-            if (s.charAt(node) == s.charAt(child)) {
-                continue;
-            }
-            if (sub > a) {
-                b = a;
-                a = sub;
-            } else if (sub > b) {
-                b = sub;
-            }
+        for (int i=0; i<n; i++) { 
+            adj.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i); 
         }
 
-        ans = Math.max(ans, a + b + 1);
-        return a + 1;
+        dfs(0, adj, s);
+
+        return ans; 
     }
 
-    public int longestPath(int[] parent, String s) {
-        int n = parent.length;
-        Map<Integer, List<Integer>> children = new HashMap<>();
-        for (int i = 1; i < n; i++) {
-            children.computeIfAbsent(parent[i], value -> new ArrayList<Integer>()).add(i);
+    private int dfs(int node, Map<Integer, List<Integer>> adj, String s) {
+        if (!adj.containsKey(node)) return 1;  // leaf 
+        int longestChild = 0, secondLongestChild = 0;
+
+        for (int child : adj.get(node)) {
+            int sub = dfs(child, adj, s);
+            if (s.charAt(node) == s.charAt(child)) continue; 
+
+            if (sub > longestChild) { 
+                secondLongestChild = longestChild; 
+                longestChild = sub; 
+            }
+            else if (sub > secondLongestChild) { 
+                secondLongestChild = sub; 
+            }
         }
-
-        dfs(0, children, s);
-
-        return ans;
+        // longestChild & secondLongest + current 
+        ans = Math.max(ans, longestChild + secondLongestChild + 1); 
+        return longestChild + 1; 
     }
 }
