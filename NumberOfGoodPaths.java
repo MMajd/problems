@@ -49,7 +49,71 @@ Constraints:
 
 */
 
+class Solution {
+    private static final class DSU {
+        private int[] parents; 
+        private int[] sz; 
+        private int[] vals; 
 
+        public DSU(int n, int[] vals) {
+            this.vals = vals; 
+            this.sz = new int[n]; 
+            this.parents = new int[n]; 
+
+            for (int i=0; i<n; i++) { 
+                sz[i] = 1; 
+                parents[i] = i; 
+            }
+        }
+
+        // path normalized
+        public int find(int u) { 
+            if (u != parents[u]) { 
+                parents[u] = find(parents[u]); 
+            }
+            return parents[u]; 
+        }
+
+        public int union(int u, int v) { 
+            int res = 0; 
+            int pu = find(u); 
+            int pv = find(v); 
+
+            if (pu == pv) return res; 
+
+            if (vals[pu] == vals[pv]) { 
+                res = sz[pu] * sz[pv]; 
+                parents[pv] = pu; 
+                sz[pu] += sz[pv]; 
+                sz[pv] = sz[pu]; 
+            }
+            else if (vals[pu] > vals[pv]) { 
+                parents[pv] = pu; 
+            }
+            else { 
+                parents[pu] = pv; 
+            }
+
+
+            return res; 
+        }
+    }
+
+    public int numberOfGoodPaths(int[] vals, int[][] edges) {
+        int n = vals.length;
+        int ans = vals.length;
+        DSU dsu = new DSU(n, vals);
+
+        // sort edges based on max val in it, from smallest ot biggest
+        Arrays.sort(edges, (a, b) -> Math.max(vals[a[0]], vals[a[1]]) - Math.max(vals[b[0]], vals[b[1]]));
+
+        for (int[] e : edges) {
+            ans += dsu.union(e[0], e[1]);
+        }
+
+        return ans; 
+    }
+}
 
 class Solution {
     // DisjointSetsUnion - UnionFind
