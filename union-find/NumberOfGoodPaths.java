@@ -83,6 +83,10 @@ class Solution {
             if (pu == pv) return res; 
 
             if (vals[pu] == vals[pv]) { 
+                // Due to sorting of edges based on max val exist in each edge
+                // one of both {rank[pu] or rank[pv]} will always be = 1 
+                // thus we could instead take the max of them
+                // res = Math.max(rank[pu], rank[pv]);
                 res = rank[pu] * rank[pv]; 
                 parents[pv] = pu; 
                 rank[pu] += rank[pv]; 
