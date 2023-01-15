@@ -3,6 +3,7 @@
  @categories (union-find/graph/trees)
 
  @link https://www.youtube.com/watch?v=_uVYiM7LmSk
+ @link https://www.youtube.com/watch?v=1ayv-qCro0M
 
  There is a tree (i.e. a connected, undirected graph with no cycles) consisting of n nodes numbered from 0 to n - 1 and exactly n - 1 edges.
 
@@ -52,16 +53,16 @@ Constraints:
 class Solution {
     private static final class CustomDSU {
         private int[] parents; 
-        private int[] sz; 
+        private int[] rank; 
         private int[] vals; 
 
         public CustomDSU(int n, int[] vals) {
             this.vals = vals; 
-            this.sz = new int[n]; 
+            this.rank = new int[n]; 
             this.parents = new int[n]; 
 
             for (int i=0; i<n; i++) { 
-                sz[i] = 1; 
+                rank[i] = 1; 
                 parents[i] = i; 
             }
         }
@@ -82,10 +83,9 @@ class Solution {
             if (pu == pv) return res; 
 
             if (vals[pu] == vals[pv]) { 
-                res = sz[pu] * sz[pv]; 
+                res = rank[pu] * rank[pv]; 
                 parents[pv] = pu; 
-                sz[pu] += sz[pv]; 
-                sz[pv] = sz[pu]; 
+                rank[pu] += rank[pv]; 
             }
             else if (vals[pu] > vals[pv]) { 
                 parents[pv] = pu; 
@@ -115,115 +115,87 @@ class Solution {
     }
 }
 
+
 class Solution {
-    // DisjointSetsUnion - UnionFind
-    private static final class DSU { 
-        private int[] sz; 
-        private int[] id; 
-        int sets;
-        
-        public DSU(int size) { 
-            id = new int[size]; // IntStream.closedRange(1, size).toArray();
-            sz = new int[size];
-            
-            for (int i=0; i<size; i++) { 
-                id[i] = i; 
-                sz[i] = 1; 
+    private static final class DSU {
+        private int[] parents; 
+        private int[] rank; 
+
+        public DSU(int n) {
+            this.rank = new int[n]; 
+            this.parents = new int[n]; 
+
+            for (int i=0; i<n; i++) { 
+                rank[i] = 1; 
+                parents[i] = i; 
             }
-            
-            sets = size; 
-        }
-        
-        public int find(int x) { 
-            int root = x; 
-            
-            while (root != id[root]) { 
-                root = id[root]; 
-            }
-            
-            int next; 
-            while (x != root) { 
-                next = id[x]; 
-                id[x] = root; 
-                x = next; 
-            }
-            
-            return root; 
-        }
-        
-        public void union(int x, int y) { 
-            int xroot = find(x);
-            int yroot = find(y);
-            
-            if (xroot == yroot) return;
-            
-            if (sz[xroot] > sz[yroot]) { 
-                id[yroot] = xroot;
-                sz[xroot] += sz[yroot]; 
-            }
-            else { 
-                id[xroot] = yroot;
-                sz[yroot] += sz[xroot]; 
-            }
-            
-            sets -= 1; 
-        }
-    }
-    
-    public int numberOfGoodPaths(int[] vals, int[][] edges) {
-        int len = vals.length;
-        int ans = len; 
-        
-        List<Integer>[] adjMat = (ArrayList<Integer>[]) new ArrayList[len]; 
-        buildAdjMat(adjMat, edges, vals);
-        
-        DSU dsu = new DSU(len);
-        TreeMap<Integer, List<Integer>> map = new TreeMap<>(); 
-        
-        for (int i=0; i<len; i++) { 
-            map.computeIfAbsent(vals[i], (k) -> new ArrayList<>()).add(i);
         }
 
-        for (int key : map.keySet()) {
-            List<Integer> nodes = map.get(key);
-            
-            for (int node : nodes) {  
-                if (adjMat[node] == null) continue; 
-                
-                for (int neighbor : adjMat[node]) {
-                    dsu.union(node, neighbor);
+        // path normalized
+        public int find(int u) { 
+            if (u != parents[u]) { 
+                parents[u] = find(parents[u]); 
+            }
+            return parents[u]; 
+        }
+
+        public boolean union(int u, int v) { 
+            int pu = find(u); 
+            int pv = find(v); 
+
+            if (pu == pv) return false; 
+
+            if (rank[pu] >= rank[pv]) { 
+                parents[pv] = pu; 
+                rank[pu] += rank[pv]; 
+            } else { 
+                parents[pu] = pv; 
+                rank[pv] += rank[pu]; 
+            }
+
+            return true; 
+        }
+    }
+
+    public int numberOfGoodPaths(int[] vals, int[][] edges) {
+        int n = vals.length;
+        int ans = vals.length;
+
+        DSU dsu = new DSU(n);
+        Map<Integer, List<Integer>> adj = new HashMap<>(); 
+        TreeMap<Integer, List<Integer>> sortedValuesToNodes = new TreeMap<>(); 
+        
+        for (int[] e : edges) {
+            int a = e[0]; 
+            int b = e[1]; 
+            adj.computeIfAbsent(a, v -> new ArrayList<>()).add(b);
+            adj.computeIfAbsent(b, v -> new ArrayList<>()).add(a);
+        }
+
+        for (int i=0; i<n; i++) { 
+            sortedValuesToNodes.computeIfAbsent(vals[i], v -> new ArrayList<>()).add(i);
+        }
+
+        for (int value : sortedValuesToNodes.keySet()) {
+            for (int node : sortedValuesToNodes.get(value)) {
+                for (int neighbor : adj.getOrDefault(node, new ArrayList<>())) { 
+                    if (vals[neighbor] <= vals[node]) {
+                        dsu.union(node, neighbor);
+                    }
                 }
             }
-            
+
             Map<Integer, Integer> roots = new HashMap<>();
-            
-            for (int node : nodes) { 
-                roots.compute(dsu.find(node), (k,v) -> v!=null? ++v : 1);
+            for (int node : sortedValuesToNodes.get(value)) {
+                roots.compute(dsu.find(node), (k, v) -> v == null ? 1 : ++v);
             }
-            
+
             for (int cnt : roots.values()) { 
-                if (cnt > 1) ans += (cnt * (cnt-1))/2;
+                if (cnt > 1) ans += (cnt * (cnt-1)) / 2; 
             }
-            
-            // ans += nodes.size();
         }
-        
+
         return ans; 
     }
-    
-    private void buildAdjMat(List<Integer>[] adjMat, int[][] edges, int[] vals) { 
-        for (int[] e : edges) { 
-            int i = e[0]; 
-            int j = e[1];
-            
-            if (vals[i] > vals[j]) { 
-                if (adjMat[i] == null) adjMat[i] = new ArrayList<>();
-                adjMat[i].add(j);
-            }
-            else { 
-                if (adjMat[j] == null) adjMat[j] = new ArrayList<>();
-                adjMat[j].add(i);
-            }
-        }
-    }
 }
+
