@@ -50,12 +50,12 @@ Constraints:
 */
 
 class Solution {
-    private static final class DSU {
+    private static final class CustomDSU {
         private int[] parents; 
         private int[] sz; 
         private int[] vals; 
 
-        public DSU(int n, int[] vals) {
+        public CustomDSU(int n, int[] vals) {
             this.vals = vals; 
             this.sz = new int[n]; 
             this.parents = new int[n]; 
@@ -102,13 +102,13 @@ class Solution {
     public int numberOfGoodPaths(int[] vals, int[][] edges) {
         int n = vals.length;
         int ans = vals.length;
-        DSU dsu = new DSU(n, vals);
+        CustomDSU dsu = new CustomDSU(n, vals);
 
         // sort edges based on max val in it, from smallest ot biggest
         Arrays.sort(edges, (a, b) -> Math.max(vals[a[0]], vals[a[1]]) - Math.max(vals[b[0]], vals[b[1]]));
 
         for (int[] e : edges) {
-            ans += dsu.union(e[0], e[1]);
+            ans += dsu .union(e[0], e[1]);
         }
 
         return ans; 
