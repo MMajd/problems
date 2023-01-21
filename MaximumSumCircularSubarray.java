@@ -56,6 +56,22 @@ class Solution {
 }
 
 
+/** 
+ * This solution dependes on a DP solution that finds the max/min subarray sum
+ *
+ * DP[i] = max{A[i] + MaxSumTillIMins1, A[i]} 
+ * Can be re-written as 
+ * DP[i] = A[i]  + max{ DP[i], 0 }
+ * ANS = max{DP[i], ANS}
+ *
+ *
+ * Same operation is done to get the min sum subarray
+ * if the array is all negative then max sum is the max element 
+ *
+ * else we compare the regular max sum subarray found, 
+ * and circular max sum subarray by substracting min sum subarray from total sum 
+ *
+ */ 
 class Solution {
     public int maxSubarraySumCircular(int[] A) {
         int arrSum = 0; 
