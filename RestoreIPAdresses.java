@@ -1,6 +1,6 @@
-/* 
- 
+/*  
  @link https://leetcode.com/problems/restore-ip-addresses/
+ @categories (Backtracking) 
   
  A valid IP address consists of exactly four integers separated by single dots. Each integer is between 0 and 255 (inclusive) and cannot have leading zeros.
 
@@ -26,30 +26,23 @@ Constraints:
     s consists of digits only.
 */
 
-
-/** Backtracking solution 3^N*/
+/** 
+ * Backtracking solution 3^N
+ */
 class Solution {
     List<String> ans = new ArrayList<>();
-
+    
     public List<String> restoreIpAddresses(String s) {
         solve(0, s, new ArrayList<>(4)); 
         return ans; 
     }
     
-    private void solve(int idx, String s, List<Integer> data) { 
-        if (data.size() == 4) { 
-            if (idx == s.length()) { 
-                StringBuilder sb = new StringBuilder();
-                for (int i=0; i<4; i++) {
-                    sb.append(data.get(i)); 
-                    if (i < 3) sb.append('.'); 
-                }
-                ans.add(sb.toString());
-            }
-            return; 
+    private void solve(int idx, String s, List<String> data) { 
+        if (idx == s.length() && data.size() == 4) { 
+            String ip = String.join(".", data);
+            ans.add(ip);
+            return;
         }
-
-        if (idx == s.length()) return;
         
         Integer sint = null; 
         
@@ -62,7 +55,7 @@ class Solution {
                 : sint * 10 + s.charAt(i+idx) - '0';
             
             if (sint >= 0 && sint <= 255) { 
-                data.add(sint);
+                data.add(String.valueOf(sint));
                 solve(i+idx+1, s, data); 
                 data.remove(data.size()-1);
             }
@@ -70,7 +63,9 @@ class Solution {
     }
 }
 
-/** N^4 soluton **/
+/**
+ * N^4 solution 
+ */
 class Solution {
     public List<String> restoreIpAddresses(String s) {
 		List<String> ret = new ArrayList<>();
