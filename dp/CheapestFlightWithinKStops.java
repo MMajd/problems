@@ -40,6 +40,42 @@ Constraints:
     src != dst
 */
 
+/**
+ * Djistra Solution 
+ */ 
+
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+        for (int[] i : flights)
+            adj.computeIfAbsent(i[0], value -> new ArrayList<>()).add(new int[] { i[1], i[2] });
+
+        int[] stops = new int[n];
+        Arrays.fill(stops, Integer.MAX_VALUE);
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        // {dist_from_src_node, node, number_of_stops_from_src_node}
+        pq.offer(new int[] { 0, src, 0 });
+
+        while (!pq.isEmpty()) {
+            int[] temp = pq.poll();
+            int dist = temp[0];
+            int node = temp[1];
+            int steps = temp[2];
+            // was seen with less steps or steps violate our constraint
+            if (steps > stops[node] || steps > k + 1) continue;
+            
+            stops[node] = steps; // update
+                                 //
+            if (node == dst) return dist; // this is the answer as we always sort by lesser cost, proof by contradiction
+
+            for (int[] a : adj.getOrDefault(node, new ArrayList<>)) {
+                pq.offer(new int[] { dist + a[1], a[0], steps + 1 });
+            }
+        }
+
+        return -1; // no way dst can be reach from src with given constraint [k steps]
+    }
+}
 
 /** 
  * DP Solution,
@@ -160,25 +196,3 @@ class Solution {
     }
 }
 
-/** DP Solution */
-class Solution {
-    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        int[][] dp = new int[k+2][n];
-        for(int i=0; i<=k+1; i++){
-            Arrays.fill(dp[i],Integer.MAX_VALUE);    
-        }
-        //fly from src to scr cost 0
-        for(int i=0; i<=k+1; i++){
-            dp[i][src] = 0;    
-        }
-        
-        for(int i=1; i<=k+1; i++){
-            for(int[] f: flights){
-                if(dp[i-1][f[0]]!=Integer.MAX_VALUE){
-                    dp[i][f[1]] = Math.min(dp[i][f[1]],dp[i-1][f[0]]+f[2]);
-                }
-            }
-        }
-        return dp[k+1][dst] == Integer.MAX_VALUE ? -1 : dp[k+1][dst];
-    }
-}
