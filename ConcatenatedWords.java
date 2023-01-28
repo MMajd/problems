@@ -100,3 +100,33 @@ class Solution {
         }
     }
 }
+
+/**
+ * DP Solution, 
+ * We split words to prefix & suffix starting with prefix of null, and going on till prefix will be [0, word.length] 
+ * State can be managed by boolean array, like this dp[i] = dp[j] && duplicates.contains(word.substring(j, i);
+ *
+ * i starts from 1 till equals word.length
+ * j starts from zero if 1 is not word.length, 
+ * and 1 if i is word.length to hava at least a 2 words one at (0, 1) and other (1, length)
+ */ 
+class Solution {
+    public List<String> findAllConcatenatedWordsInADict(String[] words) {
+        final Set<String> dictionary = new HashSet<>(Arrays.asList(words));
+        final List<String> answer = new ArrayList<>();
+        for (final String word : words) {
+            final int length = word.length();
+            final boolean[] dp = new boolean[length + 1];
+            dp[0] = true;
+            for (int i = 1; i <= length; ++i) {
+                for (int j = (i == length ? 1 : 0); !dp[i] && j < i; ++j) {
+                    dp[i] = dp[j] && dictionary.contains(word.substring(j, i)); 
+                }
+            }
+            if (dp[length]) {
+                answer.add(word);
+            }
+        }
+        return answer;   
+    }
+}
