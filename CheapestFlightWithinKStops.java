@@ -40,6 +40,39 @@ Constraints:
     src != dst
 */
 
+
+/** 
+ * DP Solution,
+ * Our state consist of dp[k][u] number of stops k need to reach a city u
+ * If we can reach city u with k-1 stops from city v with cost better than reach u with k stops, update dp[k][u]
+ * We by setting k = 1 and update all cities reach with 1 stops from the src, and go on till k is maxStops+2
+ */ 
+
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        long[][] dp = new long[k+2][n];
+        Arrays.setAll(dp, i -> { 
+            Arrays.fill(dp[i], Integer.MAX_VALUE);
+            return dp[i]; 
+        });
+
+        dp[0][src] = 0; 
+
+        for (int i=1; i<=k+1; i++) { 
+            dp[i][src] = 0; // src is reachable for all k stops with zero cost
+
+            for (int[] f : flights) { 
+                int from = f[0], to = f[1], cost = f[2]; 
+
+                dp[i][to] = Math.min(dp[i][to], dp[i-1][from] + cost);
+            }
+        }
+
+        return (int)(dp[k+1][dst] == Integer.MAX_VALUE ? -1 : dp[k+1][dst]);
+    }
+}
+
+
 /**
  * BFS, with memoization array
  */ 
