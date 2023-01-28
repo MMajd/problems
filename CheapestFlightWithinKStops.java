@@ -40,6 +40,50 @@ Constraints:
     src != dst
 */
 
+/**
+ * BFS, with memoization array
+ */ 
+class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+        Queue<int[]> q = new LinkedList<>();
+        
+        for (int[] f : flights) { 
+            int from = f[0], to = f[1], cost = f[2]; 
+            adj.computeIfAbsent(from, value -> new ArrayList<>()).add(new int[] {to, cost});
+        }
+
+
+        int stops = k + 1;
+        q.offer(new int[] {src, 0});
+
+        while (stops-- > 0 && !q.isEmpty()) {
+            int sz = q.size();
+
+            for(int i=0; i<sz; i++) {
+                int[] curr = q.poll();
+                int city = curr[0];
+                int cost = curr[1];
+
+                for (int[] nei : adj.getOrDefault(city, new ArrayList<>())) {
+                    int next = nei[0];
+                    int total = cost + nei[1];
+
+                    if (total >= dist[next] || total >= dist[dst]) continue;
+
+                    q.offer(new int[] {next, total});
+                    dist[next] = total; 
+                }
+            }
+        }
+
+        return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst];
+    }
+}
+
 /** DFS With Memoization Solution */
 class Solution {
     private final static int INF = Integer.MAX_VALUE; 
