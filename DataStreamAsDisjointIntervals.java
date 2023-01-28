@@ -69,8 +69,6 @@ class SummaryRanges {
         int[] low = set.lower(curr); // lower < curr or null 
         int[] high = set.higher(curr); // hight > curr or null 
 
-        if (high != null && high[0] == value) return;
-
         if (mergeable(low, curr) && mergeable(curr, high)) {
             low[1] = high[1]; // merge two intervals
             set.remove(high);
