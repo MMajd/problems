@@ -48,57 +48,55 @@ Constraints:
     0 <= value <= 10^9
     At most 2 * 10^5 calls will be made to get and put.
 */
+
 class LFUCache {
-    private int minf; // min freq till operation x  
-    private int capacity; // constant capacity 
-    private Map<Integer, Pair<Integer, Integer>> cache; //key, value and it's freq
-    private Map<Integer, LinkedHashSet<Integer>> frequencies; // freq, set of values in that freq
-    
-    private void insert(int key, int frequency, int value) {
-        cache.put(key, new Pair<>(frequency, value));
-        frequencies.putIfAbsent(frequency, new LinkedHashSet<>());
-        frequencies.get(frequency).add(key);
-    }
+    private final int cap; 
+    private int minf; 
+    private Map<Integer, Set<Integer>> freqLRU; 
+    private Map<Integer, Pair<Integer, Integer>> cache; 
 
     public LFUCache(int capacity) {
-        minf = 0;
-        this.capacity = capacity;
-        cache = new HashMap<>(capacity * 2);
-        frequencies = new HashMap<>();
+        minf = 0; 
+        cap = capacity; 
+        freqLRU = new HashMap<>(); 
+        cache = new HashMap<>(2 * cap); 
     }
     
     public int get(int key) {
-        Pair<Integer, Integer> frequencyAndValue = cache.get(key);
-        if (frequencyAndValue == null) {
-            return -1;
+        Pair<Integer, Integer> pair = cache.get(key);
+        if (pair == null) return -1; 
+        int freq = pair.getKey();
+        int value = pair.getValue(); 
+        Set<Integer> keys = freqLRU.get(freq);
+        keys.remove(key); 
+        if (minf == freq && keys.isEmpty()) {
+            minf += 1; 
         }
-        final int frequency = frequencyAndValue.getKey();
-        final Set<Integer> keys = frequencies.get(frequency);
-        keys.remove(key);
-        if (minf == frequency && keys.isEmpty()) { 
-            // if curr freq = min freq and it's keyset is empty then update minf to next valid freq
-            ++minf;
-        }
-        final int value = frequencyAndValue.getValue();
-        insert(key, frequency + 1, value);
-        return value;
+        insert(key, freq+1, value);
+        return value; 
     }
     
     public void put(int key, int value) {
-        if (capacity == 0) return; 
-        Pair<Integer, Integer> frequencyAndValue = cache.get(key);
-        if (frequencyAndValue != null) { // key already exist in cache 
-            cache.put(key, new Pair<>(frequencyAndValue.getKey(), value)); // udpate its value
-            get(key); //update its frquence 
-            return;
+        if (cap == 0) return; 
+        Pair<Integer, Integer> pair = cache.get(key);
+        if (pair != null) {
+            cache.put(key, new Pair<>(pair.getKey(), value));
+            get(key);
+            return; 
         }
-        if (capacity == cache.size()) {
-            final Set<Integer> keys = frequencies.get(minf); // get keyset of min freq
-            final int keyToDelete = keys.iterator().next(); // get first inserted item [key] in it lru
-            cache.remove(keyToDelete); // remove it from cache 
-            keys.remove(keyToDelete); // remove it from keyset
+        if (cache.size() == cap) {
+            Set<Integer> keys = freqLRU.get(minf);
+            int keyToDelete = keys.iterator().next();  
+            cache.remove(keyToDelete);
+            keys.remove(keyToDelete);
         }
-        minf = 1; // set min freq 1 
-        insert(key, 1, value); // insert key-value pair 
+        insert(key, 1, value);
+        minf = 1; 
+    }
+
+    private void insert(int key, int freq, int value) {
+        cache.put(key, new Pair<>(freq, value));
+        freqLRU.computeIfAbsent(freq, k -> new LinkedHashSet<>()).add(key);
     }
 }
+
