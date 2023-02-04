@@ -10,6 +10,7 @@ Example 1:
     Input: words = ["hello","leetcode"], order = "hlabcdefgijkmnopqrstuvwxyz"
     Output: true
     Explanation: As 'h' comes before 'l' in this language, then the sequence is sorted.
+
 Example 2:
     Input: words = ["word","world","row"], order = "worldabcefghijkmnpqstuvxyz"
     Output: false
@@ -29,25 +30,26 @@ Constraints:
 
 class Solution {
     public boolean isAlienSorted(String[] words, String order) {
-        int[] orderMap = new int[26];
-        for (int i = 0; i < order.length(); i++){
-            orderMap[order.charAt(i) - 'a'] = i;
+        int[] map = new int[26];  // lower case english letters
+
+        for (int i=0; i<26; i++) {
+            map[order.charAt(i)-'a'] = i; // map letter to its alien ordering
         }
 
-        for (int i = 0; i < words.length - 1; i++) {
+        for (int i=0; i<words.length-1; i++) {
+            for (int j=0; j<words[i].length(); j++) {
+                // shorter words, must came first
+                if (j >= words[i+1].length()) return false; 
+                if (words[i].charAt(j) != words[i+1].charAt(j)) {
+                    int o1 = words[i].charAt(j)-'a';
+                    int o2 = words[i+1].charAt(j)-'a';
 
-            for (int j = 0; j < words[i].length(); j++) {
-                if (j >= words[i + 1].length()) return false;
-
-                if (words[i].charAt(j) != words[i + 1].charAt(j)) {
-int currentWordChar = words[i].charAt(j) - 'a';
-int nextWordChar = words[i + 1].charAt(j) - 'a';
-                    if (orderMap[currentWordChar] > orderMap[nextWordChar]) return false;
-                    else break;
+                    if (map[o2] > map[o1]) break; 
+                    return false; 
                 }
             }
         }
 
-        return true;
+        return true; 
     }
 }
