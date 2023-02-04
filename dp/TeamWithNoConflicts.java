@@ -32,39 +32,37 @@ Constraints:
     1 <= scores[i] <= 10^6
     1 <= ages[i] <= 1000
 */ 
-
 class Solution {
     public int bestTeamScore(int[] scores, int[] ages) {
         int n = scores.length; 
-        int[][] players = new int[n][2]; 
-        for (int i=0; i<n; i++) { 
-            players[i][0] = ages[i];  
-            players[i][1] = scores[i];  
+        int[][] scoresAndAges = new int[n][2]; 
+
+        for (int i=0; i<n; i++) {
+            scoresAndAges[i][0] = scores[i]; 
+            scoresAndAges[i][1] = ages[i]; 
         }
 
-        Arrays.sort(players, (a, b) -> {
-            // if same age sort with skill asc, else sort with age asc
-            return a[0] == b[0] ? a[1]-b[1] : a[0]-b[0]; 
+        Arrays.sort(scoresAndAges, (a, b) -> {
+            if (a[1] == b[1]) return Integer.compare(a[0], b[0]);
+            return Integer.compare(a[1], b[1]);
         });
-        
+
         int ans = Integer.MIN_VALUE; 
         int[] dp = new int[n]; 
-
-        for (int i=0; i<n; i++) { 
-            dp[i] = players[i][1];  // start with ith skill 
-            ans = Math.max(dp[i], ans); // team could have player only :D 
+        
+        for (int i=0; i<n; i++) {
+            dp[i] = scoresAndAges[i][0]; 
+            ans = Math.max(dp[i], ans);
         }
 
-        for (int i=0; i<n; i++) { 
-            for (int j=i-1; j>=0; j--) { // go back previous players
-                if (players[i][1] >= players[j][1]) { // if curr more skillful, then its ok to update its dp 
-                    dp[i] = Math.max(dp[j] + players[i][1], dp[i]);  
-                }
+        for (int i=0; i<n; i++) {
+            for (int j=i-1; j>=0; j--) {
+                if (scoresAndAges[j][0] > scoresAndAges[i][0]) continue; 
+                dp[i] = Math.max(dp[i], dp[j] + scoresAndAges[i][0]);
             }
-            ans = Math.max(dp[i], ans);
+            ans = Math.max(ans, dp[i]);
         }
 
         return ans; 
     }
 }
-
