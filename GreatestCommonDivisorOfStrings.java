@@ -23,20 +23,31 @@ Constraints:
 */
 
 class Solution {
-    public int gcd(int x, int y) {
-        if (y == 0) {
-            return x;
-        } else {
-            return gcd(y, x % y);
-        }    
+    public String gcdOfStrings(String s1, String s2) {
+        /**
+         * Simple proof 
+         * s1 is divisable by s2, that means s2 is a part of s1
+         * and s1 is s2 repeated t times 
+         * if that's the case 
+         * then if we append s2 to s1 (s1s2) and append s1 to s2 (s2s1) we should get the same string 
+         * if they produce different string then there's no gcd  
+         * if they produce same string then the gcd is the gcd between their lengths 
+         * why? because of s1, and s2 are repeation of some other string s3, we should find s3 length 
+         * and that's the greatest common divisor  
+         */
+
+         if (!(s1+s2).equals(s2+s1)) return ""; 
+         int x = Math.max(s1.length(), s2.length());
+         int y = Math.min(s1.length(), s2.length());
+
+         int len = gcd(x, y);
+
+         return s1.substring(0, len);
     }
-    
-    public String gcdOfStrings(String str1, String str2) {
-        if (!(str1 + str2).equals(str2 + str1)) {
-            return "";
-        }
-        
-        int gcdLength = gcd(str1.length(), str2.length());
-        return str1.substring(0, gcdLength);
+
+    private int gcd(int x, int y) {
+        if (y == 0) return x; 
+        return gcd(y, x%y);
     }
 }
+
