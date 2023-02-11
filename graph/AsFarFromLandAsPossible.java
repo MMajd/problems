@@ -29,6 +29,10 @@ Constraints:
 
 
 /** 
+ **********************************    
+ ** NOTE: DP Solution at the end
+ **********************************    
+ *
  * Proof, why bfs gives the right answer? 
  * 1. Sense we scan the grid for all lands and consider them as starting points, 
  * thus there're are no more lands to find in the grid
@@ -98,3 +102,44 @@ class Solution {
         return steps; 
     }
 }
+
+
+
+class Solution {
+    public int maxDistance(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        
+        final int MAX_DISTANCE = n + m + 1;
+
+        int[][] dist = new int[n][m];
+        for (int[] arr : dist) { 
+            Arrays.fill(arr, MAX_DISTANCE);
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 1) {
+                    dist[i][j] = 0;
+                } else {
+                    int up   = j > 0 ? dist[i][j-1] + 1 : MAX_DISTANCE;
+                    int left = i > 0 ? dist[i-1][j] + 1 : MAX_DISTANCE;
+                    dist[i][j] = Math.min(dist[i][j], Math.min(left, up));
+                }
+            }
+        }
+
+        int ans = Integer.MIN_VALUE;
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = m - 1; j >= 0; j--) {
+                int down  = j < m - 1 ? dist[i][j + 1] + 1 : MAX_DISTANCE; 
+                int right = i < n - 1 ? dist[i + 1][j] + 1 : MAX_DISTANCE; 
+
+                dist[i][j] = Math.min(dist[i][j], Math.min(right, down));
+                ans = Math.max(ans, dist[i][j]);
+            }
+        }
+
+        return ans == 0 || ans == MAX_DISTANCE ? -1 : ans;
+    }
+};
