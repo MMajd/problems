@@ -1,21 +1,19 @@
 /*
- @link 
- @categories (binary-search) 
+ @link https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/submissions/
+ @categories (binary-search/arrays) 
 
  A conveyor belt has packages that must be shipped from one port to another within days days.
-
- The ith package on the conveyor belt has a weight of weights[i]. Each day, we load the ship with packages on the conveyor belt (in the order given by weights). We may not load more weight than the maximum weight capacity of the ship.
-
+The ith package on the conveyor belt has a weight of weights[i]. Each day, 
+we load the ship with packages on the conveyor belt (in the order given by weights). 
+We may not load more weight than the maximum weight capacity of the ship.
 Return the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within days days.
-
 
 Example 1:
     Input: weights = [1,2,3,4,5,6,7,8,9,10], days = 5
     Output: 15
     Explanation: A ship capacity of 15 is the minimum to ship all the packages in 5 days like this:
     1st day: 1, 2, 3, 4, 5
-    2nd day: 6, 7
-    3rd day: 8
+    2nd day: 6, 7 3rd day: 8
     4th day: 9
     5th day: 10
 
@@ -43,31 +41,33 @@ Constraints:
     1 <= weights[i] <= 500
 */
 
+import static java.lang.Math.*; 
+
 class Solution {
-    public int shipWithinDays(int[] W, int D) {
+    public int shipWithinDays(int[] weights, int days) {
         int left = 0, right = 0; 
 
-        for (int w : W) {
-            left = Math.max(left, w);
+        for (int w : weights) { 
+            left = max(w, left);
             right += w; 
         }
 
         while (left < right) { 
-            int mid = left + (right - left)/2;
-            int r = 0, d = 1; 
+            int mid = left + (right - left - 1) / 2;
 
-            for (int w : W) { 
-                if (r + w > mid) { 
+            int d = 1;  
+            int curr = 0; 
+            for (int w : weights) { 
+                if (curr + w > mid) { 
                     d += 1; 
-                    r = 0; 
+                    curr = 0; 
                 }
-                r += w; 
+                curr += w; 
             }
-            
-            if (d > D) left = mid+1; 
+            if (d > days) left = mid + 1;
             else right = mid; 
         }
-
         return left; 
     }
 }
+
