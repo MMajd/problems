@@ -54,7 +54,7 @@ class Solution {
             res.add(j);
         }
 
-        while(i < k){
+        while(i < k) {
             ct2[s.charAt(j++)-'a']--;
             ct2[s.charAt(i++)-'a']++;
 
