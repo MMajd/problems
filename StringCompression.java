@@ -33,6 +33,42 @@ Constraints:
 */ 
 class Solution {
     public int compress(char[] chars) {
+        StringBuilder sb = new StringBuilder();
+        int n = chars.length; 
+        int left = 0, right = 0;  
+
+        while (right < n) {
+            if (chars[left] != chars[right]) { 
+                compress(chars, left, right, sb);
+                left = right; 
+            }
+            right += 1; 
+        }
+
+        compress(chars, left, right, sb);
+
+        for (int i=0; i<sb.length(); i++) { 
+            chars[i] = sb.charAt(i);
+        }
+
+        return sb.length();
+    }
+
+    private void compress(char[] chars, int left, int right, StringBuilder sb) {
+        int size = right - left; 
+        if (size > 1) {
+            sb.append(chars[left]);
+            sb.append(size); 
+        }
+        else { 
+            sb.append(chars[left]);
+        }
+    }
+}
+
+/** second solution */
+class Solution {
+    public int compress(char[] chars) {
         int i=0;
         int n=chars.length;
         int j=0;
