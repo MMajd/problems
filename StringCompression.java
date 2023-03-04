@@ -33,6 +33,46 @@ Constraints:
 */ 
 class Solution {
     public int compress(char[] chars) {
+        char prev = '\0';
+        int index = 0;
+        int count = 0;
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+            if (c != prev) {
+                index = appendToChars(chars, index, count, prev);
+                prev = c;
+                count = 1;
+            } else {
+                count++;
+            }
+        }
+
+        return appendToChars(chars, index, count, prev);
+    }
+
+    private int appendToChars(char[] chars, int index, int count, char c) {
+        if (count == 0) {
+            return index;
+        }
+
+        chars[index++] = c;
+        if (count == 1) {
+            return index;
+        }
+
+        index += (int) Math.log10(count);
+        int newIndex = index + 1;
+        while (count > 0) {
+            chars[index--] = (char) ('0' + (count % 10));
+            count /= 10;
+        }
+
+        return newIndex;
+    }
+}
+
+class Solution {
+    public int compress(char[] chars) {
         StringBuilder sb = new StringBuilder();
         int n = chars.length; 
         int left = 0, right = 0;  
@@ -66,35 +106,3 @@ class Solution {
     }
 }
 
-/** second solution */
-class Solution {
-    public int compress(char[] chars) {
-        int i=0;
-        int n=chars.length;
-        int j=0;
-        if(n==1)
-            return 1;
-        while(i<n){
-            int count=1;
-            char charac=chars[i];
-            while(i+1<n && chars[i]==chars[i+1]){
-                count++;
-                i++;
-            }
-            if(count==1){
-                chars[j++]=charac;
-            }
-            else{
-                if(count>1){
-                    chars[j++]=charac;
-                    String counterstring=count+"";
-                    for(int r=0;r<counterstring.length();r++){
-                        chars[j++]=counterstring.charAt(r);
-                    }
-                }
-            }
-            i++;
-        }
-        return j;
-    }
-}
