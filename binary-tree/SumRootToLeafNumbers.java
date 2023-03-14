@@ -1,6 +1,6 @@
 /*
  @link https://leetcode.com/problems/sum-root-to-leaf-numbers
- @categories (binary-tree/dfs) 
+ @categories (binary-tree/dfs/bfs/queue/stack) 
 
  You are given the root of a binary tree containing digits from 0 to 9 only. 
 Each root-to-leaf path in the tree represents a number.
@@ -31,24 +31,76 @@ Constraints:
     0 <= Node.val <= 9
     The depth of the tree will not exceed 10.
 */
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
  *     int val;
  *     TreeNode left;
  *     TreeNode right;
- *}
+ * }
  */
 class Solution {
+    /** 
+     * Available solutions: 
+     * - DFS: pure dfs, stack
+     * - BFS: queue
+     */
     public int sumNumbers(TreeNode root) {
-        return sum(root, 0);
+        // return sum(root, 0);
+        // return stack(root); 
+        return queue(root);
+    }
+
+    private int queue(TreeNode root) {
+        Deque<TreeNode> q = new LinkedList<>(); 
+        int res = 0; 
+        q.offer(root);
+
+        while (!q.isEmpty()) { 
+            TreeNode node = q.poll(); 
+            if (node.left == null && node.right == null) { 
+                res += node.val; 
+            }
+            if (node.left != null) { 
+                node.left.val += node.val * 10; 
+                q.offer(node.left);
+            }
+            if (node.right != null) { 
+                node.right.val += node.val * 10; 
+                q.offer(node.right);
+            }
+        }
+
+        return res; 
+    }
+
+    private int stack(TreeNode root) {
+        int res = 0; 
+        Deque<TreeNode> stack = new LinkedList<>(); 
+        stack.push(root);
+
+        while (!stack.isEmpty()) { 
+            TreeNode node = stack.pop();
+            if (node.left == null && node.right == null) { 
+                res += node.val; 
+            }
+            if (node.right != null) { 
+                node.right.val += node.val * 10; 
+                stack.push(node.right);
+            }
+            if (node.left != null) { 
+                node.left.val += node.val * 10; 
+                stack.push(node.left);
+            }
+        }
+
+        return res; 
     }
     
     private int sum(TreeNode node, int sum) { 
         if (node == null) return 0; 
         if (node.left == null && node.right == null) return sum * 10 + node.val; 
-        return sum(node.left, sum * 10 + node.val) 
-            + sum(node.right, sum * 10 + node.val);
+        return sum(node.left, sum * 10 + node.val) + sum(node.right, sum * 10 + node.val);
     }
 }
-
