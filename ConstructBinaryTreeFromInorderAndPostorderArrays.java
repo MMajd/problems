@@ -1,7 +1,27 @@
-/** 
- *
- * @link https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
- */ 
+/* 
+ @link https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+ @categories (tree/binary-tree/d-and-c/hash-table) 
+
+ Given two integer arrays inorder and postorder where inorder is the inorder traversal of a binary tree 
+and postorder is the postorder traversal of the same tree, construct and return the binary tree.
+
+Example 1:
+    Input: inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]
+    Output: [3,9,20,null,null,15,7]
+
+Example 2:
+    Input: inorder = [-1], postorder = [-1]
+    Output: [-1]
+
+Constraints:
+    1 <= inorder.length <= 3000
+    postorder.length == inorder.length
+    -3000 <= inorder[i], postorder[i] <= 3000
+    inorder and postorder consist of unique values.
+    Each value of postorder also appears in inorder.
+    inorder is guaranteed to be the inorder traversal of the tree.
+    postorder is guaranteed to be the postorder traversal of the tree.
+*/ 
 
 /**
  * Definition for a binary tree node.
@@ -9,15 +29,33 @@
  *     int val;
  *     TreeNode left;
  *     TreeNode right;
- *     TreeNode() {}
  *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
  * }
  */
+class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        int n = inorder.length; 
+        Map<Integer, Integer> map = new HashMap<>(n); 
+        for (int i=0; i<n; i++) { 
+            map.put(inorder[i], i);
+        }
+        return buildTree(postorder, n-1, 0, n-1, map);
+    }
+
+    private TreeNode buildTree(int[] porder, int pos, int start, int end, Map<Integer, Integer> map) {
+        if (pos < 0 || pos >= porder.length || start > end) return null; 
+        TreeNode node = new TreeNode(porder[pos]);
+        int inpos = map.get(node.val);
+        int right = pos - 1; 
+        int rstart = inpos + 1; 
+        int left = right - (end-inpos); // left = righpos - right tree size 
+        int lend = inpos - 1; 
+        node.left = buildTree(porder, left, start, lend, map);
+        node.right  = buildTree(porder, right, rstart, end, map);
+        return node; 
+    }
+}
+
 class Solution {
     public TreeNode buildTree(int[] inorder, int[] postorder) {
         if (inorder.length == 0) return null; 
