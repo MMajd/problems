@@ -1,5 +1,5 @@
 /*
- @link 
+ @link https://leetcode.com/problems/minimum-score-of-a-path-between-two-cities
  @categories (bfs/dfs/union-find)
 
  You are given a positive integer n representing n cities numbered from 1 to n. 
@@ -10,9 +10,9 @@ The score of a path between two cities is defined as the minimum distance of a r
 Return the minimum possible score of a path between cities 1 and n.
 
 Note:
-A path is a sequence of roads between two cities.
-It is allowed for a path to contain the same road multiple times, and you can visit cities 1 and n multiple times along the path.
-The test cases are generated such that there is at least one path between 1 and n.
+- A path is a sequence of roads between two cities.
+- It is allowed for a path to contain the same road multiple times, and you can visit cities 1 and n multiple times along the path.
+- The test cases are generated such that there is at least one path between 1 and n.
 
 Example 1:
     Input: n = 4, roads = [[1,2,9],[2,3,6],[2,4,5],[1,4,7]]
@@ -36,84 +36,113 @@ Constraints:
     There is at least one path between 1 and n.
 */
 
-static import java.lang.Math.*; 
+import static java.lang.Math.*; 
 
 class Solution {
-    int[] par,rank,values;
-    
-    public int find(int a) {
-        if(par[a] == a) return a;
-        return par[a] = find(par[a]);
-    }
-    
-    public void union(int a,int b,int val) {
-        int ra = find(a), rb = find(b);
-        
-        values[ra] = min(val, min(values[ra], values[rb]));
-        values[rb] = min(val, min(values[ra], values[rb]));
-        
-        if(ra != rb) {
-            if(rank[ra] > rank[rb]) {
-                par[rb] = ra;
-                rank[ra] += rank[rb];
-                
-            } else {
-                par[ra] = par[rb];
-                rank[rb] += rank[ra];
+    private class DSU { 
+        int[] parent;
+        int[] rank; 
+
+        public DSU(int size) {
+            parent = new int[size]; 
+            rank = new int[size]; 
+            for (int i=0; i<size; i++) {
+                parent[i] = i; 
+                rank[i] = Integer.MAX_VALUE; 
             }
         }
-    }
-    
-    public int minScore(int n, int[][] roads) {
-        par = new int[n];
-        rank = new int[n];
-        values = new int[n];
-        
-        for(int i = 0;i < n;i++) {
-            par[i] = i;
-            rank[i] = 1;
-            values[i] = Integer.MAX_VALUE;
-        }
-        
-        for(int[] road : roads) {
-            int u = road[0] - 1, v = road[1] - 1, wt = road[2];
-            union(u,v,wt);
+
+        public int rank(int u) {
+            return rank[find(u)]; 
         }
 
-        return values[find(0)];
+        public int find(int u) {
+            if (u != parent[u]) return find(parent[u]);
+            return parent[u] = u; 
+        }
+
+        public boolean union(int u, int v, int r) {
+            int a = find(u); 
+            int b = find(v); 
+            if (rank[a] <= rank[b]) { 
+                parent[b] = a; 
+            } else { 
+                parent[a] = b; 
+            }
+            rank[a] = rank[b] = min(r, min(rank[a], rank[b]));
+            return true; 
+        }
+    }
+
+    public int minScore(int n, int[][] roads) {
+        DSU dsu = new DSU(n+1); 
+        for (int[] road : roads) {
+            dsu.union(road[0], road[1], road[2]);
+        }
+        return dsu.rank(1); // or rank(n) 
     }
 }
+
+// DSU: the short version
+public class Solution {
+    int[] dsu; // to be used in find
+    public int minScore(int n, int[][] roads) {
+        dsu = new int[n+1];
+        int[] ans = new int[n+1];
+
+        Arrays.fill(ans, Integer.MAX_VALUE);
+        for(int i = 0; i <= n; i++) {
+            dsu[i] = i;
+        }
+
+        for(int[] r : roads) {
+            int a = find(r[0]), b = find(r[1]);
+            dsu[a] = dsu[b];
+            ans[a] = ans[b] = min(r[2], min(ans[a], ans[b]));
+        }
+
+        return ans[find(1)]; // or rank of n 
+    }
+
+    int find(int i) {
+        return dsu[i]==i ? i : (dsu[i] = find(dsu[i]));
+    }
+}
+
 
 class Solution {
     public int minScore(int n, int[][] roads) {
         int ans = Integer.MAX_VALUE;
-        List<List<Pair<Integer, Integer>>> gr = new ArrayList<>();
-        for(int i = 0; i < n+1; i++) {
+        List<List<Pair<Integer, Integer>>> gr = new ArrayList<>(n+1);
+
+        for (int i = 0; i < n+1; i++) {
             gr.add(new ArrayList<Pair<Integer, Integer>>());
         }
 
-        for(int[] edge : roads) { 
+        for (int[] edge : roads) { 
             gr.get(edge[0]).add(new Pair<>(edge[1], edge[2])); // u-> {v, dis}
             gr.get(edge[1]).add(new Pair<>(edge[0], edge[2])); // v-> {u, dis}
         }
 
-        int[] vis = new int[n+1];
-        Arrays.fill(vis, 0);
+        boolean[] vis = new boolean[n+1];
+        vis[1] = true;
         Queue<Integer> q = new LinkedList<>();
         q.add(1);
-        vis[1] = 1;
-        while(!q.isEmpty()) {
+
+        while (!q.isEmpty()) {
             int node = q.poll();
-            for(Pair<Integer, Integer> pair : gr.get(node)) {
+            for (Pair<Integer, Integer> pair : gr.get(node)) {
                 int v = pair.getKey();
                 int dis = pair.getValue();
-                ans = Math.min(ans, dis);
-                if(vis[v]==0) {
-                    vis[v] = 1;
+                ans = min(ans, dis);
+                if (!vis[v]) {
+                    vis[v] = true;
                     q.add(v);
                 }
             }
         }
+
         return ans;
     }
 }
+
