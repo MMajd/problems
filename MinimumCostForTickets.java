@@ -44,7 +44,8 @@ import static java.lang.Math.*;
 
 class Solution {
     public int mincostTickets(int[] days, int[] costs) {
-        int n = 365; 
+        // int n = 365; 
+        int n = days[days.length-1]; 
         int[] dp = new int[n+1]; 
         int[] map = new int[n+1]; 
         for (int day : days) { 
