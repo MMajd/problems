@@ -1,15 +1,15 @@
 /*
- @link https://leetcode.com/problems/naming-a-company/
+ @link https://leetcode.com/problems/naming-a-company
  @categories (hash-table/enumeration) 
 
- You are given an array of strings ideas that represents a list of names to be used in the process of naming a company. The process of naming a company is as follows:
-
-Choose 2 distinct names from ideas, call them ideaA and ideaB.
-Swap the first letters of ideaA and ideaB with each other.
-If both of the new names are not found in the original ideas, then the name ideaA ideaB (the concatenation of ideaA and ideaB, separated by a space) is a valid company name.
-Otherwise, it is not a valid name.
+ You are given an array of strings ideas that represents a list of names to be used in the process of naming a company. 
+The process of naming a company is as follows:
+- Choose 2 distinct names from ideas, call them ideaA and ideaB.
+- Swap the first letters of ideaA and ideaB with each other.
+- If both of the new names are not found in the original ideas, 
+  then the name ideaA ideaB (the concatenation of ideaA and ideaB, separated by a space) is a valid company name.
+- Otherwise, it is not a valid name.
 Return the number of distinct valid names for the company.
-
 
 Example 1:
     Input: ideas = ["coffee","donuts","time","toffee"]
@@ -32,7 +32,6 @@ Example 2:
     Input: ideas = ["lack","back"]
     Output: 0
     Explanation: There are no valid selections. Therefore, 0 is returned.
- 
 
 Constraints:
     2 <= ideas.length <= 5 * 10^4
@@ -40,34 +39,55 @@ Constraints:
     ideas[i] consists of lowercase English letters.
     All the strings in ideas are unique.
 */
+
 class Solution {
     public long distinctNames(String[] ideas) {
-        Set<String>[] initialGroup = new HashSet[26];
-        for (int i = 0; i < 26; ++i) {
-            initialGroup[i] = new HashSet<>();
-        }
+        Set<String>[] groups = new Set[26];
+        Arrays.setAll(groups, i -> new HashSet<>());
+
         for (String idea : ideas) {
-            initialGroup[idea.charAt(0) - 'a'].add(idea.substring(1));
+            groups[idea.charAt(0)-'a'].add(idea.substring(1));
         }
-        
-        // Calculate number of valid names from every pair of groups.
-        long answer = 0;
+
+        long ans = 0;
         for (int i = 0; i < 25; ++i) {
             for (int j = i + 1; j < 26; ++j) {
-                // Get the number of mutual suffixes.
-                long numOfMutual = 0;
-                for (String ideaA : initialGroup[i]) {
-                    if (initialGroup[j].contains(ideaA)) {
-                        numOfMutual++;
+                long common = 0;
+                for (String ideaA : groups[i]) {
+                    if (groups[j].contains(ideaA)) {
+                        common++;
                     }
                 }
-
-                // Valid names are only from distinct suffixes in both groups.
-                // Since we can swap a with b and swap b with a to create two valid names, multiple answer by 2.
-                answer += 2 * (initialGroup[i].size() - numOfMutual) * (initialGroup[j].size() - numOfMutual);
+                ans += 2 * (groups[i].size() - common) * (groups[j].size() - common);
             }
         }
-        
-        return answer;
+        return ans;
     }
 }
+
+/** Not that efficient, but kept for the idea behind it*/ 
+class Solution {
+    public long distinctNames(String[] ideas) {
+        Set<String> seen = new HashSet<>(Arrays.asList(ideas));
+        int[][] count = new int[26][26]; 
+
+        /** O(N * 26 * 10) */
+        for (String idea : ideas) {
+            int i = idea.charAt(0)-'a'; 
+            for (int j=0; j<26; j++) {
+                String newIdea = (char)(j + 'a') + idea.substring(1);
+                if (!seen.contains(newIdea)) {
+                    count[i][j] += 1;
+                }
+            }
+        }
+        long ans = 0; 
+        for (int i=0; i<25; i++) {
+            for (int j=i+1; j<26; j++) { 
+                ans += 2 * count[i][j] * count[j][i];  // i - j can play together
+            }
+        }
+        return ans; 
+    }
+}
+
