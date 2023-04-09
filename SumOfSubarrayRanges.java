@@ -55,10 +55,13 @@ class Solution {
         Deque<Integer> s2 = new ArrayDeque<>(A.length); 
 
         /**
-         * 0  1  2  3  4  5  6 
-         * a  b  c  d  e  f  g 
-         * k        j     i    
-         * No of sub-arrays j participate in [Cartersian Product] : (j - k) * (i - j) = (3-0) * (5-3) = 3 * 2 = 2  
+         * 0  1  2  3  4  5  6 |
+         * a  b  c  d  e  f  g | assume (d < f)
+         * k        j     i    | 
+         * I can have the boundries of sub arrays on three position on 4 the left of j-index, and on 2 position on the right of j-index
+         * So no of possible combinations (no. of subarrays)  = 4 * 2
+         * Another example: if I have 3 shirts and 2 hats = I can get 6 combinations of shits & hats to ware 
+         * No of sub-arrays j participate in [Counting Product Rule] : (j - k) * (i - j) = (3-0) * (5-3) = 3 * 2 = 2  
          */ 
 
         /* min loop */
