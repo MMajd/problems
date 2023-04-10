@@ -1,10 +1,11 @@
 /*
  @link https://leetcode.com/problems/sum-of-subarray-minimums
  @categories (dp/monotonic-stack/)
-
  @help https://youtu.be/fDeZNRNmm1Y
 
- Given an array of integers arr, find the sum of min(b), where b ranges over every (contiguous) subarray of arr. Since the answer may be large, return the answer modulo 109 + 7.
+ Given an array of integers arr, find the sum of min(b), 
+where b ranges over every (contiguous) subarray of arr. 
+Since the answer may be large, return the answer modulo 109 + 7.
 
 Example 1:
     Input: arr = [3,1,2,4]
@@ -23,6 +24,29 @@ Constraints:
     1 <= arr[i] <= 3 * 10^4
 */
 
+/** Using Monotonic Stack */
+class Solution {
+    final int MOD = 1000_000_007; 
+
+    public int sumSubarrayMins(int[] A) {
+        int n = A.length; 
+        long ans = 0; 
+
+        Deque<Integer> stack = new LinkedList<>(); 
+
+        for (int i=0; i<=n; i++) {
+            while (!stack.isEmpty() && A[stack.peek()] > (i == n ? Integer.MIN_VALUE : A[i])) {
+                int j = stack.pop(); 
+                int k = stack.isEmpty() ? -1 : stack.peek();
+                ans = (ans + 1L * A[j] * (i-j) * (j-k)) % MOD;
+            }
+            stack.push(i);
+        }
+        return (int) ans; 
+    }
+}
+
+/** Using DP */
 class Solution {
     final int MOD = 1000_000_007; 
 
