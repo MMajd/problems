@@ -59,7 +59,8 @@ class Solution {
         long[] prefix = new long[n + 1];
         Arrays.sort(flowers);
         for (int i = 0; i < n; ++i) {
-            prefix[i+1] = prefix[i] + Math.min(flowers[i], target);
+            flowers[i] = Math.min(flowers[i], target);
+            prefix[i+1] = prefix[i] + flowers[i]; 
         }
 
         long ans = 0;
@@ -68,14 +69,16 @@ class Solution {
             long remain = prefix[n] - prefix[n - c] + newFlowers - c * (long) target;
             if (0 > remain) break;
             i = Math.min(i, n - c - 1);
-            while (0 <= i && (target <= flowers[i] 
-                   || flowers[i] * (long) (i + 1) - prefix[i + 1] > remain)) i--;
+            while (0 <= i && 
+                    (target == flowers[i] || 1L * flowers[i] * (i + 1) - prefix[i + 1] > remain)
+                ) i--;
             if (0 <= i) {
-                long diff = flowers[i] * (long) (i+1) - prefix[i + 1];
-                // distribute, but stop at target - 1
-                min = Math.min(target - 1, flowers[i] + (remain - diff) / (i+1)); 
+                long total = remain - (1L * flowers[i] * (i+1) - prefix[i + 1]);
+                long each = total / (i+1);
+                min = Math.min(target-1, flowers[i] + each); 
             }
-            ans = Math.max(ans, c * (long) full + min * (long) partial);
+
+            ans = Math.max(ans, c * full + min * partial);
         }
         return ans;
     }
