@@ -52,33 +52,74 @@ Constraints:
     1 <= full, partial <= 10^5
 */
 
+/** Binary search */
+class Solution {
+    public long maximumBeauty(int[] A, long newFlowers, int target, int full, int partial) {
+        int n = A.length;
+        long[] cost = new long[n];
+        Arrays.sort(A);
+
+        // all are full
+        if(A[0] >= target) {
+            return (long) full * n; 
+        }
+
+        for(int i = 1; i < n; i++) {
+            A[i] = Math.min(A[i], target);
+            cost[i] = cost[i-1] + i * (A[i] - A[i-1]);
+        }
+        
+        // have enough flowers
+        if(newFlowers >= cost[n-1] + (target - A[n-1]) * n) {
+            // need proof
+            return Math.max((long) full * n, full * (n - 1L) + partial * (target - 1L));
+        }
+        
+        long ans = 0; 
+        long left = newFlowers;
+        for (int i=n-1; i>=0 && left >= 0; i--) { 
+            if(A[i] == target) continue;
+            int idx = Arrays.binarySearch(cost, 0, i+1, left);
+            if(idx < 0) idx = -idx-2;
+            long bar = A[idx] + (left - cost[idx]) / (idx + 1);
+            ans = Math.max(ans, bar * partial + (long)full * (n-i-1));
+            left -= (target - A[i]);
+        }
+        
+        return ans;
+    }
+}
+
 /** Two-pointers approach */
 class Solution {
-    public long maximumBeauty(int[] flowers, long newFlowers, int target, int full, int partial) {
-        int n = flowers.length;
-        long[] prefix = new long[n + 1];
-        Arrays.sort(flowers);
+    public long maximumBeauty(int[] A, long newFlowers, int target, int full, int partial) {
+        int n = A.length;
+        long[] presum = new long[n + 1];
+        Arrays.sort(A);
+
+        if (A[0] >= target) { 
+            return (long) n * full;  
+        }
+
         for (int i = 0; i < n; ++i) {
-            flowers[i] = Math.min(flowers[i], target);
-            prefix[i+1] = prefix[i] + flowers[i]; 
+            A[i] = Math.min(target, A[i]);
+            presum[i+1] = presum[i] + A[i]; 
         }
 
         long ans = 0;
         for (int c = 0, i = n - 1; c <= n; ++c) {
-            long min = 0;
-            long remain = prefix[n] - prefix[n - c] + newFlowers - c * (long) target;
+            long best = 0; 
+            long remain = presum[n] - presum[n-c] + newFlowers - (long)c*target;  
             if (0 > remain) break;
-            i = Math.min(i, n - c - 1);
-            while (0 <= i && 
-                    (target == flowers[i] || 1L * flowers[i] * (i + 1) - prefix[i + 1] > remain)
-                ) i--;
+            i = Math.min(i, n-c-1);
+            while (0 <= i && (target == A[i] || A[i]*(i+1L) - presum[i+1] > remain)) i--;
             if (0 <= i) {
-                long total = remain - (1L * flowers[i] * (i+1) - prefix[i + 1]);
-                long each = total / (i+1);
-                min = Math.min(target-1, flowers[i] + each); 
+                long diff = A[i] * (i+1L) - presum[i + 1];
+                long total = remain - diff; 
+                long each = A[i] + total / (i+1); 
+                best = Math.min(target-1, each);
             }
-
-            ans = Math.max(ans, c * full + min * partial);
+            ans = Math.max(ans, 1L*c*full + 1L*best*partial);
         }
         return ans;
     }
