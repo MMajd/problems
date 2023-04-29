@@ -27,41 +27,38 @@ Constraints:
 */ 
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        List<Integer> res = new ArrayList<>();
-
-        if(s.length() < p.length()){
-            return res;
+        if (s.length() < p.length()) {
+            return Collections.emptyList(); 
         }
-        int[] ct1 = new int[26];
-        int[] ct2 = new int[26];
+        List<Integer> answer = new ArrayList<>(s.length()/p.length()); 
+        int[] map1 = new int[26]; 
+        int[] map2 = new int[26]; 
 
-        int k = p.length();
-
-        for(char it : p.toCharArray()){
-            ct1[it-'a']++;
+        for (int i=0; i<p.length(); i++) { 
+            map1[p.charAt(i)-'a'] += 1; 
         }
 
-        int i = 0;
+        int n = p.length(); 
+        int m = s.length(); 
+        int i=0, j=0; 
 
-        while(i < k){
-            ct2[s.charAt(i++)-'a']++;
+        while (i<n) {
+            map2[s.charAt(i++)-'a'] += 1; 
         }
 
-        k = s.length();
-        int j = 0;
-
-        if(Arrays.equals(ct1, ct2)){
-            res.add(j);
+        if (Arrays.equals(map1, map2)) {
+            answer.add(j);
         }
+        
+        while (i<m) {
+            map2[s.charAt(j++)-'a'] -= 1; 
+            map2[s.charAt(i++)-'a'] += 1; 
 
-        while(i < k) {
-            ct2[s.charAt(j++)-'a']--;
-            ct2[s.charAt(i++)-'a']++;
-
-            if(Arrays.equals(ct1, ct2)){
-                res.add(j);
+            if (Arrays.equals(map1, map2)) { 
+                answer.add(j);
             }
         }
-        return res;
+
+        return answer; 
     }
 }
