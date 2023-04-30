@@ -58,15 +58,16 @@ class Solution {
         dfs(a, edges, d1, v1);
         dfs(b, edges, d2, v2);
 
-        int minDistNode = -1, minDistTillNow = Integer.MAX_VALUE;
-        for (int curr = 0; curr < n; curr++) {
-            if (minDistTillNow > Math.max(d1[curr], d2[curr])) {
-                minDistNode = curr;
-                minDistTillNow = Math.max(d1[curr], d2[curr]);
+        int ans = -1, dist = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i++) {
+            int candDist = Math.max(d1[i]);
+            if (dist > candDist) {
+                ans = i;
+                dist = candDist; 
             }
         }
 
-        return minDistNode;
+        return ans;
     }
 
     public void dfs(int node, int[] edges, int[] dist, int[] visit) {
@@ -91,10 +92,10 @@ class Solution {
         int dist = Integer.MAX_VALUE; 
 
         for (int i=0; i<n; i++) {
-            int target = Math.max(d1[i], d2[i]);
-            if (dist > target) {
+            int candDist = Math.max(d1[i], d2[i]);
+            if (dist > candDist) {
                 ans = i; 
-                dist = target; 
+                dist = candDist; 
             }
         }
 
@@ -103,12 +104,12 @@ class Solution {
 
     private int[] bfs(int src, int[] edges) {
         int n = edges.length;
-        int[] d = new int[n]; 
+        int[] dist = new int[n]; 
         boolean[] visited = new boolean[edges.length]; 
         Deque<Integer> q = new ArrayDeque<>(edges.length);
 
         for (int i=0; i<n; i++) {
-            d[i] = Integer.MAX_VALUE; 
+            dist[i] = Integer.MAX_VALUE; 
         }
 
         int steps = 0; 
@@ -117,13 +118,13 @@ class Solution {
         while (!q.isEmpty()) {
             int node = q.poll();
             if (node != -1 && !visited[node]) {
-                d[node] = steps++; 
+                dist[node] = steps++; 
                 visited[node] = true; 
                 q.offer(edges[node]);
             }
         }
 
-        return d; 
+        return dist; 
     }
 }
 
