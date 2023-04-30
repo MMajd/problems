@@ -2,13 +2,18 @@
  @link https://leetcode.com/problems/find-closest-node-to-given-two-nodes/
  @categories (graph/dfs/bfs)
 
- You are given a directed graph of n nodes numbered from 0 to n - 1, where each node has at most one outgoing edge.
-
-The graph is represented with a given 0-indexed array edges of size n, indicating that there is a directed edge from node i to node edges[i]. If there is no outgoing edge from i, then edges[i] == -1.
+ You are given a directed graph of n nodes numbered from 0 to n - 1, 
+where each node has at most one outgoing edge.
+The graph is represented with a given 0-indexed array edges of size n, 
+indicating that there is a directed edge from node i to node edges[i]. 
+If there is no outgoing edge from i, then edges[i] == -1.
 
 You are also given two integers a and b.
 
- Return the index of the node that can be reached from both a and b, such that the maximum between the distance from a to that node, and from b to that node is minimized. If there are multiple answers, return the node with the smallest index, and if no possible answer exists, return -1.
+ Return the index of the node that can be reached from both a and b, 
+such that the maximum between the distance from a to that node, 
+and from b to that node is minimized. If there are multiple answers, 
+return the node with the smallest index, and if no possible answer exists, return -1.
 
 - Note that edges may contain cycles.
 
@@ -75,51 +80,50 @@ class Solution {
 
 }
 
-
 class Solution {
-    public void bfs(int startNode, int[] edges, int[] dist) {
-        int n = edges.length;
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(startNode);
+    public int closestMeetingNode(int[] edges, int node1, int node2) {
+        int n = edges.length; 
 
-        int[] visit = new int[n];
-        dist[startNode] = 0;
+        int[] d1 = bfs(node1, edges);
+        int[] d2 = bfs(node2, edges);
+
+        int ans = -1; 
+        int dist = Integer.MAX_VALUE; 
+
+        for (int i=0; i<n; i++) {
+            int target = Math.max(d1[i], d2[i]);
+            if (dist > target) {
+                ans = i; 
+                dist = target; 
+            }
+        }
+
+        return ans; 
+    }
+
+    private int[] bfs(int src, int[] edges) {
+        int n = edges.length;
+        int[] d = new int[n]; 
+        boolean[] visited = new boolean[edges.length]; 
+        Deque<Integer> q = new ArrayDeque<>(edges.length);
+
+        for (int i=0; i<n; i++) {
+            d[i] = Integer.MAX_VALUE; 
+        }
+
+        int steps = 0; 
+        q.offer(src);
 
         while (!q.isEmpty()) {
             int node = q.poll();
-
-            if (visit[node]) {
-                continue;
-            }
-
-            visit[node] = 1;
-            int next = edges[node];
-            if (next != -1 && visit[next] == 0) {
-                dist[next] = 1 + dist[node];
-                q.offer(next);
-            }
-
-        }
-    }
-
-    public int closestMeetingNode(int[] edges, int a, int b) {
-        int n = edges.length;
-        int[] d1 = new int[n]; 
-        int[] d2 = new int[n];
-        Arrays.fill(d1, Integer.MAX_VALUE);
-        Arrays.fill(d2, Integer.MAX_VALUE);
-
-        bfs(a, edges, d1);
-        bfs(b, edges, d2);
-
-        int minDistNode = -1, minDistTillNow = Integer.MAX_VALUE;
-        for (int curr = 0; curr < n; curr++) {
-            if (minDistTillNow > Math.max(d1[curr], d2[curr])) {
-                minDistNode = i;
-                minDistTillNow = Math.max(d1[curr], d2[curr]);
+            if (node != -1 && !visited[node]) {
+                d[node] = steps++; 
+                visited[node] = true; 
+                q.offer(edges[node]);
             }
         }
 
-        return minDistNode;
+        return d; 
     }
 }
+
