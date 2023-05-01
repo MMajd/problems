@@ -26,6 +26,26 @@ Constraints:
 */
 
 class Solution {
+    public int numTilings(int n) {
+        if (n <= 2) return n;
+        
+        int MOD = (int) 1e9+7;
+        long dp0 = 1; 
+        long dp1 = 1; 
+        long dp2 = 2; 
+
+        for (int i = 3; i <= n; ++i) {
+            long temp = (2 * dp2 + dp0) % MOD; 
+            dp0 = dp1; 
+            dp1 = dp2; 
+            dp2 = temp; 
+        }
+
+        return (int) dp2 % MOD;
+    }
+}
+
+class Solution {
     private static final int MOD = (int)(1_000_000_007);
 
     public int numTilings(int n) {
