@@ -22,22 +22,25 @@ Constraints:
     0 <= nums[i] <= 1000
 */
 
-/** dp: look forward */
+/** 
+ * Gready: 
+ *  form the subset of indices that I can reach now, 
+ *  choose the one that will take me to the furthest point
+ */
 class Solution {
-    public int jump(int[] nums) {
-        int n = nums.length; 
+    public int jump(int[] A) {
+        int n = A.length; 
         int ans = 0; 
-        int start = 0; 
-        int end = 0; 
+        int start=0, end=0; // for starters we can reach 0-index 
 
-        while (end < n-1) {
-            int maxReach = 0; 
-            for (int i=start; i<=end; i++) { 
-                maxReach = Math.max(maxReach, i + nums[i]);
+        while (end < n-1) { // we adding one for reaching index 0, as compensation for not counting the last index
+            int reach = 0; 
+            for (int i=start; i<=end; i++) {
+                reach = Math.max(reach, i + A[i]);
             }
-            start = end+1; 
-            end = maxReach; 
-            ans += 1; 
+            start = end+1; // go to the next possible slot
+            end = reach; // update slot end
+            ans += 1; // add 1 for steping to start point (end+1)  
         }
         return ans; 
     }
