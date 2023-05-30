@@ -42,13 +42,13 @@ class Solution {
         double window = 1;
         double result = 0; 
         for (int i = 1; i <= n; i++) {
-            dp[i] = window / ((double) maxPts);
-            if (i < k) {
+            dp[i] = window / maxPts; // we will always be dividng by w / maxPts
+            if (i < k) { // as k is our stop point, if i less than k, then we can add its probability to the window 
                 window += dp[i];
             } else {
                 result += dp[i];
             }
-            if (i - maxPts >= 0) {
+            if (i - maxPts >= 0) { // always remove the last element in the window
                 window -= dp[i - maxPts];
             }
         }
@@ -57,3 +57,26 @@ class Solution {
 }
 
 
+/** 
+ * Dp without sliding window, just for illustration
+ */ 
+class Solution {
+    public double new21Game(int n, int k, int maxPts) {
+        double dp[] = new double[n + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= maxPts; j++) {
+                if (i - j < 0 || i - j >= k) {
+                    continue; 
+                }
+                dp[i] += dp[i - j] / maxPts;
+            }
+        }
+        
+        double ans = 0;
+        for (int i = k; i <= n; i++) {
+            ans += dp[i];
+        }
+        return ans;
+    }
+}
