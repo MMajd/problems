@@ -1,7 +1,8 @@
-/* 
-  @link leetcode.com/problems/kth-largest-element-in-an-array
+/**
+ @link leetcode.com/problems/kth-largest-element-in-an-array
+ @categories(min-heap/quick-select)
 
-  Given an integer array nums and an integer k, return the kth largest element in the array.
+ Given an integer array nums and an integer k, return the kth largest element in the array.
 Note that it is the kth largest element in the sorted order, not the kth distinct element.
 
 *********
@@ -17,52 +18,42 @@ Example 2:
     Output: 4
  
 Constraints:
-    1 <= k <= nums.length <= 105
-    -104 <= nums[i] <= 104
-  
+    1 <= k <= nums.length <= 10^5
+    -10^4 <= nums[i] <= 10^4
  */
 
 /** Solution 1: Using quick select */
 class Solution {
-    public int findKthLargest(int[] nums, int k) {
-        return quickselect(nums, 0, nums.length-1, nums.length-k);
+    public int findKthLargest(int[] A, int k) {
+        int n = A.length; 
+        return qselect(A, 0, n-1, n-k); 
     }
-    
-    private int quickselect(int[] nums, int left, int right, int k) {
-        int paritionIdx = parition(nums, left, right);
-        
-        if (paritionIdx > k) {
-            return quickselect(nums, left, paritionIdx-1, k);
-        }
-        
-        if (paritionIdx < k) { 
-            return quickselect(nums, paritionIdx+1, right, k);
-        }
-        
-        return nums[k]; 
+
+    private int qselect(int[] A, int left, int right, int k) {
+        int part = partition(A, left, right);
+        if (part > k) return qselect(A, left, part-1, k);
+        if (part < k) return qselect(A, part+1, right, k);
+        return A[part]; 
     }
-    
-    private int parition(int nums[], int left, int right) {
-        int pivot = nums[right]; 
-        
-        int j=left;
+
+    private int partition(int[] A, int left, int right) {
+        int j = left;
         for (int i=left; i<right; i++) { 
-            if (pivot > nums[i]) { 
-                swap(nums, i, j++);
+            if (A[i] < A[right]) { 
+                swap(A, j++, i); 
             }
         }
-        
-        swap(nums, right, j);
+
+        swap(A, right, j);
         return j; 
     }
-    
-    private void swap(int[] arr, int i, int j) {
-        int temp = arr[i]; 
-        arr[i] = arr[j]; 
-        arr[j] = temp; 
+
+    private void swap(int[] A, int i, int j) {
+        int temp = A[i]; 
+        A[i] = A[j]; 
+        A[j] = temp; 
     }
 }
-
 
 class KthLargestElementInArray { 
     public int findKthLargest(int[] nums, in k) {
