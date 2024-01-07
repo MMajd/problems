@@ -46,18 +46,20 @@ class Solution {
             jobs[i] = new int[]{S[i], E[i], P[i]}; 
         }
 
-        // sort according to the one that finish earlier comes first
+        // sorting by end-time, to guarantee non-overlapping intervals
         Arrays.sort(jobs, (a, b) -> a[1]-b[1]); 
 
         // using treemap as its built upon binary search tree (has binary-search built-in)
+        // to start from the last non-overlapping job
         TreeMap<Integer, Integer> dp = new TreeMap<>(); 
+        // base-case: in case there're no non-overlapping job before current one
         dp.put(0, 0);
 
         for (int[] job : jobs) { 
-            // get max profit up to this time + the profit of current job
+            // get profit of lastest non-overlapping job + our current profit 
             int curr = dp.floorEntry(job[0]).getValue() + job[2];
 
-            // if current profit is bigger than max profit till now, then  update dp 
+            // if current solution is better than the last one, added it to our ordered-set
             if (curr > dp.lastEntry().getValue()) { 
                 dp.put(job[1], curr);
             }
@@ -81,19 +83,17 @@ class Solution {
 
         int[] dp = new int[N]; 
 
-        Arrays.setAll(dp, i -> { 
-            dp[i] = jobs[i][2]; 
-            return dp[i]; 
-        }); 
-
         int max = dp[0]; 
 
-        for (int i=1; i<N; i++) {
-            for (int j=0; j<i; j++) { 
+        for (int i=0; i<N; i++) { // 50k
+            dp[i] = jobs[i];  
+
+            for (int j=0; j<i; j++) { // 50k 
                 if (!overlap(jobs[i], jobs[j])) {
-                    dp[i] = Math.max(dp[i], dp[j]+jobs[i][2]); 
+                    dp[i+1] = Math.max(dp[i], dp[j]+jobs[i][2]); 
                 }
             }
+
             max = Math.max(dp[i], max);
         }
 
