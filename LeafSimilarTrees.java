@@ -18,6 +18,47 @@ Example 2:
 
 */
 
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        List<Integer> s1 = dfs(root1); 
+        List<Integer> s2 = dfs(root2); 
+
+        return s1.equals(s2); 
+    }
+
+    private List<Integer> dfs(TreeNode node) { 
+        if (node == null) return new ArrayList<>();
+        if (leaf(node)) return new ArrayList<>(){{add(node.val);}};
+
+        List<Integer> left = dfs(node.left);
+        List<Integer> right = dfs(node.right);
+
+        left.addAll(right);
+
+        return left; 
+    }
+
+    private boolean leaf(TreeNode node) {
+        return node.left == node.right && node.left == null;  
+    }
+}
+
+
 class Solution {
     public boolean leafSimilar(TreeNode root1, TreeNode root2) {
         List<Integer> leaves1 = new ArrayList();
