@@ -57,8 +57,49 @@ Constraints:
  */ 
 
 
-// binary-search solution below 
-//
+// priority-queue solution below 
+// binary-search solution 
+class Solution {
+    public int[] kWeakestRows(int[][] mat, int k) {
+        int m = mat.length; 
+        int n = mat[0].length; 
+
+        int[][] s = new int[m][2]; 
+
+        for (int i=0; i<m; i++) { 
+            s[i][0] = countones(mat[i]); 
+            s[i][1] = i; 
+        }
+
+        // sort in asc order
+        Arrays.sort(s, (a, b) -> { 
+            if (a[0] == b[0]) return Integer.compare(a[1], b[1]); 
+            return Integer.compare(a[0], b[0]); 
+        }); 
+
+
+        int[] ans = new int[k]; 
+        for (int i=0; i<k; i++) { // pick first 3 k elements 
+            ans[i] = s[i][1]; 
+        }
+
+        return ans; 
+    }
+    
+    private int countones(int[] arr) { 
+        int left = 0; 
+        int right = arr.length - 1; 
+
+        while (left <= right) { 
+            int mid = left + (right - left) / 2; 
+            if (arr[mid] == 1) left = mid + 1; 
+            else right = mid - 1; 
+        }
+
+        return left; 
+    }
+}
+
 // priority-queue solution
 class Solution {
 
@@ -98,8 +139,4 @@ class Solution {
         return ans; 
     }
 }
-
-
-//binary-search solution 
-
 
